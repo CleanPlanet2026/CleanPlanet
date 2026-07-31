@@ -175,6 +175,19 @@ Always:
 
 ---
 
+## AI Collaboration Documentation
+
+Every Pull Request created with AI assistance must include exactly one AI collaboration record.
+
+- Store records in `docs/ai-prompts/`.
+- Name records `pr-{number}-{feature-name}.md`.
+- Record the main requests, discussion, decisions, AI contribution, and verification.
+- Summarize relevant context instead of copying the entire conversation or tool log.
+- Never include credentials, tokens, personal information, or other sensitive data.
+- Follow the detailed rules and template in `docs/ai-prompts/README.md`.
+
+---
+
 ## Comments
 
 Write comments only when explaining **why** something is implemented a certain way or documenting non-obvious behavior.

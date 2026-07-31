@@ -24,6 +24,8 @@ refactor: simplify game manager
 - Make sure the project builds
 - Keep PRs small
 - Write a short description
+- When AI is used, add exactly one collaboration record under `docs/ai-prompts/`
+- Follow the format in `docs/ai-prompts/README.md`
 
 ## Merge
 
