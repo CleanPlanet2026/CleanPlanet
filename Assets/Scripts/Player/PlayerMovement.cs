@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
 using System;
 using CleanPlanet.Utils;
 
@@ -8,12 +7,10 @@ namespace CleanPlanet.Player
     [RequireComponent(typeof(Rigidbody2D), typeof(SpriteRenderer))]
     public sealed class PlayerMovement : MonoBehaviour
     {
-        [SerializeField] private InputActionReference _moveAction;
         [SerializeField, Min(0f)] private float _moveSpeed = 5f;
         [SerializeField, Min(0.01f)] private float _arrivalDistance = 0.1f;
 
         private Rigidbody2D _rigidbody;
-        private Vector2 _moveInput;
         private Vector2 _destination;
         private bool _hasDestination;
 
@@ -31,26 +28,8 @@ namespace CleanPlanet.Player
             PlaceholderSprite.AssignIfMissing(GetComponent<SpriteRenderer>());
         }
 
-        private void OnEnable()
-        {
-            if (_moveAction != null)
-            {
-                _moveAction.action.performed += OnMove;
-                _moveAction.action.canceled += OnMove;
-                _moveAction.action.Enable();
-            }
-        }
-
         private void OnDisable()
         {
-            if (_moveAction != null)
-            {
-                _moveAction.action.performed -= OnMove;
-                _moveAction.action.canceled -= OnMove;
-                _moveAction.action.Disable();
-            }
-
-            _moveInput = Vector2.zero;
             _hasDestination = false;
 
             if (_rigidbody != null)
@@ -64,10 +43,7 @@ namespace CleanPlanet.Player
             if (_hasDestination)
             {
                 MoveToDestination();
-                return;
             }
-
-            _rigidbody.linearVelocity = _moveInput * _moveSpeed;
         }
 
         public void SetDestination(Vector2 destination)
@@ -100,11 +76,6 @@ namespace CleanPlanet.Player
                 _destination,
                 _moveSpeed * Time.fixedDeltaTime);
             _rigidbody.MovePosition(nextPosition);
-        }
-
-        private void OnMove(InputAction.CallbackContext context)
-        {
-            _moveInput = context.ReadValue<Vector2>();
         }
     }
 }
