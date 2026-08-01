@@ -24,6 +24,7 @@ namespace CleanPlanet.UI
         [SerializeField] private Text _goldText;
         [SerializeField] private Text _goldGainText;
         [SerializeField, Min(1)] private int _initialPoolSize = 24;
+        [SerializeField, Min(1)] private int _previewItemCount = 20;
         [SerializeField, Min(0.02f)] private float _spawnInterval = 0.08f;
         [SerializeField, Min(0.02f)] private float _rouletteStep = 0.05f;
         [SerializeField, Min(0f)] private float _spawnWidth = 36f;
@@ -89,11 +90,13 @@ namespace CleanPlanet.UI
         {
             WaitForSeconds interval = new(_spawnInterval);
 
-            while (true)
+            for (int spawnedItemCount = 0; spawnedItemCount < _previewItemCount; spawnedItemCount++)
             {
                 SpawnCollectible();
                 yield return interval;
             }
+
+            _spawnCoroutine = null;
         }
 
         private void SpawnCollectible()
