@@ -23,7 +23,7 @@ namespace CleanPlanet.UI
         [SerializeField] private Text _rouletteText;
         [SerializeField] private Text _goldText;
         [SerializeField] private Text _goldGainText;
-        [SerializeField, Min(1)] private int _initialPoolSize = 24;
+        [SerializeField, Min(1)] private int _initialPoolSize = 20;
         [SerializeField, Min(1)] private int _previewItemCount = 20;
         [SerializeField, Min(0.02f)] private float _spawnInterval = 0.08f;
         [SerializeField, Min(0.02f)] private float _rouletteStep = 0.05f;
