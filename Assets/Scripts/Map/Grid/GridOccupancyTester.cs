@@ -1,3 +1,6 @@
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 using UnityEngine;
 using CleanPlanet.Utils;
 
@@ -135,5 +138,72 @@ namespace CleanPlanet.Map
 
             return go;
         }
+
+#if UNITY_EDITOR
+        private void OnDrawGizmos()
+        {
+            var grid = _grid ?? new GridSystem(_columns, _rows, _cellSize, _origin);
+
+            // 셀 경계선 (내부 포함)
+            Gizmos.color = new Color(0.4f, 0.6f, 1f, 0.4f);
+            for (int row = 0; row <= _rows; row++)
+            {
+                float y = _origin.y + row * _cellSize;
+                Gizmos.DrawLine(
+                    new Vector3(_origin.x, y, 0f),
+                    new Vector3(_origin.x + _columns * _cellSize, y, 0f));
+            }
+            for (int col = 0; col <= _columns; col++)
+            {
+                float x = _origin.x + col * _cellSize;
+                Gizmos.DrawLine(
+                    new Vector3(x, _origin.y, 0f),
+                    new Vector3(x, _origin.y + _rows * _cellSize, 0f));
+            }
+
+            // 그리드 외곽선 — 내부 경계선 위에 덮어 그려 노란색으로 강조
+            Gizmos.color = Color.yellow;
+            var gridCenter = new Vector3(
+                _origin.x + _columns * _cellSize * 0.5f,
+                _origin.y + _rows * _cellSize * 0.5f,
+                0f);
+            Gizmos.DrawWireCube(gridCenter, new Vector3(_columns * _cellSize, _rows * _cellSize, 0f));
+
+            // 점유 셀 강조 (Play mode에서만 _occupancy가 존재)
+            if (_occupancy == null) return;
+            Gizmos.color = new Color(1f, 0.5f, 0f, 0.3f);
+            for (int col = 0; col < _columns; col++)
+            {
+                for (int row = 0; row < _rows; row++)
+                {
+                    var idx = new Vector2Int(col, row);
+                    if (!_occupancy.IsOccupied(idx)) continue;
+                    Vector2 c = grid.GridToWorldCenter(idx);
+                    Gizmos.DrawCube(
+                        new Vector3(c.x, c.y, 0f),
+                        new Vector3(_cellSize * 0.9f, _cellSize * 0.9f, 0.01f));
+                }
+            }
+        }
+
+        private void OnDrawGizmosSelected()
+        {
+            var grid = _grid ?? new GridSystem(_columns, _rows, _cellSize, _origin);
+            var style = new GUIStyle { fontSize = 9 };
+            style.normal.textColor = Color.white;
+
+            Gizmos.color = Color.red;
+            for (int col = 0; col < _columns; col++)
+            {
+                for (int row = 0; row < _rows; row++)
+                {
+                    Vector2 c = grid.GridToWorldCenter(new Vector2Int(col, row));
+                    var pos = new Vector3(c.x, c.y, 0f);
+                    Gizmos.DrawSphere(pos, _cellSize * 0.05f);
+                    Handles.Label(pos, $"({col},{row})", style);
+                }
+            }
+        }
+#endif
     }
 }
