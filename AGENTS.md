@@ -2,36 +2,37 @@
 
 # CleanPlanet
 
-Shared instructions for AI coding agents working on this project.
+이 프로젝트에서 작업하는 AI 코딩 에이전트를 위한 공통 지침이다.
 
 ---
 
-## Project
+## 프로젝트
 
-- Engine: Unity 6
-- Render Pipeline: Universal Render Pipeline (URP)
-- Genre: 2D Top-Down Idle / Incremental Game
-- Theme: Collect trash, recycle it, and upgrade the world.
-
----
-
-## Goals
-
-This is a hackathon project.
-
-Prioritize:
-
-1. Working code
-2. Readability
-3. Maintainability
-4. Simplicity
-
-Avoid over-engineering.
+- 엔진: Unity 6
+- 렌더 파이프라인: 유니버설 렌더 파이프라인(URP)
+- 장르: 2D 탑다운 방치형·증분형 게임
+- 테마: 쓰레기를 수집하고 재활용하여 세계를 발전시킨다.
 
 ---
 
-## Folder Structure
+## 목표
 
+이 프로젝트는 해커톤 프로젝트다.
+
+다음 우선순위를 따른다.
+
+1. 동작하는 코드
+2. 가독성
+3. 유지보수성
+4. 단순성
+
+과도하게 설계하지 않는다.
+
+---
+
+## 폴더 구조
+
+```text
 Assets/
   Art/
     Sprites/
@@ -63,141 +64,145 @@ Assets/
     GameBalance/
 
   Settings/
+```
 
-Place new files in the appropriate folder.
+새 파일은 용도에 맞는 폴더에 배치한다.
 
-Examples:
+예시:
 
-- Player scripts -> Assets/Scripts/Player/
-- Trash prefabs -> Assets/Prefabs/Trash/
-- Upgrade data -> Assets/ScriptableObjects/Upgrades/
-- Sound effects -> Assets/Audio/SFX/
-- Shared materials -> Assets/Art/Materials/
-
----
-
-## Coding Style
-
-- Language: C#
-- Use PascalCase for classes, methods, properties, and public members.
-- Use _camelCase for private fields.
-- Prefer [SerializeField] instead of public fields.
-- Keep methods small and focused.
-- One MonoBehaviour should have one responsibility.
-- Follow the existing coding style.
+- 플레이어 스크립트 → `Assets/Scripts/Player/`
+- 쓰레기 프리팹 → `Assets/Prefabs/Trash/`
+- 업그레이드 데이터 → `Assets/ScriptableObjects/Upgrades/`
+- 효과음 → `Assets/Audio/SFX/`
+- 공용 머티리얼 → `Assets/Art/Materials/`
 
 ---
 
-## Unity Guidelines
+## 코딩 스타일
 
-Prefer:
-
-- Serialized fields
-- Prefabs
-- ScriptableObjects when appropriate
-- Events instead of polling
-- Object Pooling for frequently spawned objects
-- Inspector references instead of runtime lookups
-- Cache component references
-
-Avoid:
-
-- FindObjectOfType
-- GameObject.Find
-- Resources.Load
-- Large Update() methods
-- God Objects
-- Unnecessary allocations every frame
+- 언어: C#
+- 클래스, 메서드, 프로퍼티, 공개 멤버에는 PascalCase를 사용한다.
+- 비공개 필드에는 `_camelCase`를 사용한다.
+- 공개 필드보다 `[SerializeField]`를 우선한다.
+- 메서드는 작고 하나의 목적에 집중하도록 작성한다.
+- 하나의 `MonoBehaviour`는 하나의 책임만 맡는다.
+- 기존 코딩 스타일을 따른다.
 
 ---
 
-## Architecture
+## Unity 지침
 
-Keep systems loosely coupled.
+다음을 우선한다.
 
-Typical flow:
+- 직렬화 필드
+- 프리팹
+- 적절한 경우 ScriptableObject
+- 폴링보다 이벤트
+- 자주 생성되는 오브젝트에는 오브젝트 풀링
+- 런타임 검색보다 인스펙터 참조
+- 컴포넌트 참조 캐싱
 
-Player
--> Collect Trash
--> Inventory
--> Currency
--> Upgrade System
+다음을 피한다.
 
-Do not introduce complex design patterns unless explicitly requested.
-
----
-
-## Before Implementing
-
-Before writing code:
-
-1. Read all related scripts first.
-2. Understand the current architecture.
-3. Explain the implementation plan.
-4. Reuse existing code whenever possible.
-5. Ask for confirmation if major architectural changes are required.
+- `FindObjectOfType`
+- `GameObject.Find`
+- `Resources.Load`
+- 큰 `Update()` 메서드
+- 갓 오브젝트
+- 매 프레임 발생하는 불필요한 할당
 
 ---
 
-## Code Changes
+## 아키텍처
 
-- Make the smallest change necessary.
-- Do not rewrite unrelated code.
-- Do not reformat unrelated files.
-- Preserve naming conventions.
-- Preserve the existing architecture.
-- Only modify files related to the requested feature.
+시스템 간 결합도를 낮게 유지한다.
 
----
+일반적인 흐름:
 
-## Response Style
+```text
+플레이어
+→ 쓰레기 수집
+→ 인벤토리
+→ 재화
+→ 업그레이드 시스템
+```
 
-When implementing a feature:
-
-1. Briefly explain the plan.
-2. Implement the code.
-3. Summarize what changed.
-4. Mention any assumptions made.
+명시적으로 요청받지 않는 한 복잡한 디자인 패턴을 도입하지 않는다.
 
 ---
 
-## Git Workflow
+## 구현 전 확인
 
-Follow the repository rules described in GIT_WORKFLOW.md.
+코드를 작성하기 전에 다음을 수행한다.
 
-Do not commit directly to main.
-
-Always:
-- Create a new branch
-- Commit using Conventional Commits
-- Push the branch
-- Open a Pull Request
+1. 관련 스크립트를 모두 읽는다.
+2. 현재 아키텍처를 이해한다.
+3. 구현 계획을 설명한다.
+4. 가능한 한 기존 코드를 재사용한다.
+5. 큰 아키텍처 변경이 필요하면 사용자에게 확인을 요청한다.
 
 ---
 
-## AI Collaboration Documentation
+## 코드 변경
 
-Every Pull Request created with AI assistance must include exactly one AI collaboration record.
-
-- Store records in `docs/ai-prompts/`.
-- Name records `pr-{number}-{feature-name}.md`.
-- Record the main requests, discussion, decisions, AI contribution, and verification.
-- Summarize relevant context instead of copying the entire conversation or tool log.
-- Never include credentials, tokens, personal information, or other sensitive data.
-- Follow the detailed rules and template in `docs/ai-prompts/README.md`.
+- 필요한 최소 범위만 변경한다.
+- 관련 없는 코드를 다시 작성하지 않는다.
+- 관련 없는 파일을 다시 포맷하지 않는다.
+- 기존 명명 규칙을 유지한다.
+- 기존 아키텍처를 유지한다.
+- 요청한 기능과 관련된 파일만 수정한다.
 
 ---
 
-## Comments
+## 응답 방식
 
-Write comments only when explaining **why** something is implemented a certain way or documenting non-obvious behavior.
+기능을 구현할 때 다음 순서를 따른다.
 
-Do not write comments that simply describe what the code already says.
+1. 계획을 간단히 설명한다.
+2. 코드를 구현한다.
+3. 변경 사항을 요약한다.
+4. 적용한 가정을 알린다.
 
 ---
 
-## Performance
+## Git 작업 흐름
 
-Optimize only when there is a demonstrated need.
+`GIT_WORKFLOW.md`에 정의된 저장소 규칙을 따른다.
 
-Do not sacrifice readability for premature optimization.
+`main` 브랜치에 직접 커밋하지 않는다.
+
+항상 다음을 수행한다.
+
+- 새 브랜치를 생성한다.
+- 컨벤셔널 커밋 형식으로 커밋한다.
+- 브랜치를 푸시한다.
+- PR을 생성한다.
+
+---
+
+## AI 협업 문서
+
+AI의 도움을 받아 생성하는 모든 PR에는 AI 협업 기록을 정확히 한 개 포함해야 한다.
+
+- 기록은 `docs/ai-prompts/`에 저장한다.
+- 파일명은 `pr-{번호}-{기능명}.md` 형식을 사용한다.
+- 주요 요청, 논의, 결정, AI 활용 범위와 검증 내용을 기록한다.
+- 전체 대화나 도구 실행 기록을 복사하지 말고 관련 맥락을 요약한다.
+- 인증 정보, 토큰, 개인 정보 또는 기타 민감한 정보를 포함하지 않는다.
+- `docs/ai-prompts/README.md`의 상세 규칙과 템플릿을 따른다.
+
+---
+
+## 주석
+
+구현 이유를 설명하거나 명확하지 않은 동작을 문서화할 때만 주석을 작성한다.
+
+코드가 이미 표현하는 내용을 그대로 설명하는 주석은 작성하지 않는다.
+
+---
+
+## 성능
+
+필요성이 확인된 경우에만 최적화한다.
+
+성급한 최적화를 위해 가독성을 희생하지 않는다.
