@@ -1,31 +1,35 @@
-# Git Workflow
+# Git 작업 흐름
 
-## Branches
+## 브랜치
 
-- main (protected)
-- feature/<name>
-- fix/<name>
-- refactor/<name>
-- docs/<name>
+- `main`(보호 브랜치)
+- `feature/<name>`
+- `fix/<name>`
+- `refactor/<name>`
+- `docs/<name>`
 
-## Commit
+## 커밋
 
-Use Conventional Commits.
+컨벤셔널 커밋 형식을 사용한다.
 
-Examples
+예시:
 
-feat: add trash spawning
-fix: resolve null reference
-refactor: simplify game manager
+```text
+feat: 쓰레기 생성 기능 추가
+fix: null 참조 오류 해결
+refactor: 게임 관리자 단순화
+```
 
-## Pull Request
+## PR
 
-- One feature per PR
-- Make sure the project builds
-- Keep PRs small
-- Write a short description
+- 하나의 PR에는 하나의 기능만 포함한다.
+- 프로젝트가 빌드되는지 확인한다.
+- PR의 변경 범위를 작게 유지한다.
+- 변경 사항을 간단히 설명한다.
+- AI를 사용한 경우 `docs/ai-prompts/`에 협업 기록을 정확히 한 개 추가한다.
+- `docs/ai-prompts/README.md`에 정의된 형식을 따른다.
 
-## Merge
+## 병합
 
-- Squash Merge
-- Delete branch after merging
+- 스쿼시 병합을 사용한다.
+- 병합 후 브랜치를 삭제한다.
