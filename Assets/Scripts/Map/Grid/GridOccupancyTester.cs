@@ -15,6 +15,7 @@ namespace CleanPlanet.Map
 
         private GridSystem _grid;
         private GridOccupancy _occupancy;
+        private TargetCellSelector _selector;
         private GameObject _objectA;
         private GameObject _objectB;
 
@@ -22,6 +23,7 @@ namespace CleanPlanet.Map
         {
             _grid = new GridSystem(_columns, _rows, _cellSize, _origin);
             _occupancy = new GridOccupancy(_grid);
+            _selector = new TargetCellSelector(_grid, _occupancy);
 
             _objectB = CreateSquareObject("Object B", Color.white, _spawnIndexB);
             LogCell(_spawnIndexB, "B 스폰");
@@ -87,6 +89,26 @@ namespace CleanPlanet.Map
             }
             if (!anyOccupied)
                 Debug.Log("  점유된 셀 없음");
+        }
+
+        [ContextMenu("Test: Select Target Cell")]
+        private void SelectTargetCell()
+        {
+            if (_objectA == null || _objectB == null)
+            {
+                Debug.LogWarning("[Tester] Object A와 Object B가 모두 존재해야 합니다.");
+                return;
+            }
+
+            Vector2Int dummyIndex = _objectA.GetComponent<GridOccupant>().CurrentIndex;
+            Vector2Int robotIndex = _objectB.GetComponent<GridOccupant>().CurrentIndex;
+
+            bool found = _selector.TrySelectTarget(dummyIndex, robotIndex, out Vector2Int target);
+
+            if (found)
+                Debug.Log($"[Tester] Target Cell 선정 완료: 더미={dummyIndex}, 로봇={robotIndex} → Target={target}");
+            else
+                Debug.LogWarning($"[Tester] Target Cell 선정 실패: 더미({dummyIndex.x},{dummyIndex.y}) 주변 이동 가능한 셀 없음");
         }
 
         private void LogCell(Vector2Int index, string context)
