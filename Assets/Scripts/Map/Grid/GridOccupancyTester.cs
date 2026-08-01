@@ -30,6 +30,19 @@ namespace CleanPlanet.Map
 
             _objectB = CreateSquareObject("Object B", Color.white, _spawnIndexB);
             LogCell(_spawnIndexB, "B 스폰");
+
+            _objectB.GetComponent<GridOccupant>().Unregister();
+
+            var movement = _objectB.AddComponent<CleanPlanet.Player.PlayerMovement>();
+            movement.Grid = _grid;
+            movement.Occupancy = _occupancy;
+            movement.Register();
+
+            var clickToMove = _objectB.AddComponent<CleanPlanet.Player.PlayerClickToMove>();
+            clickToMove.Grid = _grid;
+            clickToMove.Occupancy = _occupancy;
+            clickToMove.Movement = movement;
+            clickToMove.Initialize();
         }
 
         [ContextMenu("Test: Spawn Object A")]
