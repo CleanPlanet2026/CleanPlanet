@@ -9,13 +9,15 @@ namespace CleanPlanet.UI
         [SerializeField] private GameObject _upgradePanel;
         [SerializeField] private Button _emotionRobotButton;
         [SerializeField] private Button _upgradeButton;
+        [SerializeField] private CanvasGroup _emotionProcessingVisuals;
 
         private void OnEnable()
         {
             if (_emotionRobotPanel == null ||
                 _upgradePanel == null ||
                 _emotionRobotButton == null ||
-                _upgradeButton == null)
+                _upgradeButton == null ||
+                _emotionProcessingVisuals == null)
             {
                 Debug.LogError($"{nameof(BaseViewController)} requires all panel and button references.", this);
                 enabled = false;
@@ -56,6 +58,8 @@ namespace CleanPlanet.UI
             _upgradePanel.SetActive(!showEmotionRobot);
             _emotionRobotButton.interactable = !showEmotionRobot;
             _upgradeButton.interactable = showEmotionRobot;
+            _emotionProcessingVisuals.alpha = showEmotionRobot ? 1f : 0f;
+            _emotionProcessingVisuals.blocksRaycasts = showEmotionRobot;
         }
     }
 }
