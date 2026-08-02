@@ -14,7 +14,7 @@ namespace CleanPlanet.Core.Appraisal
     {
         [SerializeField] private AppraisalCore _appraisalCore;
         [SerializeField] private AppraisalDisplay _display;
-        [SerializeField] private CollectibleData[] _items;
+        [SerializeField] private AppraisalTank _tank;
         [SerializeField] private Sprite[] _decoyIcons;
 
         [SerializeField, Min(0f)] private float _leftSpinDuration = 1f;
@@ -28,10 +28,10 @@ namespace CleanPlanet.Core.Appraisal
 
         private void Start()
         {
-            if (_appraisalCore == null || _display == null || _items == null || _items.Length == 0
+            if (_appraisalCore == null || _display == null || _tank == null
                 || _decoyIcons == null || _decoyIcons.Length == 0)
             {
-                Debug.LogError($"{nameof(AppraisalReelSequencer)}에 필요한 참조, 샘플 큐 또는 디코이 아이콘이 없습니다.", this);
+                Debug.LogError($"{nameof(AppraisalReelSequencer)}에 필요한 참조 또는 디코이 아이콘이 없습니다.", this);
                 enabled = false;
                 return;
             }
@@ -50,7 +50,7 @@ namespace CleanPlanet.Core.Appraisal
 
         private IEnumerator RunSequence()
         {
-            foreach (var item in _items)
+            while (_tank.TryTakeBottomItem(out CollectibleData item))
             {
                 yield return RunOneAppraisal(item);
             }
