@@ -1,37 +1,30 @@
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace CleanPlanet.Core.Appraisal
 {
     /// <summary>
-    /// 감정 결과를 3분할(감정물 아이콘 / x / 배수)로 표시하는 쓰기 전용 순수 뷰.
-    /// 값을 스스로 계산하거나 구독하지 않고, 호출자가 넘긴 값을 그대로 표시한다.
-    /// 왼쪽 아이콘은 랜덤 선택 없이 호출자가 넘긴 스프라이트를 그대로 세팅한다.
-    /// 중앙 "x" 라벨은 씬에 고정 배치된 텍스트를 그대로 쓴다.
+    /// 감정 결과를 왼쪽 아이콘 릴과 오른쪽 배수 릴 두 개로 나눠 스핀시키는 코디네이터.
+    /// 릴 자체의 세로 스크롤·정착 연출은 각 AppraisalReel이 전담하고, 이 클래스는 하나의
+    /// 감정 결과를 두 릴에 동시에 넘겨 시작시키고 진행 상태만 취합해 알려준다.
     /// </summary>
     public sealed class AppraisalDisplay : MonoBehaviour
     {
-        [SerializeField] private Image _itemIconImage;
-        [SerializeField] private Text _multiplierText;
+        [SerializeField] private AppraisalReel _iconReel;
+        [SerializeField] private AppraisalReel _multiplierReel;
 
-        public void SetItemSprite(Sprite icon)
+        public bool IsSpinning => (_iconReel != null && _iconReel.IsSpinning)
+            || (_multiplierReel != null && _multiplierReel.IsSpinning);
+
+        public void BeginAppraisal(AppraisalResult result, float leftDuration, float rightDuration)
         {
-            if (_itemIconImage == null)
+            if (_iconReel == null || _multiplierReel == null)
             {
+                Debug.LogError($"{nameof(AppraisalDisplay)}에 릴 참조가 없습니다.", this);
                 return;
             }
 
-            _itemIconImage.sprite = icon;
-        }
-
-        public void SetMultiplier(string multiplierText)
-        {
-            if (_multiplierText == null)
-            {
-                return;
-            }
-
-            _multiplierText.text = multiplierText;
+            _iconReel.SpinToIcon(result.Item.Icon, leftDuration);
+            _multiplierReel.SpinToNumber(result.Multiplier, rightDuration);
         }
     }
 }
