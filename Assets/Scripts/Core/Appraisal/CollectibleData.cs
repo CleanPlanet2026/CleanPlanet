@@ -21,10 +21,18 @@ namespace CleanPlanet.Core.Appraisal
         [SerializeField] private ItemGrade _grade;
         [SerializeField, Min(0)] private int _baseValue;
         [SerializeField] private Sprite _icon;
+        [SerializeField] private Sprite _screenIcon;
 
         public string Name => _name;
         public ItemGrade Grade => _grade;
         public int BaseValue => _baseValue;
         public Sprite Icon => _icon;
+
+        /// <summary>
+        /// 감정로봇 디스플레이(릴)에서 쓸 화면용 아이콘. 검은 화면에 어울리게 주황으로
+        /// 물들인 버전이며, 비어 있으면 일반 <see cref="Icon"/>으로 폴백한다. 유리관 등
+        /// 다른 곳은 <see cref="Icon"/>을 그대로 쓰므로 여기 값을 넣어도 영향받지 않는다.
+        /// </summary>
+        public Sprite ScreenIcon => _screenIcon != null ? _screenIcon : _icon;
     }
 }

@@ -23,7 +23,7 @@ namespace CleanPlanet.Core.Appraisal
                 return;
             }
 
-            _iconReel.SpinToIcon(result.Item.Icon, leftDuration);
+            _iconReel.SpinToIcon(result.Item.ScreenIcon, leftDuration);
             _multiplierReel.SpinToNumber(result.Multiplier, rightDuration);
         }
     }
