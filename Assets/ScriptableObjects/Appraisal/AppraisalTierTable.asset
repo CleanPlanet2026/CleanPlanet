@@ -70,6 +70,6 @@ MonoBehaviour:
     _accentSfx: {fileID: 8300000, guid: faa04923411d4eb5b65073dd45431281, type: 3}
     _shakeIntensity: 0.35
     _flash: 1
-    _bannerText: "\uC7AD\uD31F!!!"
+    _bannerText: "!!! \uC7AD\uD31F !!!"
     _coinScale: 1.5
     _explode: 1

@@ -1504,7 +1504,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CleanPlanet.UI.TierBanner
   _label: {fileID: 560014019}
   _popDuration: 0.2
-  _holdDuration: 2
+  _holdDuration: 1
   _fadeDuration: 0.3
   _popScale: 1.3
 --- !u!114 &560014019
