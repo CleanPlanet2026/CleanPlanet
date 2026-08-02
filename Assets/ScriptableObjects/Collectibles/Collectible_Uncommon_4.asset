@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 036eed48a64074e9b851bbe5dc5d3ac5, type: 3}
+  m_Name: Collectible_Uncommon_4
+  m_EditorClassIdentifier: Assembly-CSharp::CleanPlanet.Core.Appraisal.CollectibleData
+  _name: "\uC720\uB9AC"
+  _grade: 1
+  _baseValue: 40
+  _icon: {fileID: 1151610474534602672, guid: 441e54c40570f4f0b9ce44d2a661e9ac, type: 3}
+  _screenIcon: {fileID: 21300000, guid: fc75a63c90de41fd834576ad862d2a3f, type: 3}
