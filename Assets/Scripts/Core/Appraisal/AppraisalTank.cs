@@ -15,21 +15,31 @@ namespace CleanPlanet.Core.Appraisal
         [SerializeField] private CollectibleData[] _pendingItems;
         [SerializeField] private Transform _spawnPoint;
         [SerializeField] private Transform _iconParent;
+        [SerializeField] private AppraisalFloorSensor _floorSensor;
         [SerializeField, Min(0f)] private float _spawnWidth = 1f;
         [SerializeField, Min(0.01f)] private float _spawnInterval = 0.04f;
 
         private readonly Queue<AppraisalTankIcon> _pool = new();
         private readonly List<AppraisalTankIcon> _activeIcons = new();
+        private int _unspawnedCount;
+
+        /// <summary>
+        /// 아직 스폰되지 않았거나(대기 중) 관 안에 남아있는(공중이든 바닥이든) 항목이 있으면 true.
+        /// Sequencer가 "집을 게 잠깐 없을 뿐"과 "완전히 소진됨"을 구분하는 데 사용한다.
+        /// </summary>
+        public bool HasRemaining => _activeIcons.Count > 0 || _unspawnedCount > 0;
 
         private void Awake()
         {
-            if (_iconPrefab == null || _spawnPoint == null || _pendingItems == null || _pendingItems.Length == 0)
+            if (_iconPrefab == null || _spawnPoint == null || _pendingItems == null || _pendingItems.Length == 0
+                || _floorSensor == null)
             {
                 Debug.LogError($"{nameof(AppraisalTank)}에 필요한 참조 또는 대기 목록이 없습니다.", this);
                 enabled = false;
                 return;
             }
 
+            _unspawnedCount = _pendingItems.Length;
             PrewarmPool();
         }
 
@@ -80,6 +90,8 @@ namespace CleanPlanet.Core.Appraisal
 
         private void SpawnOne(CollectibleData data)
         {
+            _unspawnedCount--;
+
             if (_pool.Count == 0)
             {
                 Debug.LogWarning($"{nameof(AppraisalTank)}: 풀이 부족해 {data.Name}을(를) 스폰하지 못했습니다.", this);
@@ -87,6 +99,8 @@ namespace CleanPlanet.Core.Appraisal
             }
 
             AppraisalTankIcon icon = _pool.Dequeue();
+            _floorSensor.Release(icon);
+
             float offsetX = Random.Range(-_spawnWidth * 0.5f, _spawnWidth * 0.5f);
             Vector3 spawnPosition = _spawnPoint.position + new Vector3(offsetX, 0f, 0f);
 
@@ -95,6 +109,10 @@ namespace CleanPlanet.Core.Appraisal
             _activeIcons.Add(icon);
         }
 
+        /// <summary>
+        /// 바닥 트리거(_floorSensor) 안에 들어와 안정된 아이콘 중에서만 y 최소를 찾는다.
+        /// 아직 낙하 중인 아이콘은 후보에서 제외되어 공중에서 사라지지 않는다.
+        /// </summary>
         private AppraisalTankIcon FindLowestIcon()
         {
             AppraisalTankIcon lowest = null;
@@ -102,6 +120,11 @@ namespace CleanPlanet.Core.Appraisal
 
             foreach (AppraisalTankIcon icon in _activeIcons)
             {
+                if (!_floorSensor.Contains(icon))
+                {
+                    continue;
+                }
+
                 float y = icon.transform.position.y;
                 if (y < lowestY)
                 {

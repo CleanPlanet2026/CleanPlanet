@@ -50,9 +50,17 @@ namespace CleanPlanet.Core.Appraisal
 
         private IEnumerator RunSequence()
         {
-            while (_tank.TryTakeBottomItem(out CollectibleData item))
+            while (_tank.HasRemaining)
             {
-                yield return RunOneAppraisal(item);
+                if (_tank.TryTakeBottomItem(out CollectibleData item))
+                {
+                    yield return RunOneAppraisal(item);
+                }
+                else
+                {
+                    // 집을 수 있는(바닥에 안정된) 아이콘이 아직 없을 뿐이므로 다음 프레임에 재시도.
+                    yield return null;
+                }
             }
 
             _sequenceCoroutine = null;
