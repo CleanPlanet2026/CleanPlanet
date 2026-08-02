@@ -67,6 +67,21 @@ namespace CleanPlanet.Core.Appraisal
             return true;
         }
 
+        /// <summary>
+        /// 관 안의 아이콘을 전부 즉시 회수한다(디버그 패널의 "관 비우기" 등).
+        /// 감정 스핀·배수·payout 계산에는 관여하지 않는다.
+        /// </summary>
+        public void Clear()
+        {
+            for (int i = _activeIcons.Count - 1; i >= 0; i--)
+            {
+                ReturnToPool(_activeIcons[i]);
+            }
+
+            _activeIcons.Clear();
+            _unspawnedCount = 0;
+        }
+
         private void PrewarmPool()
         {
             for (int i = 0; i < _pendingItems.Length; i++)
