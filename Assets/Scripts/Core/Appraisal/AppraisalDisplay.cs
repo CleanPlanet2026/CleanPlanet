@@ -36,7 +36,7 @@ namespace CleanPlanet.Core.Appraisal
         private void HandleAppraised(AppraisalResult result)
         {
             _itemNameText.text = result.Item.Name;
-            _multiplierText.text = $"x{result.Multiplier}";
+            _multiplierText.text = result.Multiplier.ToString();
         }
     }
 }
