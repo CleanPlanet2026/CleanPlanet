@@ -2879,6 +2879,7 @@ GameObject:
   - component: {fileID: 2012933222}
   - component: {fileID: 2012933221}
   - component: {fileID: 2012933224}
+  - component: {fileID: 2012933225}
   m_Layer: 0
   m_Name: AppraisalTestHarness
   m_TagString: Untagged
@@ -2898,20 +2899,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 380c8144b662145f7ac52d022a1af009, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CleanPlanet.Core.Appraisal.AppraisalDriver
-  _appraisalCore: {fileID: 2012933222}
-  _sampleItems:
-  - _name: "\uACE0\uCCA0"
-    _grade: 0
-    _baseValue: 10
-  - _name: "\uC720\uB9AC \uC870\uAC01"
-    _grade: 1
-    _baseValue: 40
-  - _name: "\uC804\uC790 \uBD80\uD488"
-    _grade: 2
-    _baseValue: 150
-  - _name: "\uBCF4\uC11D"
-    _grade: 3
-    _baseValue: 600
+  _sequencer: {fileID: 2012933225}
 --- !u!114 &2012933222
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2962,9 +2950,39 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d55677f948cae4dc4b36a25e50c32b89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CleanPlanet.Core.Appraisal.AppraisalDisplay
-  _appraisalCore: {fileID: 2012933222}
   _itemNameText: {fileID: 682892672}
   _multiplierText: {fileID: 692618066}
+--- !u!114 &2012933225
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2012933220}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b9bd59b158234ea1b09c314c2ec1a01, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CleanPlanet.Core.Appraisal.AppraisalReelSequencer
+  _appraisalCore: {fileID: 2012933222}
+  _display: {fileID: 2012933224}
+  _items:
+  - _name: "\uACE0\uCCA0"
+    _grade: 0
+    _baseValue: 10
+  - _name: "\uC720\uB9AC"
+    _grade: 1
+    _baseValue: 40
+  - _name: "\uC804\uC790"
+    _grade: 2
+    _baseValue: 150
+  - _name: "\uBCF4\uC11D"
+    _grade: 3
+    _baseValue: 600
+  _leftSpinDuration: 1
+  _rightSpinDuration: 3
+  _spinTickInterval: 0.05
+  _resultHoldDuration: 0.5
 --- !u!1 &2145100501
 GameObject:
   m_ObjectHideFlags: 0
