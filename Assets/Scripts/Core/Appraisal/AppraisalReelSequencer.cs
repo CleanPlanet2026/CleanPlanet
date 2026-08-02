@@ -8,13 +8,14 @@ namespace CleanPlanet.Core.Appraisal
     /// 감정 슬롯 릴 연출을 순차 진행하는 시퀀서. 큐에 담긴 수집물을 한 건씩,
     /// 한 건이 끝나야 다음 건을 시작하는 방식으로 처리한다(큐 소진 시 정지, 순환 없음).
     /// 각 건의 실제 결과는 AppraisalCore.Appraise로 미리 확정하고, 릴 스핀 동안 보여주는
-    /// 왼쪽 이름/오른쪽 배수는 연출용 코스메틱일 뿐 이 값에 영향을 주지 않는다.
+    /// 왼쪽 아이콘/오른쪽 배수는 연출용 코스메틱일 뿐 이 값에 영향을 주지 않는다.
     /// </summary>
     public sealed class AppraisalReelSequencer : MonoBehaviour
     {
         [SerializeField] private AppraisalCore _appraisalCore;
         [SerializeField] private AppraisalDisplay _display;
-        [SerializeField] private AppraisalItem[] _items;
+        [SerializeField] private CollectibleData[] _items;
+        [SerializeField] private Sprite[] _decoyIcons;
 
         [SerializeField, Min(0f)] private float _leftSpinDuration = 1f;
         [SerializeField, Min(0f)] private float _rightSpinDuration = 3f;
@@ -27,9 +28,10 @@ namespace CleanPlanet.Core.Appraisal
 
         private void Start()
         {
-            if (_appraisalCore == null || _display == null || _items == null || _items.Length == 0)
+            if (_appraisalCore == null || _display == null || _items == null || _items.Length == 0
+                || _decoyIcons == null || _decoyIcons.Length == 0)
             {
-                Debug.LogError($"{nameof(AppraisalReelSequencer)}에 필요한 참조 또는 샘플 큐가 없습니다.", this);
+                Debug.LogError($"{nameof(AppraisalReelSequencer)}에 필요한 참조, 샘플 큐 또는 디코이 아이콘이 없습니다.", this);
                 enabled = false;
                 return;
             }
@@ -56,7 +58,7 @@ namespace CleanPlanet.Core.Appraisal
             _sequenceCoroutine = null;
         }
 
-        private IEnumerator RunOneAppraisal(AppraisalItem item)
+        private IEnumerator RunOneAppraisal(CollectibleData item)
         {
             AppraisalResult result = _appraisalCore.Appraise(item);
 
@@ -70,11 +72,11 @@ namespace CleanPlanet.Core.Appraisal
                 {
                     if (elapsed < _leftSpinDuration)
                     {
-                        _display.SetItemName(GetRandomDecoyItemName());
+                        _display.SetItemSprite(GetRandomDecoyIcon());
                     }
                     else
                     {
-                        _display.SetItemName(result.Item.Name);
+                        _display.SetItemSprite(result.Item.Icon);
                         leftLocked = true;
                     }
                 }
@@ -86,7 +88,7 @@ namespace CleanPlanet.Core.Appraisal
             }
 
             // 최종값 보장: 누적 오차나 지속 시간 0 설정과 무관하게 실제 값으로 강제 고정.
-            _display.SetItemName(result.Item.Name);
+            _display.SetItemSprite(result.Item.Icon);
             _display.SetMultiplier(result.Multiplier.ToString());
 
             OnPayoutConfirmed?.Invoke(result);
@@ -94,9 +96,9 @@ namespace CleanPlanet.Core.Appraisal
             yield return new WaitForSeconds(_resultHoldDuration);
         }
 
-        private string GetRandomDecoyItemName()
+        private Sprite GetRandomDecoyIcon()
         {
-            return _items[UnityEngine.Random.Range(0, _items.Length)].Name;
+            return _decoyIcons[UnityEngine.Random.Range(0, _decoyIcons.Length)];
         }
 
         private static int GetRandomDecoyMultiplier()

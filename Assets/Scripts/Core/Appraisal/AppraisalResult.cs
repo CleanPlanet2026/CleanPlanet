@@ -6,11 +6,11 @@ namespace CleanPlanet.Core.Appraisal
     /// </summary>
     public readonly struct AppraisalResult
     {
-        public AppraisalItem Item { get; }
+        public CollectibleData Item { get; }
         public int Multiplier { get; }
         public int Payout { get; }
 
-        public AppraisalResult(AppraisalItem item, int multiplier, int payout)
+        public AppraisalResult(CollectibleData item, int multiplier, int payout)
         {
             Item = item;
             Multiplier = multiplier;

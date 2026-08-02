@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 namespace CleanPlanet.Core.Appraisal
@@ -12,25 +11,20 @@ namespace CleanPlanet.Core.Appraisal
     }
 
     /// <summary>
-    /// 감정 대상 수집물 1개를 나타내는 자체 경량 데이터 타입.
-    /// 다른 시스템(TrashItem 등)에 의존하지 않는다.
+    /// 감정 대상 수집물 1종의 데이터 정의. 이름/등급/기본가치/아이콘은 수집 시점에 이미
+    /// 정해져 있으며, 감정로봇은 이 아이콘을 그대로 표시할 뿐 스스로 고르지 않는다.
     /// </summary>
-    [Serializable]
-    public sealed class AppraisalItem
+    [CreateAssetMenu(fileName = "CollectibleData", menuName = "CleanPlanet/Appraisal/Collectible Data")]
+    public sealed class CollectibleData : ScriptableObject
     {
         [SerializeField] private string _name;
         [SerializeField] private ItemGrade _grade;
         [SerializeField, Min(0)] private int _baseValue;
+        [SerializeField] private Sprite _icon;
 
         public string Name => _name;
         public ItemGrade Grade => _grade;
         public int BaseValue => _baseValue;
-
-        public AppraisalItem(string name, ItemGrade grade, int baseValue)
-        {
-            _name = name;
-            _grade = grade;
-            _baseValue = baseValue;
-        }
+        public Sprite Icon => _icon;
     }
 }

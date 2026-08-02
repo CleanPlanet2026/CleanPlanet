@@ -43,7 +43,7 @@ namespace CleanPlanet.Core.Appraisal
             };
         }
 
-        public AppraisalResult Appraise(AppraisalItem item)
+        public AppraisalResult Appraise(CollectibleData item)
         {
             int multiplier = PickMultiplier();
             int payout = item.BaseValue * multiplier;
