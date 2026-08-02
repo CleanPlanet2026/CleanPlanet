@@ -29,6 +29,23 @@ namespace CleanPlanet.Core.Appraisal
 
             public RectTransform RectTransform => _rectTransform;
 
+            /// <summary>
+            /// 대기 상태에서는 빈 Image가 흰 사각으로 그려지는 걸 막기 위해 스핀이
+            /// 시작되기 전까지 아이콘/숫자를 완전히 숨긴다.
+            /// </summary>
+            public void SetVisible(bool visible)
+            {
+                if (_icon != null)
+                {
+                    _icon.enabled = visible;
+                }
+
+                if (_number != null)
+                {
+                    _number.enabled = visible;
+                }
+            }
+
             public void SetIcon(Sprite sprite)
             {
                 if (_icon != null)
@@ -68,12 +85,31 @@ namespace CleanPlanet.Core.Appraisal
             if (!_isValid)
             {
                 Debug.LogError($"{nameof(AppraisalReel)}에 필요한 참조가 없습니다.", this);
+                return;
+            }
+
+            HideAllCells();
+        }
+
+        private void OnEnable()
+        {
+            if (_isValid && !IsSpinning)
+            {
+                HideAllCells();
             }
         }
 
         private void OnDisable()
         {
             StopSpin();
+        }
+
+        private void HideAllCells()
+        {
+            foreach (ReelCell cell in _cells)
+            {
+                cell.SetVisible(false);
+            }
         }
 
         public void SpinToIcon(Sprite target, float duration)
@@ -137,6 +173,7 @@ namespace CleanPlanet.Core.Appraisal
             // 자연스럽게 흐르는 것처럼 보이게 한다. 실제 화면상의 위치는 스크립트가 전담한다.
             for (int i = 0; i < cellCount; i++)
             {
+                _cells[i].SetVisible(true);
                 cellLocalY[i] = (cellCount / 2f - i) * _cellHeight;
                 SetCellY(_cells[i], cellLocalY[i]);
                 applyDecoy(_cells[i]);
