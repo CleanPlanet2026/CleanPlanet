@@ -16,3 +16,4 @@ MonoBehaviour:
   _grade: 0
   _baseValue: 10
   _icon: {fileID: -2214852433427795941, guid: d1286fb67308a49e5aa325333922ea99, type: 3}
+  _screenIcon: {fileID: 21300000, guid: 1fd27ef96e584f43bb952a3b1cc13549, type: 3}
