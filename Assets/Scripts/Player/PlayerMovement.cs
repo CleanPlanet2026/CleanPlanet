@@ -31,6 +31,11 @@ namespace CleanPlanet.Player
             CurrentIndex = Grid.WorldToGrid(transform.position);
             SnapTo(CurrentIndex);
             _registered = Occupancy.TryOccupy(CurrentIndex, gameObject);
+
+            if (!_registered)
+            {
+                Debug.LogWarning($"[PlayerMovement] 셀 ({CurrentIndex.x},{CurrentIndex.y}) 등록 실패 — 이미 다른 오브젝트가 점유 중입니다.");
+            }
         }
 
         public void Unregister()

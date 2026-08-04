@@ -7,7 +7,12 @@ namespace CleanPlanet.Player
     public class PlayerClickToMove : MonoBehaviour
     {
         [field: SerializeField] public Camera Camera { get; set; }
-        [field: SerializeField] public PlayerMovement Movement { get; set; }
+
+        /// <summary>
+        /// GridManager가 부트스트랩 시 코드로 할당한다. GridManager.Awake()에서 항상
+        /// 덮어쓰므로 인스펙터로 노출하지 않는다.
+        /// </summary>
+        public PlayerMovement Movement { get; set; }
 
         public GridSystem Grid { get; set; }
         public GridOccupancy Occupancy { get; set; }
