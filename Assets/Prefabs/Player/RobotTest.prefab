@@ -10,6 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 7687750494028282380}
   - component: {fileID: 4459211075918877251}
+  - component: {fileID: 1037690828506594081}
+  - component: {fileID: 3033987861072522777}
   m_Layer: 0
   m_Name: RobotTest
   m_TagString: Untagged
@@ -92,3 +94,30 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
   m_BlendShapeWeights: []
+--- !u!114 &1037690828506594081
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 927447457779542334}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 224c5db82ac74d44b8fe30dc47c46890, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CleanPlanet.Player.PlayerClickToMove
+  <Camera>k__BackingField: {fileID: 0}
+  <Movement>k__BackingField: {fileID: 0}
+--- !u!114 &3033987861072522777
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 927447457779542334}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b19cc25e80374129a17ef5846d518fd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CleanPlanet.Player.PlayerMovement
+  _cellsPerSecond: 4

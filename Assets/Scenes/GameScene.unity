@@ -244,8 +244,8 @@ MonoBehaviour:
   _rows: 8
   _cellSize: 1
   _origin: {x: -5, y: -4}
-  _playerMovement: {fileID: 0}
-  _playerClickToMove: {fileID: 0}
+  _playerMovement: {fileID: 7160934477118210215}
+  _playerClickToMove: {fileID: 7160934477118210216}
 --- !u!4 &1347935839
 Transform:
   m_ObjectHideFlags: 0
@@ -273,6 +273,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: RobotTest
       objectReference: {fileID: 0}
+    - target: {fileID: 1037690828506594081, guid: c2da7f326ff1a2949928b2897f34b8d9, type: 3}
+      propertyPath: <Camera>k__BackingField
+      value: 
+      objectReference: {fileID: 265786292}
+    - target: {fileID: 1037690828506594081, guid: c2da7f326ff1a2949928b2897f34b8d9, type: 3}
+      propertyPath: <Movement>k__BackingField
+      value: 
+      objectReference: {fileID: 7160934477118210215}
     - target: {fileID: 7687750494028282380, guid: c2da7f326ff1a2949928b2897f34b8d9, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -318,6 +326,28 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c2da7f326ff1a2949928b2897f34b8d9, type: 3}
+--- !u!114 &7160934477118210215 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3033987861072522777, guid: c2da7f326ff1a2949928b2897f34b8d9, type: 3}
+  m_PrefabInstance: {fileID: 7160934477118210213}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b19cc25e80374129a17ef5846d518fd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CleanPlanet.Player.PlayerMovement
+--- !u!114 &7160934477118210216 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1037690828506594081, guid: c2da7f326ff1a2949928b2897f34b8d9, type: 3}
+  m_PrefabInstance: {fileID: 7160934477118210213}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 224c5db82ac74d44b8fe30dc47c46890, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CleanPlanet.Player.PlayerClickToMove
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
