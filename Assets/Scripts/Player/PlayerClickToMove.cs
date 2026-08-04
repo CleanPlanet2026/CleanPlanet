@@ -1,6 +1,8 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using CleanPlanet.Map;
+using CleanPlanet.Trash;
 
 namespace CleanPlanet.Player
 {
@@ -16,6 +18,11 @@ namespace CleanPlanet.Player
 
         public GridSystem Grid { get; set; }
         public GridOccupancy Occupancy { get; set; }
+
+        /// <summary>
+        /// 클릭한 Cell의 점유자가 TrashPile이고 이동이 실제로 시작됐을 때만 발행된다.
+        /// </summary>
+        public event Action<TrashPile> OnTrashSelected;
 
         private TargetCellSelector _targetSelector;
         private InputAction _clickAction;
@@ -65,7 +72,12 @@ namespace CleanPlanet.Player
                 return;
             }
 
-            Movement.TryMoveTo(destination);
+            TrashPile trash = Occupancy.GetOccupant(clickedIndex)?.GetComponent<TrashPile>();
+
+            if (Movement.TryMoveTo(destination) && trash != null)
+            {
+                OnTrashSelected?.Invoke(trash);
+            }
         }
 
         /// <summary>
