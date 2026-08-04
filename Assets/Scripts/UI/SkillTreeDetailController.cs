@@ -50,6 +50,8 @@ namespace CleanPlanet.UI
         [SerializeField] private CurrencyWallet _wallet;
         [SerializeField] private SkillOption[] _options;
         [SerializeField, Min(0)] private int _defaultOptionIndex;
+        [SerializeField] private Color _notUpgradedColor = new(0.25f, 0.32f, 0.35f, 1f);
+        [SerializeField] private Color _upgradedColor = new(0.22f, 0.85f, 0.77f, 1f);
 
         private readonly UpgradeRuntimeState _runtimeState = new();
         private UnityAction[] _selectionActions;
@@ -74,6 +76,7 @@ namespace CleanPlanet.UI
                 _options[i].Button.onClick.AddListener(_selectionActions[i]);
             }
 
+            RefreshAllNodeVisuals();
             SelectOption(Mathf.Clamp(_defaultOptionIndex, 0, _options.Length - 1));
         }
 
@@ -153,6 +156,28 @@ namespace CleanPlanet.UI
             _nextEffectText.text = isMaxLevel ? "최대 레벨" : option.NextEffect;
             _costText.text = isMaxLevel ? "-" : option.Cost;
             _upgradeButton.interactable = !isMaxLevel && _wallet.Gold >= option.CostAmount;
+            UpdateNodeVisual(option, isMaxLevel);
+        }
+
+        private void RefreshAllNodeVisuals()
+        {
+            foreach (SkillOption option in _options)
+            {
+                int level = _runtimeState.GetLevel(option.UpgradeId, option.InitialLevel);
+                UpdateNodeVisual(option, level >= option.MaxLevel);
+            }
+        }
+
+        private void UpdateNodeVisual(SkillOption option, bool isUpgraded)
+        {
+            Color normalColor = isUpgraded ? _upgradedColor : _notUpgradedColor;
+            ColorBlock colors = option.Button.colors;
+            colors.normalColor = normalColor;
+            colors.highlightedColor = Color.Lerp(normalColor, Color.white, 0.2f);
+            colors.pressedColor = Color.Lerp(normalColor, Color.black, 0.2f);
+            colors.selectedColor = normalColor;
+            option.Button.colors = colors;
+            option.Button.targetGraphic.color = normalColor;
         }
 
         private bool HasRequiredReferences()
@@ -176,6 +201,7 @@ namespace CleanPlanet.UI
             {
                 if (option == null ||
                     option.Button == null ||
+                    option.Button.targetGraphic == null ||
                     string.IsNullOrWhiteSpace(option.UpgradeId) ||
                     option.InitialLevel > option.MaxLevel)
                 {

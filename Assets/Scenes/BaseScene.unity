@@ -6576,6 +6576,8 @@ MonoBehaviour:
     _cost: "2,700 G"
     _costAmount: 2700
   _defaultOptionIndex: 11
+  _notUpgradedColor: {r: 0.25, g: 0.32, b: 0.35, a: 1}
+  _upgradedColor: {r: 0.22, g: 0.85, b: 0.77, a: 1}
 --- !u!1 &741636551
 GameObject:
   m_ObjectHideFlags: 0
