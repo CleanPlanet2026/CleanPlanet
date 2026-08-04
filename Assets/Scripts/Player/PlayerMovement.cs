@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,6 +15,12 @@ namespace CleanPlanet.Player
 
         public Vector2Int CurrentIndex { get; private set; }
         public bool IsMoving { get; private set; }
+
+        /// <summary>
+        /// 목표 Cell에 정상적으로 도착했을 때 발행된다. 도착한 Cell 인덱스를 전달한다.
+        /// 이동 중단(재탐색 실패 등)이나 재점유를 위한 중간 셀 이동에서는 발행하지 않는다.
+        /// </summary>
+        public event Action<Vector2Int> OnRobotArrived;
 
         private GridPathfinder _pathfinder;
         private Coroutine _moveRoutine;
@@ -125,6 +132,7 @@ namespace CleanPlanet.Player
 
             IsMoving = false;
             _moveRoutine = null;
+            OnRobotArrived?.Invoke(finalGoal);
         }
 
         private IEnumerator MoveTransformTo(Vector2Int index)
