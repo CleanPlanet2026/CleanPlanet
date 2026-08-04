@@ -6385,6 +6385,7 @@ MonoBehaviour:
   _options:
   - _button: {fileID: 391231908}
     _upgradeId: robot_core
+    _prerequisiteId:
     _initialLevel: 1
     _maxLevel: 1
     _state: "● 활성화"
@@ -6397,6 +6398,7 @@ MonoBehaviour:
     _costAmount: 0
   - _button: {fileID: 1505420970}
     _upgradeId: collection_grip
+    _prerequisiteId: robot_core
     _initialLevel: 0
     _maxLevel: 1
     _state: "● 구매 가능"
@@ -6409,6 +6411,7 @@ MonoBehaviour:
     _costAmount: 500
   - _button: {fileID: 26500642}
     _upgradeId: collection_storage
+    _prerequisiteId: collection_grip
     _initialLevel: 0
     _maxLevel: 1
     _state: "● 구매 가능"
@@ -6421,6 +6424,7 @@ MonoBehaviour:
     _costAmount: 1200
   - _button: {fileID: 1397927988}
     _upgradeId: collection_recovery
+    _prerequisiteId: collection_storage
     _initialLevel: 0
     _maxLevel: 1
     _state: "● 구매 가능"
@@ -6433,6 +6437,7 @@ MonoBehaviour:
     _costAmount: 2500
   - _button: {fileID: 1402707422}
     _upgradeId: disassembly_parallel
+    _prerequisiteId: robot_core
     _initialLevel: 0
     _maxLevel: 1
     _state: "● 구매 가능"
@@ -6445,6 +6450,7 @@ MonoBehaviour:
     _costAmount: 600
   - _button: {fileID: 1760999685}
     _upgradeId: disassembly_precision
+    _prerequisiteId: disassembly_parallel
     _initialLevel: 0
     _maxLevel: 1
     _state: "● 구매 가능"
@@ -6457,6 +6463,7 @@ MonoBehaviour:
     _costAmount: 1400
   - _button: {fileID: 1793816550}
     _upgradeId: disassembly_sorting
+    _prerequisiteId: disassembly_precision
     _initialLevel: 0
     _maxLevel: 1
     _state: "● 구매 가능"
@@ -6469,6 +6476,7 @@ MonoBehaviour:
     _costAmount: 2800
   - _button: {fileID: 1171074069}
     _upgradeId: movement_calibration
+    _prerequisiteId: robot_core
     _initialLevel: 0
     _maxLevel: 1
     _state: "● 구매 가능"
@@ -6481,6 +6489,7 @@ MonoBehaviour:
     _costAmount: 450
   - _button: {fileID: 592095168}
     _upgradeId: movement_wheels
+    _prerequisiteId: movement_calibration
     _initialLevel: 0
     _maxLevel: 1
     _state: "● 구매 가능"
@@ -6493,6 +6502,7 @@ MonoBehaviour:
     _costAmount: 1100
   - _button: {fileID: 1616028521}
     _upgradeId: movement_turbo
+    _prerequisiteId: movement_wheels
     _initialLevel: 0
     _maxLevel: 1
     _state: "● 구매 가능"
@@ -6505,6 +6515,7 @@ MonoBehaviour:
     _costAmount: 2400
   - _button: {fileID: 1135654489}
     _upgradeId: appraisal_sensor
+    _prerequisiteId: robot_core
     _initialLevel: 0
     _maxLevel: 1
     _state: "● 구매 가능"
@@ -6517,6 +6528,7 @@ MonoBehaviour:
     _costAmount: 700
   - _button: {fileID: 541338549}
     _upgradeId: appraisal_pattern_learning
+    _prerequisiteId: appraisal_sensor
     _initialLevel: 0
     _maxLevel: 1
     _state: "● 구매 가능"
@@ -6529,6 +6541,7 @@ MonoBehaviour:
     _costAmount: 2500
   - _button: {fileID: 1384804046}
     _upgradeId: appraisal_rare_detection
+    _prerequisiteId: appraisal_pattern_learning
     _initialLevel: 0
     _maxLevel: 1
     _state: "● 구매 가능"
@@ -6541,6 +6554,7 @@ MonoBehaviour:
     _costAmount: 4000
   - _button: {fileID: 434328725}
     _upgradeId: battery_saving
+    _prerequisiteId: robot_core
     _initialLevel: 0
     _maxLevel: 1
     _state: "● 구매 가능"
@@ -6553,6 +6567,7 @@ MonoBehaviour:
     _costAmount: 550
   - _button: {fileID: 1180317926}
     _upgradeId: battery_fast_charge
+    _prerequisiteId: battery_saving
     _initialLevel: 0
     _maxLevel: 1
     _state: "● 구매 가능"
@@ -6565,6 +6580,7 @@ MonoBehaviour:
     _costAmount: 1300
   - _button: {fileID: 1261816440}
     _upgradeId: battery_high_density
+    _prerequisiteId: battery_fast_charge
     _initialLevel: 0
     _maxLevel: 1
     _state: "● 구매 가능"
@@ -6575,8 +6591,55 @@ MonoBehaviour:
     _nextEffect: "+50% 지속"
     _cost: "2,700 G"
     _costAmount: 2700
+  _connections:
+  - _fromUpgradeId: robot_core
+    _toUpgradeId: appraisal_sensor
+    _line: {fileID: 1103835343}
+  - _fromUpgradeId: appraisal_sensor
+    _toUpgradeId: appraisal_pattern_learning
+    _line: {fileID: 1074359588}
+  - _fromUpgradeId: appraisal_pattern_learning
+    _toUpgradeId: appraisal_rare_detection
+    _line: {fileID: 1414291110}
+  - _fromUpgradeId: robot_core
+    _toUpgradeId: disassembly_parallel
+    _line: {fileID: 1650277670}
+  - _fromUpgradeId: disassembly_parallel
+    _toUpgradeId: disassembly_precision
+    _line: {fileID: 670357242}
+  - _fromUpgradeId: disassembly_precision
+    _toUpgradeId: disassembly_sorting
+    _line: {fileID: 114446441}
+  - _fromUpgradeId: robot_core
+    _toUpgradeId: battery_saving
+    _line: {fileID: 1443597984}
+  - _fromUpgradeId: battery_saving
+    _toUpgradeId: battery_fast_charge
+    _line: {fileID: 412858631}
+  - _fromUpgradeId: battery_fast_charge
+    _toUpgradeId: battery_high_density
+    _line: {fileID: 1928260336}
+  - _fromUpgradeId: robot_core
+    _toUpgradeId: movement_calibration
+    _line: {fileID: 2005949851}
+  - _fromUpgradeId: movement_calibration
+    _toUpgradeId: movement_wheels
+    _line: {fileID: 2096848731}
+  - _fromUpgradeId: movement_wheels
+    _toUpgradeId: movement_turbo
+    _line: {fileID: 1249149391}
+  - _fromUpgradeId: robot_core
+    _toUpgradeId: collection_grip
+    _line: {fileID: 212287509}
+  - _fromUpgradeId: collection_grip
+    _toUpgradeId: collection_storage
+    _line: {fileID: 1227983779}
+  - _fromUpgradeId: collection_storage
+    _toUpgradeId: collection_recovery
+    _line: {fileID: 1275965782}
   _defaultOptionIndex: 11
-  _notUpgradedColor: {r: 0.25, g: 0.32, b: 0.35, a: 1}
+  _lockedColor: {r: 0.25, g: 0.32, b: 0.35, a: 1}
+  _availableColor: {r: 1, g: 0.82, b: 0.4, a: 1}
   _upgradedColor: {r: 0.22, g: 0.85, b: 0.77, a: 1}
 --- !u!1 &741636551
 GameObject:

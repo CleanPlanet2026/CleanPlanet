@@ -9,11 +9,19 @@ namespace CleanPlanet.UI
 {
     public sealed class SkillTreeDetailController : MonoBehaviour
     {
+        private enum UpgradeStatus
+        {
+            Locked,
+            Available,
+            Completed
+        }
+
         [Serializable]
         private sealed class SkillOption
         {
             [SerializeField] private Button _button;
             [SerializeField] private string _upgradeId;
+            [SerializeField] private string _prerequisiteId;
             [SerializeField, Min(0)] private int _initialLevel;
             [SerializeField, Min(1)] private int _maxLevel = 1;
             [SerializeField] private string _state;
@@ -27,6 +35,7 @@ namespace CleanPlanet.UI
 
             public Button Button => _button;
             public string UpgradeId => _upgradeId;
+            public string PrerequisiteId => _prerequisiteId;
             public int InitialLevel => _initialLevel;
             public int MaxLevel => _maxLevel;
             public string State => _state;
@@ -39,6 +48,18 @@ namespace CleanPlanet.UI
             public int CostAmount => _costAmount;
         }
 
+        [Serializable]
+        private sealed class SkillConnection
+        {
+            [SerializeField] private string _fromUpgradeId;
+            [SerializeField] private string _toUpgradeId;
+            [SerializeField] private Graphic _line;
+
+            public string FromUpgradeId => _fromUpgradeId;
+            public string ToUpgradeId => _toUpgradeId;
+            public Graphic Line => _line;
+        }
+
         [SerializeField] private Text _stateText;
         [SerializeField] private Text _skillNameText;
         [SerializeField] private Text _branchText;
@@ -49,8 +70,10 @@ namespace CleanPlanet.UI
         [SerializeField] private Button _upgradeButton;
         [SerializeField] private CurrencyWallet _wallet;
         [SerializeField] private SkillOption[] _options;
+        [SerializeField] private SkillConnection[] _connections;
         [SerializeField, Min(0)] private int _defaultOptionIndex;
-        [SerializeField] private Color _notUpgradedColor = new(0.25f, 0.32f, 0.35f, 1f);
+        [SerializeField] private Color _lockedColor = new(0.25f, 0.32f, 0.35f, 1f);
+        [SerializeField] private Color _availableColor = new(1f, 0.82f, 0.4f, 1f);
         [SerializeField] private Color _upgradedColor = new(0.22f, 0.85f, 0.77f, 1f);
 
         private readonly UpgradeRuntimeState _runtimeState = new();
@@ -76,7 +99,7 @@ namespace CleanPlanet.UI
                 _options[i].Button.onClick.AddListener(_selectionActions[i]);
             }
 
-            RefreshAllNodeVisuals();
+            RefreshTreeVisuals();
             SelectOption(Mathf.Clamp(_defaultOptionIndex, 0, _options.Length - 1));
         }
 
@@ -123,8 +146,7 @@ namespace CleanPlanet.UI
         private void UpgradeSelectedOption()
         {
             SkillOption option = _options[_selectedOptionIndex];
-            int level = _runtimeState.GetLevel(option.UpgradeId, option.InitialLevel);
-            if (level >= option.MaxLevel || !_wallet.TrySpend(option.CostAmount))
+            if (GetStatus(option) != UpgradeStatus.Available || !_wallet.TrySpend(option.CostAmount))
             {
                 RefreshUpgradeState(option);
                 return;
@@ -132,6 +154,7 @@ namespace CleanPlanet.UI
 
             if (_runtimeState.TryUpgrade(option.UpgradeId, option.InitialLevel, option.MaxLevel))
             {
+                RefreshTreeVisuals();
                 RefreshUpgradeState(option);
             }
         }
@@ -144,33 +167,60 @@ namespace CleanPlanet.UI
         private void RefreshUpgradeState(SkillOption option)
         {
             int level = _runtimeState.GetLevel(option.UpgradeId, option.InitialLevel);
-            bool isMaxLevel = level >= option.MaxLevel;
+            UpgradeStatus status = GetStatus(option);
+            bool isCompleted = status == UpgradeStatus.Completed;
 
-            string state = isMaxLevel && option.InitialLevel < option.MaxLevel
-                ? "● 강화 완료"
-                : option.State;
+            string state = status switch
+            {
+                UpgradeStatus.Completed when option.InitialLevel < option.MaxLevel => "■ 강화 완료",
+                UpgradeStatus.Completed => option.State,
+                UpgradeStatus.Available => "◆ 구매 가능",
+                _ => "□ 잠김"
+            };
             _stateText.text = $"{state}  Lv. {level}/{option.MaxLevel}";
             _currentEffectText.text = level > option.InitialLevel
                 ? option.NextEffect
                 : option.CurrentEffect;
-            _nextEffectText.text = isMaxLevel ? "최대 레벨" : option.NextEffect;
-            _costText.text = isMaxLevel ? "-" : option.Cost;
-            _upgradeButton.interactable = !isMaxLevel && _wallet.Gold >= option.CostAmount;
-            UpdateNodeVisual(option, isMaxLevel);
+            _nextEffectText.text = isCompleted ? "최대 레벨" : option.NextEffect;
+            _costText.text = status switch
+            {
+                UpgradeStatus.Completed => "-",
+                UpgradeStatus.Locked => "선행 강화 필요",
+                _ => option.Cost
+            };
+            _upgradeButton.interactable = status == UpgradeStatus.Available
+                && _wallet.Gold >= option.CostAmount;
+            UpdateNodeVisual(option, status);
         }
 
-        private void RefreshAllNodeVisuals()
+        private void RefreshTreeVisuals()
         {
             foreach (SkillOption option in _options)
             {
-                int level = _runtimeState.GetLevel(option.UpgradeId, option.InitialLevel);
-                UpdateNodeVisual(option, level >= option.MaxLevel);
+                UpdateNodeVisual(option, GetStatus(option));
+            }
+
+            foreach (SkillConnection connection in _connections)
+            {
+                SkillOption from = GetOption(connection.FromUpgradeId);
+                SkillOption to = GetOption(connection.ToUpgradeId);
+                UpgradeStatus status = GetStatus(to);
+                connection.Line.color = status == UpgradeStatus.Completed
+                    ? _upgradedColor
+                    : GetStatus(from) == UpgradeStatus.Completed
+                        ? _availableColor
+                        : _lockedColor;
             }
         }
 
-        private void UpdateNodeVisual(SkillOption option, bool isUpgraded)
+        private void UpdateNodeVisual(SkillOption option, UpgradeStatus status)
         {
-            Color normalColor = isUpgraded ? _upgradedColor : _notUpgradedColor;
+            Color normalColor = status switch
+            {
+                UpgradeStatus.Completed => _upgradedColor,
+                UpgradeStatus.Available => _availableColor,
+                _ => _lockedColor
+            };
             ColorBlock colors = option.Button.colors;
             colors.normalColor = normalColor;
             colors.highlightedColor = Color.Lerp(normalColor, Color.white, 0.2f);
@@ -178,6 +228,41 @@ namespace CleanPlanet.UI
             colors.selectedColor = normalColor;
             option.Button.colors = colors;
             option.Button.targetGraphic.color = normalColor;
+        }
+
+        private UpgradeStatus GetStatus(SkillOption option)
+        {
+            int level = _runtimeState.GetLevel(option.UpgradeId, option.InitialLevel);
+            if (level >= option.MaxLevel)
+            {
+                return UpgradeStatus.Completed;
+            }
+
+            if (string.IsNullOrEmpty(option.PrerequisiteId))
+            {
+                return UpgradeStatus.Available;
+            }
+
+            SkillOption prerequisite = GetOption(option.PrerequisiteId);
+            int prerequisiteLevel = _runtimeState.GetLevel(
+                prerequisite.UpgradeId,
+                prerequisite.InitialLevel);
+            return prerequisiteLevel >= prerequisite.MaxLevel
+                ? UpgradeStatus.Available
+                : UpgradeStatus.Locked;
+        }
+
+        private SkillOption GetOption(string upgradeId)
+        {
+            foreach (SkillOption option in _options)
+            {
+                if (option != null && option.UpgradeId == upgradeId)
+                {
+                    return option;
+                }
+            }
+
+            return null;
         }
 
         private bool HasRequiredReferences()
@@ -192,7 +277,8 @@ namespace CleanPlanet.UI
                 _upgradeButton == null ||
                 _wallet == null ||
                 _options == null ||
-                _options.Length == 0)
+                _options.Length == 0 ||
+                _connections == null)
             {
                 return false;
             }
@@ -204,6 +290,23 @@ namespace CleanPlanet.UI
                     option.Button.targetGraphic == null ||
                     string.IsNullOrWhiteSpace(option.UpgradeId) ||
                     option.InitialLevel > option.MaxLevel)
+                {
+                    return false;
+                }
+
+                if (!string.IsNullOrEmpty(option.PrerequisiteId)
+                    && GetOption(option.PrerequisiteId) == null)
+                {
+                    return false;
+                }
+            }
+
+            foreach (SkillConnection connection in _connections)
+            {
+                if (connection == null ||
+                    connection.Line == null ||
+                    GetOption(connection.FromUpgradeId) == null ||
+                    GetOption(connection.ToUpgradeId) == null)
                 {
                     return false;
                 }
