@@ -28,15 +28,26 @@ namespace CleanPlanet.UI
 
             _displayedGold = _wallet.Gold;
             UpdateLabel(_displayedGold);
+            _wallet.GoldSpent += HandleGoldSpent;
         }
 
         private void OnDisable()
         {
+            if (_wallet != null)
+            {
+                _wallet.GoldSpent -= HandleGoldSpent;
+            }
+
             if (_countUpCoroutine != null)
             {
                 StopCoroutine(_countUpCoroutine);
                 _countUpCoroutine = null;
             }
+        }
+
+        private void HandleGoldSpent(int _)
+        {
+            PlayCountUp(_wallet.Gold, 0f);
         }
 
         /// <summary>
