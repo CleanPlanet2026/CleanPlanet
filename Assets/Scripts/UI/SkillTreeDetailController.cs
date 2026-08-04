@@ -1,4 +1,5 @@
 using System;
+using CleanPlanet.Upgrade;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -11,6 +12,9 @@ namespace CleanPlanet.UI
         private sealed class SkillOption
         {
             [SerializeField] private Button _button;
+            [SerializeField] private string _upgradeId;
+            [SerializeField, Min(0)] private int _initialLevel;
+            [SerializeField, Min(1)] private int _maxLevel = 1;
             [SerializeField] private string _state;
             [SerializeField] private string _skillName;
             [SerializeField] private string _branch;
@@ -20,6 +24,9 @@ namespace CleanPlanet.UI
             [SerializeField] private string _cost;
 
             public Button Button => _button;
+            public string UpgradeId => _upgradeId;
+            public int InitialLevel => _initialLevel;
+            public int MaxLevel => _maxLevel;
             public string State => _state;
             public string SkillName => _skillName;
             public string Branch => _branch;
@@ -36,10 +43,13 @@ namespace CleanPlanet.UI
         [SerializeField] private Text _currentEffectText;
         [SerializeField] private Text _nextEffectText;
         [SerializeField] private Text _costText;
+        [SerializeField] private Button _upgradeButton;
         [SerializeField] private SkillOption[] _options;
         [SerializeField, Min(0)] private int _defaultOptionIndex;
 
+        private readonly UpgradeRuntimeState _runtimeState = new();
         private UnityAction[] _selectionActions;
+        private int _selectedOptionIndex;
 
         private void OnEnable()
         {
@@ -50,6 +60,7 @@ namespace CleanPlanet.UI
                 return;
             }
 
+            _upgradeButton.onClick.AddListener(UpgradeSelectedOption);
             _selectionActions = new UnityAction[_options.Length];
             for (int i = 0; i < _options.Length; i++)
             {
@@ -63,6 +74,11 @@ namespace CleanPlanet.UI
 
         private void OnDisable()
         {
+            if (_upgradeButton != null)
+            {
+                _upgradeButton.onClick.RemoveListener(UpgradeSelectedOption);
+            }
+
             if (_selectionActions == null || _options == null)
             {
                 return;
@@ -82,15 +98,39 @@ namespace CleanPlanet.UI
 
         private void SelectOption(int optionIndex)
         {
+            _selectedOptionIndex = optionIndex;
             SkillOption option = _options[optionIndex];
-            _stateText.text = option.State;
             _skillNameText.text = option.SkillName;
             _branchText.text = option.Branch;
             _descriptionText.text = option.Description;
-            _currentEffectText.text = option.CurrentEffect;
-            _nextEffectText.text = option.NextEffect;
-            _costText.text = option.Cost;
+            RefreshUpgradeState(option);
             option.Button.Select();
+        }
+
+        private void UpgradeSelectedOption()
+        {
+            SkillOption option = _options[_selectedOptionIndex];
+            if (_runtimeState.TryUpgrade(option.UpgradeId, option.InitialLevel, option.MaxLevel))
+            {
+                RefreshUpgradeState(option);
+            }
+        }
+
+        private void RefreshUpgradeState(SkillOption option)
+        {
+            int level = _runtimeState.GetLevel(option.UpgradeId, option.InitialLevel);
+            bool isMaxLevel = level >= option.MaxLevel;
+
+            string state = isMaxLevel && option.InitialLevel < option.MaxLevel
+                ? "● 강화 완료"
+                : option.State;
+            _stateText.text = $"{state}  Lv. {level}/{option.MaxLevel}";
+            _currentEffectText.text = level > option.InitialLevel
+                ? option.NextEffect
+                : option.CurrentEffect;
+            _nextEffectText.text = isMaxLevel ? "최대 레벨" : option.NextEffect;
+            _costText.text = isMaxLevel ? "-" : option.Cost;
+            _upgradeButton.interactable = !isMaxLevel;
         }
 
         private bool HasRequiredReferences()
@@ -102,6 +142,7 @@ namespace CleanPlanet.UI
                 _currentEffectText == null ||
                 _nextEffectText == null ||
                 _costText == null ||
+                _upgradeButton == null ||
                 _options == null ||
                 _options.Length == 0)
             {
@@ -110,7 +151,10 @@ namespace CleanPlanet.UI
 
             foreach (SkillOption option in _options)
             {
-                if (option == null || option.Button == null)
+                if (option == null ||
+                    option.Button == null ||
+                    string.IsNullOrWhiteSpace(option.UpgradeId) ||
+                    option.InitialLevel > option.MaxLevel)
                 {
                     return false;
                 }

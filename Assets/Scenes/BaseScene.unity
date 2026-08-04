@@ -6381,8 +6381,12 @@ MonoBehaviour:
   _currentEffectText: {fileID: 2082929880}
   _nextEffectText: {fileID: 1452319138}
   _costText: {fileID: 994194744}
+  _upgradeButton: {fileID: 420686993}
   _options:
   - _button: {fileID: 391231908}
+    _upgradeId: robot_core
+    _initialLevel: 1
+    _maxLevel: 1
     _state: "● 활성화"
     _skillName: "로봇 코어"
     _branch: "중앙 시스템"
@@ -6391,6 +6395,9 @@ MonoBehaviour:
     _nextEffect: "온라인"
     _cost: "0 G"
   - _button: {fileID: 1505420970}
+    _upgradeId: collection_grip
+    _initialLevel: 0
+    _maxLevel: 1
     _state: "● 구매 가능"
     _skillName: "집게 개선"
     _branch: "수집 숙련도"
@@ -6399,6 +6406,9 @@ MonoBehaviour:
     _nextEffect: "+20%"
     _cost: "500 G"
   - _button: {fileID: 26500642}
+    _upgradeId: collection_storage
+    _initialLevel: 0
+    _maxLevel: 1
     _state: "● 구매 가능"
     _skillName: "압축 수납"
     _branch: "수집 숙련도"
@@ -6407,6 +6417,9 @@ MonoBehaviour:
     _nextEffect: "+35%"
     _cost: "1,200 G"
   - _button: {fileID: 1397927988}
+    _upgradeId: collection_recovery
+    _initialLevel: 0
+    _maxLevel: 1
     _state: "● 구매 가능"
     _skillName: "자원 회수"
     _branch: "수집 숙련도"
@@ -6415,6 +6428,9 @@ MonoBehaviour:
     _nextEffect: "+50%"
     _cost: "2,500 G"
   - _button: {fileID: 1402707422}
+    _upgradeId: disassembly_parallel
+    _initialLevel: 0
+    _maxLevel: 1
     _state: "● 구매 가능"
     _skillName: "병렬 분해"
     _branch: "분해 숙련도"
@@ -6423,6 +6439,9 @@ MonoBehaviour:
     _nextEffect: "-20% 시간"
     _cost: "600 G"
   - _button: {fileID: 1760999685}
+    _upgradeId: disassembly_precision
+    _initialLevel: 0
+    _maxLevel: 1
     _state: "● 구매 가능"
     _skillName: "정밀 절단"
     _branch: "분해 숙련도"
@@ -6431,6 +6450,9 @@ MonoBehaviour:
     _nextEffect: "+30% 회수"
     _cost: "1,400 G"
   - _button: {fileID: 1793816550}
+    _upgradeId: disassembly_sorting
+    _initialLevel: 0
+    _maxLevel: 1
     _state: "● 구매 가능"
     _skillName: "자동 분류"
     _branch: "분해 숙련도"
@@ -6439,6 +6461,9 @@ MonoBehaviour:
     _nextEffect: "+45% 처리량"
     _cost: "2,800 G"
   - _button: {fileID: 1171074069}
+    _upgradeId: movement_calibration
+    _initialLevel: 0
+    _maxLevel: 1
     _state: "● 구매 가능"
     _skillName: "구동 보정"
     _branch: "이동 숙련도"
@@ -6447,6 +6472,9 @@ MonoBehaviour:
     _nextEffect: "+10% 속도"
     _cost: "450 G"
   - _button: {fileID: 592095168}
+    _upgradeId: movement_wheels
+    _initialLevel: 0
+    _maxLevel: 1
     _state: "● 구매 가능"
     _skillName: "경량 바퀴"
     _branch: "이동 숙련도"
@@ -6455,6 +6483,9 @@ MonoBehaviour:
     _nextEffect: "+20% 속도"
     _cost: "1,100 G"
   - _button: {fileID: 1616028521}
+    _upgradeId: movement_turbo
+    _initialLevel: 0
+    _maxLevel: 1
     _state: "● 구매 가능"
     _skillName: "터보 구동"
     _branch: "이동 숙련도"
@@ -6463,6 +6494,9 @@ MonoBehaviour:
     _nextEffect: "+40% 속도"
     _cost: "2,400 G"
   - _button: {fileID: 1135654489}
+    _upgradeId: appraisal_sensor
+    _initialLevel: 0
+    _maxLevel: 1
     _state: "● 구매 가능"
     _skillName: "센서 보정"
     _branch: "감정 숙련도"
@@ -6471,6 +6505,9 @@ MonoBehaviour:
     _nextEffect: "+4% 확률"
     _cost: "700 G"
   - _button: {fileID: 541338549}
+    _upgradeId: appraisal_pattern_learning
+    _initialLevel: 0
+    _maxLevel: 1
     _state: "● 구매 가능"
     _skillName: "패턴 학습 II"
     _branch: "감정 숙련도"
@@ -6479,6 +6516,9 @@ MonoBehaviour:
     _nextEffect: "+7% 확률"
     _cost: "2,500 G"
   - _button: {fileID: 1384804046}
+    _upgradeId: appraisal_rare_detection
+    _initialLevel: 0
+    _maxLevel: 1
     _state: "● 구매 가능"
     _skillName: "희귀 탐지"
     _branch: "감정 숙련도"
@@ -6487,6 +6527,9 @@ MonoBehaviour:
     _nextEffect: "+12% 보상"
     _cost: "4,000 G"
   - _button: {fileID: 434328725}
+    _upgradeId: battery_saving
+    _initialLevel: 0
+    _maxLevel: 1
     _state: "● 구매 가능"
     _skillName: "절전 회로"
     _branch: "배터리 숙련도"
@@ -6495,6 +6538,9 @@ MonoBehaviour:
     _nextEffect: "+20% 지속"
     _cost: "550 G"
   - _button: {fileID: 1180317926}
+    _upgradeId: battery_fast_charge
+    _initialLevel: 0
+    _maxLevel: 1
     _state: "● 구매 가능"
     _skillName: "고속 충전"
     _branch: "배터리 숙련도"
@@ -6503,6 +6549,9 @@ MonoBehaviour:
     _nextEffect: "-30% 충전"
     _cost: "1,300 G"
   - _button: {fileID: 1261816440}
+    _upgradeId: battery_high_density
+    _initialLevel: 0
+    _maxLevel: 1
     _state: "● 구매 가능"
     _skillName: "고밀도 전지"
     _branch: "배터리 숙련도"
