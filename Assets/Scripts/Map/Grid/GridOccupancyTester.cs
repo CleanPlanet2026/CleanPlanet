@@ -8,41 +8,25 @@ namespace CleanPlanet.Map
 {
     public class GridOccupancyTester : MonoBehaviour
     {
-        [SerializeField] private int _columns = 10;
-        [SerializeField] private int _rows = 8;
-        [SerializeField] private float _cellSize = 1f;
-        [SerializeField] private Vector2 _origin = new(-5f, -4f);
-
+        [SerializeField] private GridManager _gridManager;
         [SerializeField] private Vector2Int _spawnIndexA = new(2, 2);
-        [SerializeField] private Vector2Int _spawnIndexB = new(5, 4);
 
         private GridSystem _grid;
         private GridOccupancy _occupancy;
         private TargetCellSelector _selector;
         private GameObject _objectA;
-        private GameObject _objectB;
 
         private void Awake()
         {
-            _grid = new GridSystem(_columns, _rows, _cellSize, _origin);
-            _occupancy = new GridOccupancy(_grid);
+            if (_gridManager == null)
+            {
+                Debug.LogError("[Tester] GridManager가 할당되지 않았습니다.");
+                return;
+            }
+
+            _grid = _gridManager.Grid;
+            _occupancy = _gridManager.Occupancy;
             _selector = new TargetCellSelector(_grid, _occupancy);
-
-            _objectB = CreateSquareObject("Object B", Color.white, _spawnIndexB);
-            LogCell(_spawnIndexB, "B 스폰");
-
-            _objectB.GetComponent<GridOccupant>().Unregister();
-
-            var movement = _objectB.AddComponent<CleanPlanet.Player.PlayerMovement>();
-            movement.Grid = _grid;
-            movement.Occupancy = _occupancy;
-            movement.Register();
-
-            var clickToMove = _objectB.AddComponent<CleanPlanet.Player.PlayerClickToMove>();
-            clickToMove.Grid = _grid;
-            clickToMove.Occupancy = _occupancy;
-            clickToMove.Movement = movement;
-            clickToMove.Initialize();
         }
 
         [ContextMenu("Test: Spawn Object A")]
@@ -71,30 +55,14 @@ namespace CleanPlanet.Map
             LogCell(_spawnIndexA, "A 파괴 직후");
         }
 
-        [ContextMenu("Test: Destroy Object B")]
-        private void DestroyObjectB()
-        {
-            if (_objectB == null)
-            {
-                Debug.LogWarning("[Tester] Object B가 없습니다.");
-                return;
-            }
-            var occupant = _objectB.GetComponent<GridOccupant>();
-            Vector2Int lastIndex = occupant.CurrentIndex;
-            occupant.Unregister();
-            Destroy(_objectB);
-            _objectB = null;
-            LogCell(lastIndex, "B 파괴 직후");
-        }
-
         [ContextMenu("Test: Query All Cells")]
         private void QueryAllCells()
         {
             Debug.Log("[Tester] === 전체 점유 셀 조회 ===");
             bool anyOccupied = false;
-            for (int col = 0; col < _columns; col++)
+            for (int col = 0; col < _grid.Columns; col++)
             {
-                for (int row = 0; row < _rows; row++)
+                for (int row = 0; row < _grid.Rows; row++)
                 {
                     var index = new Vector2Int(col, row);
                     var occupant = _occupancy.GetOccupant(index);
@@ -110,14 +78,14 @@ namespace CleanPlanet.Map
         [ContextMenu("Test: Select Target Cell")]
         private void SelectTargetCell()
         {
-            if (_objectA == null || _objectB == null)
+            if (_objectA == null || _gridManager.Player == null)
             {
-                Debug.LogWarning("[Tester] Object A와 Object B가 모두 존재해야 합니다.");
+                Debug.LogWarning("[Tester] Object A와 GridManager의 Player가 모두 존재해야 합니다.");
                 return;
             }
 
             Vector2Int dummyIndex = _objectA.GetComponent<GridOccupant>().CurrentIndex;
-            Vector2Int robotIndex = _objectB.GetComponent<GridOccupant>().CurrentIndex;
+            Vector2Int robotIndex = _gridManager.Player.CurrentIndex;
 
             bool found = _selector.TrySelectTarget(dummyIndex, robotIndex, out Vector2Int target);
 
@@ -142,7 +110,7 @@ namespace CleanPlanet.Map
             sr.color = color;
 
             go.transform.position = _grid.GridToWorldCenter(gridIndex);
-            go.transform.localScale = new Vector3(_cellSize, _cellSize, 1f);
+            go.transform.localScale = new Vector3(_grid.CellSize, _grid.CellSize, 1f);
 
             var occupant = go.AddComponent<GridOccupant>();
             occupant.Occupancy = _occupancy;
@@ -155,64 +123,66 @@ namespace CleanPlanet.Map
 #if UNITY_EDITOR
         private void OnDrawGizmos()
         {
-            var grid = _grid ?? new GridSystem(_columns, _rows, _cellSize, _origin);
+            if (_gridManager == null) return;
+            var grid = _gridManager.Grid;
+            var occupancy = _gridManager.Occupancy;
 
             // 셀 경계선 (내부 포함)
             Gizmos.color = new Color(0.4f, 0.6f, 1f, 0.4f);
-            for (int row = 0; row <= _rows; row++)
+            for (int row = 0; row <= grid.Rows; row++)
             {
-                float y = _origin.y + row * _cellSize;
+                float y = grid.Origin.y + row * grid.CellSize;
                 Gizmos.DrawLine(
-                    new Vector3(_origin.x, y, 0f),
-                    new Vector3(_origin.x + _columns * _cellSize, y, 0f));
+                    new Vector3(grid.Origin.x, y, 0f),
+                    new Vector3(grid.Origin.x + grid.Columns * grid.CellSize, y, 0f));
             }
-            for (int col = 0; col <= _columns; col++)
+            for (int col = 0; col <= grid.Columns; col++)
             {
-                float x = _origin.x + col * _cellSize;
+                float x = grid.Origin.x + col * grid.CellSize;
                 Gizmos.DrawLine(
-                    new Vector3(x, _origin.y, 0f),
-                    new Vector3(x, _origin.y + _rows * _cellSize, 0f));
+                    new Vector3(x, grid.Origin.y, 0f),
+                    new Vector3(x, grid.Origin.y + grid.Rows * grid.CellSize, 0f));
             }
 
             // 그리드 외곽선 — 내부 경계선 위에 덮어 그려 노란색으로 강조
             Gizmos.color = Color.yellow;
             var gridCenter = new Vector3(
-                _origin.x + _columns * _cellSize * 0.5f,
-                _origin.y + _rows * _cellSize * 0.5f,
+                grid.Origin.x + grid.Columns * grid.CellSize * 0.5f,
+                grid.Origin.y + grid.Rows * grid.CellSize * 0.5f,
                 0f);
-            Gizmos.DrawWireCube(gridCenter, new Vector3(_columns * _cellSize, _rows * _cellSize, 0f));
+            Gizmos.DrawWireCube(gridCenter, new Vector3(grid.Columns * grid.CellSize, grid.Rows * grid.CellSize, 0f));
 
-            // 점유 셀 강조 (Play mode에서만 _occupancy가 존재)
-            if (_occupancy == null) return;
+            // 점유 셀 강조
             Gizmos.color = new Color(1f, 0.5f, 0f, 0.3f);
-            for (int col = 0; col < _columns; col++)
+            for (int col = 0; col < grid.Columns; col++)
             {
-                for (int row = 0; row < _rows; row++)
+                for (int row = 0; row < grid.Rows; row++)
                 {
                     var idx = new Vector2Int(col, row);
-                    if (!_occupancy.IsOccupied(idx)) continue;
+                    if (!occupancy.IsOccupied(idx)) continue;
                     Vector2 c = grid.GridToWorldCenter(idx);
                     Gizmos.DrawCube(
                         new Vector3(c.x, c.y, 0f),
-                        new Vector3(_cellSize * 0.9f, _cellSize * 0.9f, 0.01f));
+                        new Vector3(grid.CellSize * 0.9f, grid.CellSize * 0.9f, 0.01f));
                 }
             }
         }
 
         private void OnDrawGizmosSelected()
         {
-            var grid = _grid ?? new GridSystem(_columns, _rows, _cellSize, _origin);
+            if (_gridManager == null) return;
+            var grid = _gridManager.Grid;
             var style = new GUIStyle { fontSize = 9 };
             style.normal.textColor = Color.white;
 
             Gizmos.color = Color.red;
-            for (int col = 0; col < _columns; col++)
+            for (int col = 0; col < grid.Columns; col++)
             {
-                for (int row = 0; row < _rows; row++)
+                for (int row = 0; row < grid.Rows; row++)
                 {
                     Vector2 c = grid.GridToWorldCenter(new Vector2Int(col, row));
                     var pos = new Vector3(c.x, c.y, 0f);
-                    Gizmos.DrawSphere(pos, _cellSize * 0.05f);
+                    Gizmos.DrawSphere(pos, grid.CellSize * 0.05f);
                     Handles.Label(pos, $"({col},{row})", style);
                 }
             }
