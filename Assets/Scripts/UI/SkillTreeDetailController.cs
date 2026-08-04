@@ -1,4 +1,5 @@
 using System;
+using CleanPlanet.Core.Currency;
 using CleanPlanet.Upgrade;
 using UnityEngine;
 using UnityEngine.Events;
@@ -22,6 +23,7 @@ namespace CleanPlanet.UI
             [SerializeField] private string _currentEffect;
             [SerializeField] private string _nextEffect;
             [SerializeField] private string _cost;
+            [SerializeField, Min(0)] private int _costAmount;
 
             public Button Button => _button;
             public string UpgradeId => _upgradeId;
@@ -34,6 +36,7 @@ namespace CleanPlanet.UI
             public string CurrentEffect => _currentEffect;
             public string NextEffect => _nextEffect;
             public string Cost => _cost;
+            public int CostAmount => _costAmount;
         }
 
         [SerializeField] private Text _stateText;
@@ -44,6 +47,7 @@ namespace CleanPlanet.UI
         [SerializeField] private Text _nextEffectText;
         [SerializeField] private Text _costText;
         [SerializeField] private Button _upgradeButton;
+        [SerializeField] private CurrencyWallet _wallet;
         [SerializeField] private SkillOption[] _options;
         [SerializeField, Min(0)] private int _defaultOptionIndex;
 
@@ -60,6 +64,7 @@ namespace CleanPlanet.UI
                 return;
             }
 
+            _wallet.GoldChanged += HandleGoldChanged;
             _upgradeButton.onClick.AddListener(UpgradeSelectedOption);
             _selectionActions = new UnityAction[_options.Length];
             for (int i = 0; i < _options.Length; i++)
@@ -74,6 +79,11 @@ namespace CleanPlanet.UI
 
         private void OnDisable()
         {
+            if (_wallet != null)
+            {
+                _wallet.GoldChanged -= HandleGoldChanged;
+            }
+
             if (_upgradeButton != null)
             {
                 _upgradeButton.onClick.RemoveListener(UpgradeSelectedOption);
@@ -110,10 +120,22 @@ namespace CleanPlanet.UI
         private void UpgradeSelectedOption()
         {
             SkillOption option = _options[_selectedOptionIndex];
+            int level = _runtimeState.GetLevel(option.UpgradeId, option.InitialLevel);
+            if (level >= option.MaxLevel || !_wallet.TrySpend(option.CostAmount))
+            {
+                RefreshUpgradeState(option);
+                return;
+            }
+
             if (_runtimeState.TryUpgrade(option.UpgradeId, option.InitialLevel, option.MaxLevel))
             {
                 RefreshUpgradeState(option);
             }
+        }
+
+        private void HandleGoldChanged(int _)
+        {
+            RefreshUpgradeState(_options[_selectedOptionIndex]);
         }
 
         private void RefreshUpgradeState(SkillOption option)
@@ -130,7 +152,7 @@ namespace CleanPlanet.UI
                 : option.CurrentEffect;
             _nextEffectText.text = isMaxLevel ? "최대 레벨" : option.NextEffect;
             _costText.text = isMaxLevel ? "-" : option.Cost;
-            _upgradeButton.interactable = !isMaxLevel;
+            _upgradeButton.interactable = !isMaxLevel && _wallet.Gold >= option.CostAmount;
         }
 
         private bool HasRequiredReferences()
@@ -143,6 +165,7 @@ namespace CleanPlanet.UI
                 _nextEffectText == null ||
                 _costText == null ||
                 _upgradeButton == null ||
+                _wallet == null ||
                 _options == null ||
                 _options.Length == 0)
             {

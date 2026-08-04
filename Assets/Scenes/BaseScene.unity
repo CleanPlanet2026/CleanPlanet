@@ -6382,6 +6382,7 @@ MonoBehaviour:
   _nextEffectText: {fileID: 1452319138}
   _costText: {fileID: 994194744}
   _upgradeButton: {fileID: 420686993}
+  _wallet: {fileID: 25087312}
   _options:
   - _button: {fileID: 391231908}
     _upgradeId: robot_core
@@ -6394,6 +6395,7 @@ MonoBehaviour:
     _currentEffect: "온라인"
     _nextEffect: "온라인"
     _cost: "0 G"
+    _costAmount: 0
   - _button: {fileID: 1505420970}
     _upgradeId: collection_grip
     _initialLevel: 0
@@ -6405,6 +6407,7 @@ MonoBehaviour:
     _currentEffect: "+10%"
     _nextEffect: "+20%"
     _cost: "500 G"
+    _costAmount: 500
   - _button: {fileID: 26500642}
     _upgradeId: collection_storage
     _initialLevel: 0
@@ -6416,6 +6419,7 @@ MonoBehaviour:
     _currentEffect: "+20%"
     _nextEffect: "+35%"
     _cost: "1,200 G"
+    _costAmount: 1200
   - _button: {fileID: 1397927988}
     _upgradeId: collection_recovery
     _initialLevel: 0
@@ -6427,6 +6431,7 @@ MonoBehaviour:
     _currentEffect: "+30%"
     _nextEffect: "+50%"
     _cost: "2,500 G"
+    _costAmount: 2500
   - _button: {fileID: 1402707422}
     _upgradeId: disassembly_parallel
     _initialLevel: 0
@@ -6438,6 +6443,7 @@ MonoBehaviour:
     _currentEffect: "-10% 시간"
     _nextEffect: "-20% 시간"
     _cost: "600 G"
+    _costAmount: 600
   - _button: {fileID: 1760999685}
     _upgradeId: disassembly_precision
     _initialLevel: 0
@@ -6449,6 +6455,7 @@ MonoBehaviour:
     _currentEffect: "+15% 회수"
     _nextEffect: "+30% 회수"
     _cost: "1,400 G"
+    _costAmount: 1400
   - _button: {fileID: 1793816550}
     _upgradeId: disassembly_sorting
     _initialLevel: 0
@@ -6460,6 +6467,7 @@ MonoBehaviour:
     _currentEffect: "+25% 처리량"
     _nextEffect: "+45% 처리량"
     _cost: "2,800 G"
+    _costAmount: 2800
   - _button: {fileID: 1171074069}
     _upgradeId: movement_calibration
     _initialLevel: 0
@@ -6471,6 +6479,7 @@ MonoBehaviour:
     _currentEffect: "+5% 속도"
     _nextEffect: "+10% 속도"
     _cost: "450 G"
+    _costAmount: 450
   - _button: {fileID: 592095168}
     _upgradeId: movement_wheels
     _initialLevel: 0
@@ -6482,6 +6491,7 @@ MonoBehaviour:
     _currentEffect: "+12% 속도"
     _nextEffect: "+20% 속도"
     _cost: "1,100 G"
+    _costAmount: 1100
   - _button: {fileID: 1616028521}
     _upgradeId: movement_turbo
     _initialLevel: 0
@@ -6493,6 +6503,7 @@ MonoBehaviour:
     _currentEffect: "+25% 속도"
     _nextEffect: "+40% 속도"
     _cost: "2,400 G"
+    _costAmount: 2400
   - _button: {fileID: 1135654489}
     _upgradeId: appraisal_sensor
     _initialLevel: 0
@@ -6504,6 +6515,7 @@ MonoBehaviour:
     _currentEffect: "+2% 확률"
     _nextEffect: "+4% 확률"
     _cost: "700 G"
+    _costAmount: 700
   - _button: {fileID: 541338549}
     _upgradeId: appraisal_pattern_learning
     _initialLevel: 0
@@ -6515,6 +6527,7 @@ MonoBehaviour:
     _currentEffect: "+4% 확률"
     _nextEffect: "+7% 확률"
     _cost: "2,500 G"
+    _costAmount: 2500
   - _button: {fileID: 1384804046}
     _upgradeId: appraisal_rare_detection
     _initialLevel: 0
@@ -6526,6 +6539,7 @@ MonoBehaviour:
     _currentEffect: "+8% 보상"
     _nextEffect: "+12% 보상"
     _cost: "4,000 G"
+    _costAmount: 4000
   - _button: {fileID: 434328725}
     _upgradeId: battery_saving
     _initialLevel: 0
@@ -6537,6 +6551,7 @@ MonoBehaviour:
     _currentEffect: "+10% 지속"
     _nextEffect: "+20% 지속"
     _cost: "550 G"
+    _costAmount: 550
   - _button: {fileID: 1180317926}
     _upgradeId: battery_fast_charge
     _initialLevel: 0
@@ -6548,6 +6563,7 @@ MonoBehaviour:
     _currentEffect: "-15% 충전"
     _nextEffect: "-30% 충전"
     _cost: "1,300 G"
+    _costAmount: 1300
   - _button: {fileID: 1261816440}
     _upgradeId: battery_high_density
     _initialLevel: 0
@@ -6559,6 +6575,7 @@ MonoBehaviour:
     _currentEffect: "+30% 지속"
     _nextEffect: "+50% 지속"
     _cost: "2,700 G"
+    _costAmount: 2700
   _defaultOptionIndex: 11
 --- !u!1 &741636551
 GameObject:

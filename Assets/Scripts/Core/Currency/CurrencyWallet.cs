@@ -27,5 +27,22 @@ namespace CleanPlanet.Core.Currency
             GoldChanged?.Invoke(_gold);
             GoldAdded?.Invoke(amount);
         }
+
+        public bool TrySpend(int amount)
+        {
+            if (amount < 0 || _gold < amount)
+            {
+                return false;
+            }
+
+            if (amount == 0)
+            {
+                return true;
+            }
+
+            _gold -= amount;
+            GoldChanged?.Invoke(_gold);
+            return true;
+        }
     }
 }
