@@ -13,7 +13,6 @@ namespace CleanPlanet.Core.Currency
 
         public event Action<int> GoldChanged;
         public event Action<int> GoldAdded;
-        public event Action<int> GoldSpent;
 
         public int Gold => _gold;
 
@@ -43,7 +42,6 @@ namespace CleanPlanet.Core.Currency
 
             _gold -= amount;
             GoldChanged?.Invoke(_gold);
-            GoldSpent?.Invoke(amount);
             return true;
         }
     }

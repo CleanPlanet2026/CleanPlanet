@@ -4811,7 +4811,6 @@ MonoBehaviour:
   _tierTable: {fileID: 11400000, guid: 8b8307e046d5d43389901cc59aa423b5, type: 2}
   _wallet: {fileID: 25087312}
   _spawner: {fileID: 1222288587}
-  _hud: {fileID: 179816449}
   _audioSource: {fileID: 591098481}
   _cameraShake: {fileID: 753275910}
   _screenFlash: {fileID: 437139271}
