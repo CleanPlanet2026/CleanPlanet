@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3914804b97144e646b28b7e6d4a57bae, type: 3}
+  m_Name: GeneralTrashPile
+  m_EditorClassIdentifier: Assembly-CSharp::CleanPlanet.Trash.TrashPileType
+  _name: General
+  _prefab: {fileID: 2745287877070949079, guid: 68324efef2d5b0840b8314b1805aeae9, type: 3}
+  _spawnWeight: 1
+  _dropTable:
+  - Collectible: {fileID: 11400000, guid: 70a9d8cbe5c3b4103a0d56f30aba1d20, type: 2}
+    Weight: 1
+  - Collectible: {fileID: 11400000, guid: 51180610bcca746e18c5d45f2f0eee74, type: 2}
+    Weight: 1
+  - Collectible: {fileID: 11400000, guid: ce363888d92fb44eca923c0b19b97925, type: 2}
+    Weight: 1
+  - Collectible: {fileID: 11400000, guid: eff856c10005f4395b8301585afbd63b, type: 2}
+    Weight: 1
