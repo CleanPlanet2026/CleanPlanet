@@ -4,6 +4,8 @@
 
 > 감정 테스트 UI: 기존 `DebugPanel`을 감정 화면 구성에 포함해 감정 탭에서만 샘플 감정 및 탱크 초기화 버튼이 활성화되도록 연결했다.
 
+> 감정 테스트 연출: 비활성화되어 있던 `EffectDirector`, `CoinLayer`, `ScreenFlash`, `TierBanner`를 활성화해 테스트 버튼의 골드 지급 이벤트가 기존 코인·사운드·흔들림·플래시·배너 연출로 이어지도록 복구했다.
+
 ## 개요
 
 - 브랜치: `feature/runtime-upgrade-state`
