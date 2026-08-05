@@ -1270,10 +1270,502 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fa473e249e02345a494b35394fd5c034, type: 3}
-  m_Name: 
+  m_Name:
   m_EditorClassIdentifier: Assembly-CSharp::CleanPlanet.UI.CurrencyHudView
   _wallet: {fileID: 25087312}
   _label: {fileID: 179816446}
+--- !u!1 &5501000001
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5501000002}
+  - component: {fileID: 5501000003}
+  - component: {fileID: 5501000004}
+  - component: {fileID: 5501000005}
+  m_Layer: 0
+  m_Name: Battery Bar
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &5501000002
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5501000001}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 5502000002}
+  - {fileID: 5503000002}
+  m_Father: {fileID: 753275909}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 24, y: -24}
+  m_SizeDelta: {x: 300, y: 48}
+  m_Pivot: {x: 0, y: 1}
+--- !u!222 &5501000003
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5501000001}
+  m_CullTransparentMesh: 1
+--- !u!114 &5501000004
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5501000001}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+  m_Material: {fileID: 0}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.6}
+  m_RaycastTarget: 0
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!114 &5501000005
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5501000001}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c8f21a9d4b6e0517c2f9a83e6d41b02, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::CleanPlanet.UI.BatteryHudView
+  _fillImage: {fileID: 5502000004}
+  _label: {fileID: 5503000004}
+--- !u!1 &5502000001
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5502000002}
+  - component: {fileID: 5502000003}
+  - component: {fileID: 5502000004}
+  m_Layer: 0
+  m_Name: Fill
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &5502000002
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5502000001}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5501000002}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: -8, y: -8}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &5502000003
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5502000001}
+  m_CullTransparentMesh: 1
+--- !u!114 &5502000004
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5502000001}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.3, g: 0.85, b: 0.3, a: 1}
+  m_RaycastTarget: 0
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
+  m_Type: 3
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 0
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!1 &5503000001
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5503000002}
+  - component: {fileID: 5503000003}
+  - component: {fileID: 5503000004}
+  m_Layer: 0
+  m_Name: Percent Label
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &5503000002
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5503000001}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5501000002}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &5503000003
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5503000001}
+  m_CullTransparentMesh: 1
+--- !u!114 &5503000004
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5503000001}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Text
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 0
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 12800000, guid: aadee97f146b64219b87f9bbbdb39e50, type: 3}
+    m_FontSize: 28
+    m_FontStyle: 0
+    m_BestFit: 0
+    m_MinSize: 10
+    m_MaxSize: 40
+    m_Alignment: 4
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: 100%
+--- !u!1 &5504000001
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5504000002}
+  - component: {fileID: 5504000003}
+  - component: {fileID: 5504000004}
+  - component: {fileID: 5504000005}
+  m_Layer: 0
+  m_Name: Launch Exploration Button
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &5504000002
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5504000001}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 5505000002}
+  - {fileID: 5506000002}
+  m_Father: {fileID: 753275909}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 1, y: 0}
+  m_AnchorMax: {x: 1, y: 0}
+  m_AnchoredPosition: {x: -24, y: 24}
+  m_SizeDelta: {x: 220, y: 72}
+  m_Pivot: {x: 1, y: 0}
+--- !u!222 &5504000003
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5504000001}
+  m_CullTransparentMesh: 1
+--- !u!114 &5504000004
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5504000001}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.12, g: 0.12, b: 0.12, a: 0.85}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!114 &5504000005
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5504000001}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e7a92c1d5b83f406a19c2e8b7d0f4a1, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::CleanPlanet.UI.HoldToConfirmButton
+  _holdDuration: 3
+  _progressFill: {fileID: 5505000004}
+--- !u!1 &5505000001
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5505000002}
+  - component: {fileID: 5505000003}
+  - component: {fileID: 5505000004}
+  m_Layer: 0
+  m_Name: Fill
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &5505000002
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5505000001}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5504000002}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &5505000003
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5505000001}
+  m_CullTransparentMesh: 1
+--- !u!114 &5505000004
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5505000001}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.3, g: 0.75, b: 0.95, a: 0.55}
+  m_RaycastTarget: 0
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
+  m_Type: 3
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 0
+  m_FillAmount: 0
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!1 &5506000001
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5506000002}
+  - component: {fileID: 5506000003}
+  - component: {fileID: 5506000004}
+  m_Layer: 0
+  m_Name: Label
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &5506000002
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5506000001}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5504000002}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &5506000003
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5506000001}
+  m_CullTransparentMesh: 1
+--- !u!114 &5506000004
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5506000001}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Text
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 0
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 12800000, guid: aadee97f146b64219b87f9bbbdb39e50, type: 3}
+    m_FontSize: 28
+    m_FontStyle: 1
+    m_BestFit: 0
+    m_MinSize: 10
+    m_MaxSize: 40
+    m_Alignment: 4
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: "탐험 출발"
 --- !u!1 &182913344
 GameObject:
   m_ObjectHideFlags: 0
@@ -3173,7 +3665,7 @@ RectTransform:
   m_GameObject: {fileID: 422875624}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.8078064, y: 0.8078064, z: 1}
+  m_LocalScale: {x: 0.6875, y: 0.6875, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2005949850}
@@ -6364,286 +6856,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 721973281}
   m_CullTransparentMesh: 1
---- !u!114 &2200000001
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 721973281}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7ce9516be9934939977fc3c5f2732c56, type: 3}
-  m_Name:
-  m_EditorClassIdentifier: Assembly-CSharp::CleanPlanet.UI.SkillTreeDetailController
-  _stateText: {fileID: 838743088}
-  _skillNameText: {fileID: 46719770}
-  _branchText: {fileID: 320063753}
-  _descriptionText: {fileID: 852507327}
-  _currentEffectText: {fileID: 2082929880}
-  _nextEffectText: {fileID: 1452319138}
-  _costText: {fileID: 994194744}
-  _upgradeButton: {fileID: 420686993}
-  _wallet: {fileID: 25087312}
-  _options:
-  - _button: {fileID: 391231908}
-    _upgradeId: robot_core
-    _prerequisiteId:
-    _initialLevel: 1
-    _maxLevel: 1
-    _state: "● 활성화"
-    _skillName: "로봇 코어"
-    _branch: "중앙 시스템"
-    _description: "모든 재활용 작업을 제어하는 로봇의 핵심 시스템입니다."
-    _currentEffect: "온라인"
-    _nextEffect: "온라인"
-    _cost: "0 G"
-    _costAmount: 0
-  - _button: {fileID: 1505420970}
-    _upgradeId: collection_grip
-    _prerequisiteId: robot_core
-    _initialLevel: 0
-    _maxLevel: 1
-    _state: "● 구매 가능"
-    _skillName: "집게 개선"
-    _branch: "수집 숙련도"
-    _description: "집게의 정밀도를 높여 쓰레기 수집 효율을 개선합니다."
-    _currentEffect: "+10%"
-    _nextEffect: "+20%"
-    _cost: "500 G"
-    _costAmount: 500
-  - _button: {fileID: 26500642}
-    _upgradeId: collection_storage
-    _prerequisiteId: collection_grip
-    _initialLevel: 0
-    _maxLevel: 1
-    _state: "● 구매 가능"
-    _skillName: "압축 수납"
-    _branch: "수집 숙련도"
-    _description: "수집물을 압축해 한 번에 운반할 수 있는 양을 늘립니다."
-    _currentEffect: "+20%"
-    _nextEffect: "+35%"
-    _cost: "1,200 G"
-    _costAmount: 1200
-  - _button: {fileID: 1397927988}
-    _upgradeId: collection_recovery
-    _prerequisiteId: collection_storage
-    _initialLevel: 0
-    _maxLevel: 1
-    _state: "● 구매 가능"
-    _skillName: "자원 회수"
-    _branch: "수집 숙련도"
-    _description: "누락되는 재활용 자원을 줄여 수집 보상을 높입니다."
-    _currentEffect: "+30%"
-    _nextEffect: "+50%"
-    _cost: "2,500 G"
-    _costAmount: 2500
-  - _button: {fileID: 1402707422}
-    _upgradeId: disassembly_parallel
-    _prerequisiteId: robot_core
-    _initialLevel: 0
-    _maxLevel: 1
-    _state: "● 구매 가능"
-    _skillName: "병렬 분해"
-    _branch: "분해 숙련도"
-    _description: "여러 부품을 동시에 처리해 분해 시간을 단축합니다."
-    _currentEffect: "-10% 시간"
-    _nextEffect: "-20% 시간"
-    _cost: "600 G"
-    _costAmount: 600
-  - _button: {fileID: 1760999685}
-    _upgradeId: disassembly_precision
-    _prerequisiteId: disassembly_parallel
-    _initialLevel: 0
-    _maxLevel: 1
-    _state: "● 구매 가능"
-    _skillName: "정밀 절단"
-    _branch: "분해 숙련도"
-    _description: "정밀한 절단으로 분해 과정의 자원 손실을 줄입니다."
-    _currentEffect: "+15% 회수"
-    _nextEffect: "+30% 회수"
-    _cost: "1,400 G"
-    _costAmount: 1400
-  - _button: {fileID: 1793816550}
-    _upgradeId: disassembly_sorting
-    _prerequisiteId: disassembly_precision
-    _initialLevel: 0
-    _maxLevel: 1
-    _state: "● 구매 가능"
-    _skillName: "자동 분류"
-    _branch: "분해 숙련도"
-    _description: "분해된 부품을 자동으로 분류해 처리량을 높입니다."
-    _currentEffect: "+25% 처리량"
-    _nextEffect: "+45% 처리량"
-    _cost: "2,800 G"
-    _costAmount: 2800
-  - _button: {fileID: 1171074069}
-    _upgradeId: movement_calibration
-    _prerequisiteId: robot_core
-    _initialLevel: 0
-    _maxLevel: 1
-    _state: "● 구매 가능"
-    _skillName: "구동 보정"
-    _branch: "이동 숙련도"
-    _description: "구동계를 보정해 이동 속도와 안정성을 높입니다."
-    _currentEffect: "+5% 속도"
-    _nextEffect: "+10% 속도"
-    _cost: "450 G"
-    _costAmount: 450
-  - _button: {fileID: 592095168}
-    _upgradeId: movement_wheels
-    _prerequisiteId: movement_calibration
-    _initialLevel: 0
-    _maxLevel: 1
-    _state: "● 구매 가능"
-    _skillName: "경량 바퀴"
-    _branch: "이동 숙련도"
-    _description: "가벼운 바퀴로 교체해 목표 지점까지 더 빠르게 이동합니다."
-    _currentEffect: "+12% 속도"
-    _nextEffect: "+20% 속도"
-    _cost: "1,100 G"
-    _costAmount: 1100
-  - _button: {fileID: 1616028521}
-    _upgradeId: movement_turbo
-    _prerequisiteId: movement_wheels
-    _initialLevel: 0
-    _maxLevel: 1
-    _state: "● 구매 가능"
-    _skillName: "터보 구동"
-    _branch: "이동 숙련도"
-    _description: "고출력 구동 장치로 장거리 이동 시간을 크게 줄입니다."
-    _currentEffect: "+25% 속도"
-    _nextEffect: "+40% 속도"
-    _cost: "2,400 G"
-    _costAmount: 2400
-  - _button: {fileID: 1135654489}
-    _upgradeId: appraisal_sensor
-    _prerequisiteId: robot_core
-    _initialLevel: 0
-    _maxLevel: 1
-    _state: "● 구매 가능"
-    _skillName: "센서 보정"
-    _branch: "감정 숙련도"
-    _description: "감정 센서를 보정해 높은 배수가 등장할 확률을 높입니다."
-    _currentEffect: "+2% 확률"
-    _nextEffect: "+4% 확률"
-    _cost: "700 G"
-    _costAmount: 700
-  - _button: {fileID: 541338549}
-    _upgradeId: appraisal_pattern_learning
-    _prerequisiteId: appraisal_sensor
-    _initialLevel: 0
-    _maxLevel: 1
-    _state: "● 구매 가능"
-    _skillName: "패턴 학습 II"
-    _branch: "감정 숙련도"
-    _description: "감정 데이터의 패턴을 학습해 높은 배수의 등장률을 개선합니다."
-    _currentEffect: "+4% 확률"
-    _nextEffect: "+7% 확률"
-    _cost: "2,500 G"
-    _costAmount: 2500
-  - _button: {fileID: 1384804046}
-    _upgradeId: appraisal_rare_detection
-    _prerequisiteId: appraisal_pattern_learning
-    _initialLevel: 0
-    _maxLevel: 1
-    _state: "● 구매 가능"
-    _skillName: "희귀 탐지"
-    _branch: "감정 숙련도"
-    _description: "희귀한 수집물의 특징을 빠르게 식별해 감정 보상을 높입니다."
-    _currentEffect: "+8% 보상"
-    _nextEffect: "+12% 보상"
-    _cost: "4,000 G"
-    _costAmount: 4000
-  - _button: {fileID: 434328725}
-    _upgradeId: battery_saving
-    _prerequisiteId: robot_core
-    _initialLevel: 0
-    _maxLevel: 1
-    _state: "● 구매 가능"
-    _skillName: "절전 회로"
-    _branch: "배터리 숙련도"
-    _description: "불필요한 전력 소비를 줄여 작업 지속 시간을 늘립니다."
-    _currentEffect: "+10% 지속"
-    _nextEffect: "+20% 지속"
-    _cost: "550 G"
-    _costAmount: 550
-  - _button: {fileID: 1180317926}
-    _upgradeId: battery_fast_charge
-    _prerequisiteId: battery_saving
-    _initialLevel: 0
-    _maxLevel: 1
-    _state: "● 구매 가능"
-    _skillName: "고속 충전"
-    _branch: "배터리 숙련도"
-    _description: "충전 효율을 높여 작업 복귀 시간을 단축합니다."
-    _currentEffect: "-15% 충전"
-    _nextEffect: "-30% 충전"
-    _cost: "1,300 G"
-    _costAmount: 1300
-  - _button: {fileID: 1261816440}
-    _upgradeId: battery_high_density
-    _prerequisiteId: battery_fast_charge
-    _initialLevel: 0
-    _maxLevel: 1
-    _state: "● 구매 가능"
-    _skillName: "고밀도 전지"
-    _branch: "배터리 숙련도"
-    _description: "고밀도 전지를 사용해 최대 작업 시간을 크게 늘립니다."
-    _currentEffect: "+30% 지속"
-    _nextEffect: "+50% 지속"
-    _cost: "2,700 G"
-    _costAmount: 2700
-  _connections:
-  - _fromUpgradeId: robot_core
-    _toUpgradeId: appraisal_sensor
-    _line: {fileID: 1103835343}
-  - _fromUpgradeId: appraisal_sensor
-    _toUpgradeId: appraisal_pattern_learning
-    _line: {fileID: 1074359588}
-  - _fromUpgradeId: appraisal_pattern_learning
-    _toUpgradeId: appraisal_rare_detection
-    _line: {fileID: 1414291110}
-  - _fromUpgradeId: robot_core
-    _toUpgradeId: disassembly_parallel
-    _line: {fileID: 1650277670}
-  - _fromUpgradeId: disassembly_parallel
-    _toUpgradeId: disassembly_precision
-    _line: {fileID: 670357242}
-  - _fromUpgradeId: disassembly_precision
-    _toUpgradeId: disassembly_sorting
-    _line: {fileID: 114446441}
-  - _fromUpgradeId: robot_core
-    _toUpgradeId: battery_saving
-    _line: {fileID: 1443597984}
-  - _fromUpgradeId: battery_saving
-    _toUpgradeId: battery_fast_charge
-    _line: {fileID: 412858631}
-  - _fromUpgradeId: battery_fast_charge
-    _toUpgradeId: battery_high_density
-    _line: {fileID: 1928260336}
-  - _fromUpgradeId: robot_core
-    _toUpgradeId: movement_calibration
-    _line: {fileID: 2005949851}
-  - _fromUpgradeId: movement_calibration
-    _toUpgradeId: movement_wheels
-    _line: {fileID: 2096848731}
-  - _fromUpgradeId: movement_wheels
-    _toUpgradeId: movement_turbo
-    _line: {fileID: 1249149391}
-  - _fromUpgradeId: robot_core
-    _toUpgradeId: collection_grip
-    _line: {fileID: 212287509}
-  - _fromUpgradeId: collection_grip
-    _toUpgradeId: collection_storage
-    _line: {fileID: 1227983779}
-  - _fromUpgradeId: collection_storage
-    _toUpgradeId: collection_recovery
-    _line: {fileID: 1275965782}
-  _defaultOptionIndex: 11
-  _lockedColor: {r: 0.25, g: 0.32, b: 0.35, a: 1}
-  _availableColor: {r: 1, g: 0.82, b: 0.4, a: 1}
-  _upgradedColor: {r: 0.22, g: 0.85, b: 0.77, a: 1}
 --- !u!1 &741636551
 GameObject:
   m_ObjectHideFlags: 0
@@ -6760,6 +6972,8 @@ RectTransform:
   - {fileID: 1546296875}
   - {fileID: 595946956}
   - {fileID: 179816448}
+  - {fileID: 5501000002}
+  - {fileID: 5504000002}
   m_Father: {fileID: 1849676687}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -10384,6 +10598,68 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1324081336
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1324081339}
+  - component: {fileID: 1324081338}
+  - component: {fileID: 1324081337}
+  m_Layer: 0
+  m_Name: BatteryCharger
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1324081337
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1324081336}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 197b3a5b6695b0445a4e85a7a2b0960b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CleanPlanet.Core.Robot.ExplorationLauncher
+  _gameSceneName: GameScene
+  _launchKeyBinding: <Keyboard>/r
+  _minChargeToExplore: 100
+  _launchButton: {fileID: 5504000005}
+--- !u!114 &1324081338
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1324081336}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87d552778fe2789438ce71cde5709043, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CleanPlanet.Core.Robot.BatteryCharger
+  _rechargePerSecond: 10
+--- !u!4 &1324081339
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1324081336}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 958.26514, y: 551.2156, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -16142,6 +16418,302 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2146179014}
   m_CullTransparentMesh: 1
+--- !u!114 &2200000001
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 721973281}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ce9516be9934939977fc3c5f2732c56, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CleanPlanet.UI.SkillTreeDetailController
+  _stateText: {fileID: 838743088}
+  _skillNameText: {fileID: 46719770}
+  _branchText: {fileID: 320063753}
+  _descriptionText: {fileID: 852507327}
+  _currentEffectText: {fileID: 2082929880}
+  _nextEffectText: {fileID: 1452319138}
+  _costText: {fileID: 994194744}
+  _upgradeButton: {fileID: 420686993}
+  _wallet: {fileID: 25087312}
+  _options:
+  - _button: {fileID: 391231908}
+    _upgradeId: robot_core
+    _prerequisiteId: 
+    _initialLevel: 1
+    _maxLevel: 1
+    _state: "\u25CF \uD65C\uC131\uD654"
+    _skillName: "\uB85C\uBD07 \uCF54\uC5B4"
+    _branch: "\uC911\uC559 \uC2DC\uC2A4\uD15C"
+    _description: "\uBAA8\uB4E0 \uC7AC\uD65C\uC6A9 \uC791\uC5C5\uC744 \uC81C\uC5B4\uD558\uB294
+      \uB85C\uBD07\uC758 \uD575\uC2EC \uC2DC\uC2A4\uD15C\uC785\uB2C8\uB2E4."
+    _currentEffect: "\uC628\uB77C\uC778"
+    _nextEffect: "\uC628\uB77C\uC778"
+    _cost: 0 G
+    _costAmount: 0
+  - _button: {fileID: 1505420970}
+    _upgradeId: collection_grip
+    _prerequisiteId: robot_core
+    _initialLevel: 0
+    _maxLevel: 1
+    _state: "\u25CF \uAD6C\uB9E4 \uAC00\uB2A5"
+    _skillName: "\uC9D1\uAC8C \uAC1C\uC120"
+    _branch: "\uC218\uC9D1 \uC219\uB828\uB3C4"
+    _description: "\uC9D1\uAC8C\uC758 \uC815\uBC00\uB3C4\uB97C \uB192\uC5EC \uC4F0\uB808\uAE30
+      \uC218\uC9D1 \uD6A8\uC728\uC744 \uAC1C\uC120\uD569\uB2C8\uB2E4."
+    _currentEffect: +10%
+    _nextEffect: +20%
+    _cost: 500 G
+    _costAmount: 500
+  - _button: {fileID: 26500642}
+    _upgradeId: collection_storage
+    _prerequisiteId: collection_grip
+    _initialLevel: 0
+    _maxLevel: 1
+    _state: "\u25CF \uAD6C\uB9E4 \uAC00\uB2A5"
+    _skillName: "\uC555\uCD95 \uC218\uB0A9"
+    _branch: "\uC218\uC9D1 \uC219\uB828\uB3C4"
+    _description: "\uC218\uC9D1\uBB3C\uC744 \uC555\uCD95\uD574 \uD55C \uBC88\uC5D0
+      \uC6B4\uBC18\uD560 \uC218 \uC788\uB294 \uC591\uC744 \uB298\uB9BD\uB2C8\uB2E4."
+    _currentEffect: +20%
+    _nextEffect: +35%
+    _cost: 1,200 G
+    _costAmount: 1200
+  - _button: {fileID: 1397927988}
+    _upgradeId: collection_recovery
+    _prerequisiteId: collection_storage
+    _initialLevel: 0
+    _maxLevel: 1
+    _state: "\u25CF \uAD6C\uB9E4 \uAC00\uB2A5"
+    _skillName: "\uC790\uC6D0 \uD68C\uC218"
+    _branch: "\uC218\uC9D1 \uC219\uB828\uB3C4"
+    _description: "\uB204\uB77D\uB418\uB294 \uC7AC\uD65C\uC6A9 \uC790\uC6D0\uC744
+      \uC904\uC5EC \uC218\uC9D1 \uBCF4\uC0C1\uC744 \uB192\uC785\uB2C8\uB2E4."
+    _currentEffect: +30%
+    _nextEffect: +50%
+    _cost: 2,500 G
+    _costAmount: 2500
+  - _button: {fileID: 1402707422}
+    _upgradeId: disassembly_parallel
+    _prerequisiteId: robot_core
+    _initialLevel: 0
+    _maxLevel: 1
+    _state: "\u25CF \uAD6C\uB9E4 \uAC00\uB2A5"
+    _skillName: "\uBCD1\uB82C \uBD84\uD574"
+    _branch: "\uBD84\uD574 \uC219\uB828\uB3C4"
+    _description: "\uC5EC\uB7EC \uBD80\uD488\uC744 \uB3D9\uC2DC\uC5D0 \uCC98\uB9AC\uD574
+      \uBD84\uD574 \uC2DC\uAC04\uC744 \uB2E8\uCD95\uD569\uB2C8\uB2E4."
+    _currentEffect: "-10% \uC2DC\uAC04"
+    _nextEffect: "-20% \uC2DC\uAC04"
+    _cost: 600 G
+    _costAmount: 600
+  - _button: {fileID: 1760999685}
+    _upgradeId: disassembly_precision
+    _prerequisiteId: disassembly_parallel
+    _initialLevel: 0
+    _maxLevel: 1
+    _state: "\u25CF \uAD6C\uB9E4 \uAC00\uB2A5"
+    _skillName: "\uC815\uBC00 \uC808\uB2E8"
+    _branch: "\uBD84\uD574 \uC219\uB828\uB3C4"
+    _description: "\uC815\uBC00\uD55C \uC808\uB2E8\uC73C\uB85C \uBD84\uD574 \uACFC\uC815\uC758
+      \uC790\uC6D0 \uC190\uC2E4\uC744 \uC904\uC785\uB2C8\uB2E4."
+    _currentEffect: "+15% \uD68C\uC218"
+    _nextEffect: "+30% \uD68C\uC218"
+    _cost: 1,400 G
+    _costAmount: 1400
+  - _button: {fileID: 1793816550}
+    _upgradeId: disassembly_sorting
+    _prerequisiteId: disassembly_precision
+    _initialLevel: 0
+    _maxLevel: 1
+    _state: "\u25CF \uAD6C\uB9E4 \uAC00\uB2A5"
+    _skillName: "\uC790\uB3D9 \uBD84\uB958"
+    _branch: "\uBD84\uD574 \uC219\uB828\uB3C4"
+    _description: "\uBD84\uD574\uB41C \uBD80\uD488\uC744 \uC790\uB3D9\uC73C\uB85C
+      \uBD84\uB958\uD574 \uCC98\uB9AC\uB7C9\uC744 \uB192\uC785\uB2C8\uB2E4."
+    _currentEffect: "+25% \uCC98\uB9AC\uB7C9"
+    _nextEffect: "+45% \uCC98\uB9AC\uB7C9"
+    _cost: 2,800 G
+    _costAmount: 2800
+  - _button: {fileID: 1171074069}
+    _upgradeId: movement_calibration
+    _prerequisiteId: robot_core
+    _initialLevel: 0
+    _maxLevel: 1
+    _state: "\u25CF \uAD6C\uB9E4 \uAC00\uB2A5"
+    _skillName: "\uAD6C\uB3D9 \uBCF4\uC815"
+    _branch: "\uC774\uB3D9 \uC219\uB828\uB3C4"
+    _description: "\uAD6C\uB3D9\uACC4\uB97C \uBCF4\uC815\uD574 \uC774\uB3D9 \uC18D\uB3C4\uC640
+      \uC548\uC815\uC131\uC744 \uB192\uC785\uB2C8\uB2E4."
+    _currentEffect: "+5% \uC18D\uB3C4"
+    _nextEffect: "+10% \uC18D\uB3C4"
+    _cost: 450 G
+    _costAmount: 450
+  - _button: {fileID: 592095168}
+    _upgradeId: movement_wheels
+    _prerequisiteId: movement_calibration
+    _initialLevel: 0
+    _maxLevel: 1
+    _state: "\u25CF \uAD6C\uB9E4 \uAC00\uB2A5"
+    _skillName: "\uACBD\uB7C9 \uBC14\uD034"
+    _branch: "\uC774\uB3D9 \uC219\uB828\uB3C4"
+    _description: "\uAC00\uBCBC\uC6B4 \uBC14\uD034\uB85C \uAD50\uCCB4\uD574 \uBAA9\uD45C
+      \uC9C0\uC810\uAE4C\uC9C0 \uB354 \uBE60\uB974\uAC8C \uC774\uB3D9\uD569\uB2C8\uB2E4."
+    _currentEffect: "+12% \uC18D\uB3C4"
+    _nextEffect: "+20% \uC18D\uB3C4"
+    _cost: 1,100 G
+    _costAmount: 1100
+  - _button: {fileID: 1616028521}
+    _upgradeId: movement_turbo
+    _prerequisiteId: movement_wheels
+    _initialLevel: 0
+    _maxLevel: 1
+    _state: "\u25CF \uAD6C\uB9E4 \uAC00\uB2A5"
+    _skillName: "\uD130\uBCF4 \uAD6C\uB3D9"
+    _branch: "\uC774\uB3D9 \uC219\uB828\uB3C4"
+    _description: "\uACE0\uCD9C\uB825 \uAD6C\uB3D9 \uC7A5\uCE58\uB85C \uC7A5\uAC70\uB9AC
+      \uC774\uB3D9 \uC2DC\uAC04\uC744 \uD06C\uAC8C \uC904\uC785\uB2C8\uB2E4."
+    _currentEffect: "+25% \uC18D\uB3C4"
+    _nextEffect: "+40% \uC18D\uB3C4"
+    _cost: 2,400 G
+    _costAmount: 2400
+  - _button: {fileID: 1135654489}
+    _upgradeId: appraisal_sensor
+    _prerequisiteId: robot_core
+    _initialLevel: 0
+    _maxLevel: 1
+    _state: "\u25CF \uAD6C\uB9E4 \uAC00\uB2A5"
+    _skillName: "\uC13C\uC11C \uBCF4\uC815"
+    _branch: "\uAC10\uC815 \uC219\uB828\uB3C4"
+    _description: "\uAC10\uC815 \uC13C\uC11C\uB97C \uBCF4\uC815\uD574 \uB192\uC740
+      \uBC30\uC218\uAC00 \uB4F1\uC7A5\uD560 \uD655\uB960\uC744 \uB192\uC785\uB2C8\uB2E4."
+    _currentEffect: "+2% \uD655\uB960"
+    _nextEffect: "+4% \uD655\uB960"
+    _cost: 700 G
+    _costAmount: 700
+  - _button: {fileID: 541338549}
+    _upgradeId: appraisal_pattern_learning
+    _prerequisiteId: appraisal_sensor
+    _initialLevel: 0
+    _maxLevel: 1
+    _state: "\u25CF \uAD6C\uB9E4 \uAC00\uB2A5"
+    _skillName: "\uD328\uD134 \uD559\uC2B5 II"
+    _branch: "\uAC10\uC815 \uC219\uB828\uB3C4"
+    _description: "\uAC10\uC815 \uB370\uC774\uD130\uC758 \uD328\uD134\uC744 \uD559\uC2B5\uD574
+      \uB192\uC740 \uBC30\uC218\uC758 \uB4F1\uC7A5\uB960\uC744 \uAC1C\uC120\uD569\uB2C8\uB2E4."
+    _currentEffect: "+4% \uD655\uB960"
+    _nextEffect: "+7% \uD655\uB960"
+    _cost: 2,500 G
+    _costAmount: 2500
+  - _button: {fileID: 1384804046}
+    _upgradeId: appraisal_rare_detection
+    _prerequisiteId: appraisal_pattern_learning
+    _initialLevel: 0
+    _maxLevel: 1
+    _state: "\u25CF \uAD6C\uB9E4 \uAC00\uB2A5"
+    _skillName: "\uD76C\uADC0 \uD0D0\uC9C0"
+    _branch: "\uAC10\uC815 \uC219\uB828\uB3C4"
+    _description: "\uD76C\uADC0\uD55C \uC218\uC9D1\uBB3C\uC758 \uD2B9\uC9D5\uC744
+      \uBE60\uB974\uAC8C \uC2DD\uBCC4\uD574 \uAC10\uC815 \uBCF4\uC0C1\uC744 \uB192\uC785\uB2C8\uB2E4."
+    _currentEffect: "+8% \uBCF4\uC0C1"
+    _nextEffect: "+12% \uBCF4\uC0C1"
+    _cost: 4,000 G
+    _costAmount: 4000
+  - _button: {fileID: 434328725}
+    _upgradeId: battery_saving
+    _prerequisiteId: robot_core
+    _initialLevel: 0
+    _maxLevel: 1
+    _state: "\u25CF \uAD6C\uB9E4 \uAC00\uB2A5"
+    _skillName: "\uC808\uC804 \uD68C\uB85C"
+    _branch: "\uBC30\uD130\uB9AC \uC219\uB828\uB3C4"
+    _description: "\uBD88\uD544\uC694\uD55C \uC804\uB825 \uC18C\uBE44\uB97C \uC904\uC5EC
+      \uC791\uC5C5 \uC9C0\uC18D \uC2DC\uAC04\uC744 \uB298\uB9BD\uB2C8\uB2E4."
+    _currentEffect: "+10% \uC9C0\uC18D"
+    _nextEffect: "+20% \uC9C0\uC18D"
+    _cost: 550 G
+    _costAmount: 550
+  - _button: {fileID: 1180317926}
+    _upgradeId: battery_fast_charge
+    _prerequisiteId: battery_saving
+    _initialLevel: 0
+    _maxLevel: 1
+    _state: "\u25CF \uAD6C\uB9E4 \uAC00\uB2A5"
+    _skillName: "\uACE0\uC18D \uCDA9\uC804"
+    _branch: "\uBC30\uD130\uB9AC \uC219\uB828\uB3C4"
+    _description: "\uCDA9\uC804 \uD6A8\uC728\uC744 \uB192\uC5EC \uC791\uC5C5 \uBCF5\uADC0
+      \uC2DC\uAC04\uC744 \uB2E8\uCD95\uD569\uB2C8\uB2E4."
+    _currentEffect: "-15% \uCDA9\uC804"
+    _nextEffect: "-30% \uCDA9\uC804"
+    _cost: 1,300 G
+    _costAmount: 1300
+  - _button: {fileID: 1261816440}
+    _upgradeId: battery_high_density
+    _prerequisiteId: battery_fast_charge
+    _initialLevel: 0
+    _maxLevel: 1
+    _state: "\u25CF \uAD6C\uB9E4 \uAC00\uB2A5"
+    _skillName: "\uACE0\uBC00\uB3C4 \uC804\uC9C0"
+    _branch: "\uBC30\uD130\uB9AC \uC219\uB828\uB3C4"
+    _description: "\uACE0\uBC00\uB3C4 \uC804\uC9C0\uB97C \uC0AC\uC6A9\uD574 \uCD5C\uB300
+      \uC791\uC5C5 \uC2DC\uAC04\uC744 \uD06C\uAC8C \uB298\uB9BD\uB2C8\uB2E4."
+    _currentEffect: "+30% \uC9C0\uC18D"
+    _nextEffect: "+50% \uC9C0\uC18D"
+    _cost: 2,700 G
+    _costAmount: 2700
+  _connections:
+  - _fromUpgradeId: robot_core
+    _toUpgradeId: appraisal_sensor
+    _line: {fileID: 1103835343}
+  - _fromUpgradeId: appraisal_sensor
+    _toUpgradeId: appraisal_pattern_learning
+    _line: {fileID: 1074359588}
+  - _fromUpgradeId: appraisal_pattern_learning
+    _toUpgradeId: appraisal_rare_detection
+    _line: {fileID: 1414291110}
+  - _fromUpgradeId: robot_core
+    _toUpgradeId: disassembly_parallel
+    _line: {fileID: 1650277670}
+  - _fromUpgradeId: disassembly_parallel
+    _toUpgradeId: disassembly_precision
+    _line: {fileID: 670357242}
+  - _fromUpgradeId: disassembly_precision
+    _toUpgradeId: disassembly_sorting
+    _line: {fileID: 114446441}
+  - _fromUpgradeId: robot_core
+    _toUpgradeId: battery_saving
+    _line: {fileID: 1443597984}
+  - _fromUpgradeId: battery_saving
+    _toUpgradeId: battery_fast_charge
+    _line: {fileID: 412858631}
+  - _fromUpgradeId: battery_fast_charge
+    _toUpgradeId: battery_high_density
+    _line: {fileID: 1928260336}
+  - _fromUpgradeId: robot_core
+    _toUpgradeId: movement_calibration
+    _line: {fileID: 2005949851}
+  - _fromUpgradeId: movement_calibration
+    _toUpgradeId: movement_wheels
+    _line: {fileID: 2096848731}
+  - _fromUpgradeId: movement_wheels
+    _toUpgradeId: movement_turbo
+    _line: {fileID: 1249149391}
+  - _fromUpgradeId: robot_core
+    _toUpgradeId: collection_grip
+    _line: {fileID: 212287509}
+  - _fromUpgradeId: collection_grip
+    _toUpgradeId: collection_storage
+    _line: {fileID: 1227983779}
+  - _fromUpgradeId: collection_storage
+    _toUpgradeId: collection_recovery
+    _line: {fileID: 1275965782}
+  _defaultOptionIndex: 11
+  _lockedColor: {r: 0.25, g: 0.32, b: 0.35, a: 1}
+  _availableColor: {r: 1, g: 0.82, b: 0.4, a: 1}
+  _upgradedColor: {r: 0.22, g: 0.85, b: 0.77, a: 1}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -16154,3 +16726,4 @@ SceneRoots:
   - {fileID: 1062089870}
   - {fileID: 956608748}
   - {fileID: 25087313}
+  - {fileID: 1324081339}

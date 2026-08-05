@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3914804b97144e646b28b7e6d4a57bae, type: 3}
+  m_Name: ElectronicTrashPile
+  m_EditorClassIdentifier: Assembly-CSharp::CleanPlanet.Trash.TrashPileType
+  _name: Electronic
+  _prefab: {fileID: 5877442352290489490, guid: 5bcc9748e5093be418399ea508fd114d, type: 3}
+  _spawnWeight: 1
+  _ownItems:
+  - {fileID: 11400000, guid: a4392f5c94ce643bb9386a6564f56e8d, type: 2}
+  - {fileID: 11400000, guid: 176e54d48dc874d22aff706c0bae3b8b, type: 2}
+  - {fileID: 11400000, guid: 71493d6491343407684583343ec2e592, type: 2}
+  - {fileID: 11400000, guid: a824c896bdf634a13bf383697153db97, type: 2}
+  _ownWeight: 1
+  _previousTier: {fileID: 11400000, guid: 396f4bd423b823748abd3edf84d16d3d, type: 2}
+  _inheritedWeight: 3
