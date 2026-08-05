@@ -1064,7 +1064,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &144478334
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1077,11 +1077,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f8a44fe9854deb4d8ce51430fc45733, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CleanPlanet.UI.BaseViewController
-  _emotionRobotPanel: {fileID: 182913344}
+  _emotionVisuals:
+  - {fileID: 182913344}
+  - {fileID: 1546296874}
+  - {fileID: 595946955}
+  - {fileID: 13566908}
   _upgradePanel: {fileID: 1192664815}
   _emotionRobotButton: {fileID: 645408296}
   _upgradeButton: {fileID: 1219800320}
-  _emotionProcessingVisuals: {fileID: 0}
 --- !u!4 &144478335
 Transform:
   m_ObjectHideFlags: 0
@@ -1288,7 +1291,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &182913345
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1322,7 +1325,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
   m_Color: {r: 0.12, g: 0.3, b: 0.46, a: 0.9}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -3433,7 +3436,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &437139270
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4141,9 +4144,9 @@ MonoBehaviour:
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
-    m_NormalColor: {r: 1, g: 0.81960785, b: 0.4, a: 1}
-    m_HighlightedColor: {r: 1, g: 0.8647059, b: 0.55, a: 1}
-    m_PressedColor: {r: 0.8, g: 0.65568626, b: 0.32, a: 1}
+    m_NormalColor: {r: 0.2509804, g: 0.31764707, b: 0.3529412, a: 1}
+    m_HighlightedColor: {r: 0.4382353, g: 0.4882353, b: 0.5147059, a: 1}
+    m_PressedColor: {r: 0.20078433, g: 0.25411767, b: 0.28235295, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
@@ -4177,7 +4180,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0.81960785, b: 0.4, a: 1}
+  m_Color: {r: 0.2509804, g: 0.31764707, b: 0.3529412, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -4371,7 +4374,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &560014018
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4795,7 +4798,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &591098480
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4811,7 +4814,6 @@ MonoBehaviour:
   _tierTable: {fileID: 11400000, guid: 8b8307e046d5d43389901cc59aa423b5, type: 2}
   _wallet: {fileID: 25087312}
   _spawner: {fileID: 1222288587}
-  _hud: {fileID: 179816449}
   _audioSource: {fileID: 591098481}
   _cameraShake: {fileID: 753275910}
   _screenFlash: {fileID: 437139271}
@@ -5659,7 +5661,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &645408293
 RectTransform:
   m_ObjectHideFlags: 0
@@ -6381,8 +6383,14 @@ MonoBehaviour:
   _currentEffectText: {fileID: 2082929880}
   _nextEffectText: {fileID: 1452319138}
   _costText: {fileID: 994194744}
+  _upgradeButton: {fileID: 420686993}
+  _wallet: {fileID: 25087312}
   _options:
   - _button: {fileID: 391231908}
+    _upgradeId: robot_core
+    _prerequisiteId:
+    _initialLevel: 1
+    _maxLevel: 1
     _state: "● 활성화"
     _skillName: "로봇 코어"
     _branch: "중앙 시스템"
@@ -6390,7 +6398,12 @@ MonoBehaviour:
     _currentEffect: "온라인"
     _nextEffect: "온라인"
     _cost: "0 G"
+    _costAmount: 0
   - _button: {fileID: 1505420970}
+    _upgradeId: collection_grip
+    _prerequisiteId: robot_core
+    _initialLevel: 0
+    _maxLevel: 1
     _state: "● 구매 가능"
     _skillName: "집게 개선"
     _branch: "수집 숙련도"
@@ -6398,7 +6411,12 @@ MonoBehaviour:
     _currentEffect: "+10%"
     _nextEffect: "+20%"
     _cost: "500 G"
+    _costAmount: 500
   - _button: {fileID: 26500642}
+    _upgradeId: collection_storage
+    _prerequisiteId: collection_grip
+    _initialLevel: 0
+    _maxLevel: 1
     _state: "● 구매 가능"
     _skillName: "압축 수납"
     _branch: "수집 숙련도"
@@ -6406,7 +6424,12 @@ MonoBehaviour:
     _currentEffect: "+20%"
     _nextEffect: "+35%"
     _cost: "1,200 G"
+    _costAmount: 1200
   - _button: {fileID: 1397927988}
+    _upgradeId: collection_recovery
+    _prerequisiteId: collection_storage
+    _initialLevel: 0
+    _maxLevel: 1
     _state: "● 구매 가능"
     _skillName: "자원 회수"
     _branch: "수집 숙련도"
@@ -6414,7 +6437,12 @@ MonoBehaviour:
     _currentEffect: "+30%"
     _nextEffect: "+50%"
     _cost: "2,500 G"
+    _costAmount: 2500
   - _button: {fileID: 1402707422}
+    _upgradeId: disassembly_parallel
+    _prerequisiteId: robot_core
+    _initialLevel: 0
+    _maxLevel: 1
     _state: "● 구매 가능"
     _skillName: "병렬 분해"
     _branch: "분해 숙련도"
@@ -6422,7 +6450,12 @@ MonoBehaviour:
     _currentEffect: "-10% 시간"
     _nextEffect: "-20% 시간"
     _cost: "600 G"
+    _costAmount: 600
   - _button: {fileID: 1760999685}
+    _upgradeId: disassembly_precision
+    _prerequisiteId: disassembly_parallel
+    _initialLevel: 0
+    _maxLevel: 1
     _state: "● 구매 가능"
     _skillName: "정밀 절단"
     _branch: "분해 숙련도"
@@ -6430,7 +6463,12 @@ MonoBehaviour:
     _currentEffect: "+15% 회수"
     _nextEffect: "+30% 회수"
     _cost: "1,400 G"
+    _costAmount: 1400
   - _button: {fileID: 1793816550}
+    _upgradeId: disassembly_sorting
+    _prerequisiteId: disassembly_precision
+    _initialLevel: 0
+    _maxLevel: 1
     _state: "● 구매 가능"
     _skillName: "자동 분류"
     _branch: "분해 숙련도"
@@ -6438,7 +6476,12 @@ MonoBehaviour:
     _currentEffect: "+25% 처리량"
     _nextEffect: "+45% 처리량"
     _cost: "2,800 G"
+    _costAmount: 2800
   - _button: {fileID: 1171074069}
+    _upgradeId: movement_calibration
+    _prerequisiteId: robot_core
+    _initialLevel: 0
+    _maxLevel: 1
     _state: "● 구매 가능"
     _skillName: "구동 보정"
     _branch: "이동 숙련도"
@@ -6446,7 +6489,12 @@ MonoBehaviour:
     _currentEffect: "+5% 속도"
     _nextEffect: "+10% 속도"
     _cost: "450 G"
+    _costAmount: 450
   - _button: {fileID: 592095168}
+    _upgradeId: movement_wheels
+    _prerequisiteId: movement_calibration
+    _initialLevel: 0
+    _maxLevel: 1
     _state: "● 구매 가능"
     _skillName: "경량 바퀴"
     _branch: "이동 숙련도"
@@ -6454,7 +6502,12 @@ MonoBehaviour:
     _currentEffect: "+12% 속도"
     _nextEffect: "+20% 속도"
     _cost: "1,100 G"
+    _costAmount: 1100
   - _button: {fileID: 1616028521}
+    _upgradeId: movement_turbo
+    _prerequisiteId: movement_wheels
+    _initialLevel: 0
+    _maxLevel: 1
     _state: "● 구매 가능"
     _skillName: "터보 구동"
     _branch: "이동 숙련도"
@@ -6462,7 +6515,12 @@ MonoBehaviour:
     _currentEffect: "+25% 속도"
     _nextEffect: "+40% 속도"
     _cost: "2,400 G"
+    _costAmount: 2400
   - _button: {fileID: 1135654489}
+    _upgradeId: appraisal_sensor
+    _prerequisiteId: robot_core
+    _initialLevel: 0
+    _maxLevel: 1
     _state: "● 구매 가능"
     _skillName: "센서 보정"
     _branch: "감정 숙련도"
@@ -6470,7 +6528,12 @@ MonoBehaviour:
     _currentEffect: "+2% 확률"
     _nextEffect: "+4% 확률"
     _cost: "700 G"
+    _costAmount: 700
   - _button: {fileID: 541338549}
+    _upgradeId: appraisal_pattern_learning
+    _prerequisiteId: appraisal_sensor
+    _initialLevel: 0
+    _maxLevel: 1
     _state: "● 구매 가능"
     _skillName: "패턴 학습 II"
     _branch: "감정 숙련도"
@@ -6478,7 +6541,12 @@ MonoBehaviour:
     _currentEffect: "+4% 확률"
     _nextEffect: "+7% 확률"
     _cost: "2,500 G"
+    _costAmount: 2500
   - _button: {fileID: 1384804046}
+    _upgradeId: appraisal_rare_detection
+    _prerequisiteId: appraisal_pattern_learning
+    _initialLevel: 0
+    _maxLevel: 1
     _state: "● 구매 가능"
     _skillName: "희귀 탐지"
     _branch: "감정 숙련도"
@@ -6486,7 +6554,12 @@ MonoBehaviour:
     _currentEffect: "+8% 보상"
     _nextEffect: "+12% 보상"
     _cost: "4,000 G"
+    _costAmount: 4000
   - _button: {fileID: 434328725}
+    _upgradeId: battery_saving
+    _prerequisiteId: robot_core
+    _initialLevel: 0
+    _maxLevel: 1
     _state: "● 구매 가능"
     _skillName: "절전 회로"
     _branch: "배터리 숙련도"
@@ -6494,7 +6567,12 @@ MonoBehaviour:
     _currentEffect: "+10% 지속"
     _nextEffect: "+20% 지속"
     _cost: "550 G"
+    _costAmount: 550
   - _button: {fileID: 1180317926}
+    _upgradeId: battery_fast_charge
+    _prerequisiteId: battery_saving
+    _initialLevel: 0
+    _maxLevel: 1
     _state: "● 구매 가능"
     _skillName: "고속 충전"
     _branch: "배터리 숙련도"
@@ -6502,7 +6580,12 @@ MonoBehaviour:
     _currentEffect: "-15% 충전"
     _nextEffect: "-30% 충전"
     _cost: "1,300 G"
+    _costAmount: 1300
   - _button: {fileID: 1261816440}
+    _upgradeId: battery_high_density
+    _prerequisiteId: battery_fast_charge
+    _initialLevel: 0
+    _maxLevel: 1
     _state: "● 구매 가능"
     _skillName: "고밀도 전지"
     _branch: "배터리 숙련도"
@@ -6510,7 +6593,57 @@ MonoBehaviour:
     _currentEffect: "+30% 지속"
     _nextEffect: "+50% 지속"
     _cost: "2,700 G"
+    _costAmount: 2700
+  _connections:
+  - _fromUpgradeId: robot_core
+    _toUpgradeId: appraisal_sensor
+    _line: {fileID: 1103835343}
+  - _fromUpgradeId: appraisal_sensor
+    _toUpgradeId: appraisal_pattern_learning
+    _line: {fileID: 1074359588}
+  - _fromUpgradeId: appraisal_pattern_learning
+    _toUpgradeId: appraisal_rare_detection
+    _line: {fileID: 1414291110}
+  - _fromUpgradeId: robot_core
+    _toUpgradeId: disassembly_parallel
+    _line: {fileID: 1650277670}
+  - _fromUpgradeId: disassembly_parallel
+    _toUpgradeId: disassembly_precision
+    _line: {fileID: 670357242}
+  - _fromUpgradeId: disassembly_precision
+    _toUpgradeId: disassembly_sorting
+    _line: {fileID: 114446441}
+  - _fromUpgradeId: robot_core
+    _toUpgradeId: battery_saving
+    _line: {fileID: 1443597984}
+  - _fromUpgradeId: battery_saving
+    _toUpgradeId: battery_fast_charge
+    _line: {fileID: 412858631}
+  - _fromUpgradeId: battery_fast_charge
+    _toUpgradeId: battery_high_density
+    _line: {fileID: 1928260336}
+  - _fromUpgradeId: robot_core
+    _toUpgradeId: movement_calibration
+    _line: {fileID: 2005949851}
+  - _fromUpgradeId: movement_calibration
+    _toUpgradeId: movement_wheels
+    _line: {fileID: 2096848731}
+  - _fromUpgradeId: movement_wheels
+    _toUpgradeId: movement_turbo
+    _line: {fileID: 1249149391}
+  - _fromUpgradeId: robot_core
+    _toUpgradeId: collection_grip
+    _line: {fileID: 212287509}
+  - _fromUpgradeId: collection_grip
+    _toUpgradeId: collection_storage
+    _line: {fileID: 1227983779}
+  - _fromUpgradeId: collection_storage
+    _toUpgradeId: collection_recovery
+    _line: {fileID: 1275965782}
   _defaultOptionIndex: 11
+  _lockedColor: {r: 0.25, g: 0.32, b: 0.35, a: 1}
+  _availableColor: {r: 1, g: 0.82, b: 0.4, a: 1}
+  _upgradedColor: {r: 0.22, g: 0.85, b: 0.77, a: 1}
 --- !u!1 &741636551
 GameObject:
   m_ObjectHideFlags: 0
@@ -9084,7 +9217,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1219800320
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12419,7 +12552,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.RawImage
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -13285,7 +13418,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1652494392
 RectTransform:
   m_ObjectHideFlags: 0

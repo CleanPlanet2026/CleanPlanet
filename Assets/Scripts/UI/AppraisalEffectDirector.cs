@@ -15,7 +15,6 @@ namespace CleanPlanet.UI
         [SerializeField] private AppraisalTierTable _tierTable;
         [SerializeField] private CurrencyWallet _wallet;
         [SerializeField] private CoinBurstSpawner _spawner;
-        [SerializeField] private CurrencyHudView _hud;
         [SerializeField] private AudioSource _audioSource;
         [SerializeField] private CameraShake _cameraShake;
         [SerializeField] private ScreenFlash _screenFlash;
@@ -23,7 +22,7 @@ namespace CleanPlanet.UI
 
         private void OnEnable()
         {
-            if (_wallet == null || _spawner == null || _hud == null || _audioSource == null
+            if (_wallet == null || _spawner == null || _audioSource == null
                 || _tierTable == null || _tierTable.Tiers == null || _tierTable.Tiers.Count == 0)
             {
                 Debug.LogError($"{nameof(AppraisalEffectDirector)}에 필요한 참조 또는 티어 목록이 없습니다.", this);
@@ -62,9 +61,6 @@ namespace CleanPlanet.UI
         private void PlayTier(AppraisalTier tier)
         {
             _spawner.Burst(tier.CoinCount, tier.Duration, tier.CoinScale, tier.Explode);
-
-            // 코인이 오디오 길이(duration) 동안 들어오므로 골드 숫자도 같은 시간에 맞춰 오른다.
-            _hud.PlayCountUp(_wallet.Gold, tier.Duration);
 
             if (tier.CoinSfx != null)
             {
