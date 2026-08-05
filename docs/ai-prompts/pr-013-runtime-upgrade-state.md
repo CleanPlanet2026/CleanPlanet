@@ -1,5 +1,7 @@
 # PR #13: 런타임 업그레이드 상태 추가
 
+> 탭 클릭 수정: 감정 화면의 장식용 패널과 RawImage의 Raycast Target을 해제하고, 두 탭 버튼을 형제 순서의 마지막으로 이동해 클릭 우선순위를 보장했다.
+
 ## 개요
 
 - 브랜치: `feature/runtime-upgrade-state`

@@ -35,6 +35,8 @@ namespace CleanPlanet.UI
 
             _emotionRobotButton.onClick.AddListener(ShowEmotionRobot);
             _upgradeButton.onClick.AddListener(ShowUpgrade);
+            _emotionRobotButton.transform.SetAsLastSibling();
+            _upgradeButton.transform.SetAsLastSibling();
             ShowEmotionRobot();
         }
 
