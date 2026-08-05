@@ -16,6 +16,7 @@
 5. 강화 후 HUD의 골드 숫자도 즉시 갱신한다.
 6. 초기 강화 상태와 강화 결과를 스킬 노드 색상에 반영한다.
 7. 노드 간 선행 관계를 적용하고 연결선에도 잠김·구매 가능·완료 상태를 표시한다.
+8. `BaseScene`의 초기 화면을 감정 화면으로 설정하고 감정·업그레이드 화면을 상호 전환한다.
 
 ## AI와 논의한 내용
 
@@ -45,6 +46,10 @@
 
 각 계열을 `로봇 코어 → 1단계 → 2단계 → 3단계`로 연결했다. 선행 노드가 완료되지 않은 노드는 잠김 상태로 두고 강화 버튼을 비활성화한다. 선행 노드가 완료되면 노드와 연결선이 구매 가능 색상으로 바뀌며, 해당 노드까지 강화하면 완료 색상으로 갱신한다.
 
+### 베이스 화면 전환
+
+기존 `BaseViewController`는 빈 감정 패널과 누락된 CanvasGroup 참조 때문에 비활성화되어 있었다. 실제 감정 화면을 구성하는 `Emotion Robot Panel`, 유리관 `RawImage`, 릴 `SlotRow`를 전환 목록으로 묶고 두 탭과 컨트롤러를 활성화했다. 실제 감정 처리 오브젝트는 끄지 않아 업그레이드 화면에서도 감정은 계속 진행한다.
+
 ## 주요 결정
 
 - `UpgradeRuntimeState`는 Unity 컴포넌트가 아닌 런타임 메모리 전용 클래스로 구현한다.
@@ -58,6 +63,7 @@
 
 - `Assets/Scripts/Upgrade/UpgradeRuntimeState.cs`
 - `Assets/Scripts/UI/SkillTreeDetailController.cs`
+- `Assets/Scripts/UI/BaseViewController.cs`
 - `Assets/Scenes/BaseScene.unity`
 
 ## 검증 내용
@@ -69,6 +75,7 @@
 - `CurrencyWallet`의 획득·차감 모두 `GoldChanged`를 발생시키고 HUD가 전달된 최신 잔액을 즉시 표시하는 경로를 정적으로 확인했다.
 - 전체 노드 초기화와 강화 성공 경로에서 동일한 노드 색상 갱신 메서드를 호출하는지 확인했다.
 - 16개 노드의 선행 ID와 15개 연결선의 시작·도착 ID 및 씬 Graphic 참조를 확인했다.
+- 감정 화면 3개 시각 오브젝트와 업그레이드 패널, 두 탭 버튼의 씬 참조 및 활성 상태를 확인했다.
 - `git diff --check`를 통과했다.
 - Unity 에디터가 이미 프로젝트를 열고 있어 별도 배치 모드 컴파일 검증은 수행하지 못했다.
 

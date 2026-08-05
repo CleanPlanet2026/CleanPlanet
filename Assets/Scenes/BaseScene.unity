@@ -1064,7 +1064,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &144478334
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1077,11 +1077,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f8a44fe9854deb4d8ce51430fc45733, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CleanPlanet.UI.BaseViewController
-  _emotionRobotPanel: {fileID: 182913344}
+  _emotionVisuals:
+  - {fileID: 182913344}
+  - {fileID: 1546296874}
+  - {fileID: 595946955}
   _upgradePanel: {fileID: 1192664815}
   _emotionRobotButton: {fileID: 645408296}
   _upgradeButton: {fileID: 1219800320}
-  _emotionProcessingVisuals: {fileID: 0}
 --- !u!4 &144478335
 Transform:
   m_ObjectHideFlags: 0
@@ -1288,7 +1290,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &182913345
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5658,7 +5660,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &645408293
 RectTransform:
   m_ObjectHideFlags: 0
@@ -9214,7 +9216,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1219800320
 MonoBehaviour:
   m_ObjectHideFlags: 0
