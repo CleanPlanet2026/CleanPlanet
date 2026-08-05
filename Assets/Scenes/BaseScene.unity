@@ -1081,6 +1081,7 @@ MonoBehaviour:
   - {fileID: 182913344}
   - {fileID: 1546296874}
   - {fileID: 595946955}
+  - {fileID: 13566908}
   _upgradePanel: {fileID: 1192664815}
   _emotionRobotButton: {fileID: 645408296}
   _upgradeButton: {fileID: 1219800320}

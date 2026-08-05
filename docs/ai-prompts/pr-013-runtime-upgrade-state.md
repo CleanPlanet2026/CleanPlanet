@@ -2,6 +2,8 @@
 
 > 탭 클릭 수정: 감정 화면의 장식용 패널과 RawImage의 Raycast Target을 해제하고, 두 탭 버튼을 형제 순서의 마지막으로 이동해 클릭 우선순위를 보장했다.
 
+> 감정 테스트 UI: 기존 `DebugPanel`을 감정 화면 구성에 포함해 감정 탭에서만 샘플 감정 및 탱크 초기화 버튼이 활성화되도록 연결했다.
+
 ## 개요
 
 - 브랜치: `feature/runtime-upgrade-state`
