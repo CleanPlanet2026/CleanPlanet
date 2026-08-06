@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using CleanPlanet.Map;
+using CleanPlanet.Upgrade;
 using CleanPlanet.Utils;
 
 namespace CleanPlanet.Trash
@@ -38,7 +39,9 @@ namespace CleanPlanet.Trash
             List<Vector2Int> freeCells = CollectFreeCells(grid, occupancy, playerIndex);
             Shuffle(freeCells);
 
-            int count = Mathf.Min(_spawnCount, freeCells.Count);
+            int upgradedSpawnCount = Mathf.RoundToInt(
+                _spawnCount * UpgradeEffects.ExplorationSpawnCountMultiplier);
+            int count = Mathf.Min(upgradedSpawnCount, freeCells.Count);
             for (int i = 0; i < count; i++)
             {
                 SpawnOne(freeCells[i], grid, occupancy);
@@ -47,7 +50,9 @@ namespace CleanPlanet.Trash
 
         private void SpawnOne(Vector2Int index, GridSystem grid, GridOccupancy occupancy)
         {
-            TrashPileType type = WeightedRandom.Pick(_pileTypes, t => t.SpawnWeight);
+            TrashPileType type = WeightedRandom.Pick(
+                _pileTypes,
+                t => t.SpawnWeight * GetTierWeightMultiplier(t));
             if (type == null || type.Prefab == null)
             {
                 Debug.LogWarning($"{nameof(TrashSpawner)}: 스폰할 TrashPileType 또는 Prefab을 선택하지 못했습니다.", this);
@@ -57,8 +62,15 @@ namespace CleanPlanet.Trash
             TrashPile pile = Instantiate(type.Prefab);
             pile.Grid = grid;
             pile.Occupancy = occupancy;
-            pile.SetReward(type.RollReward());
+            pile.SetReward(type.RollReward(UpgradeEffects.ExplorationOwnTierWeightMultiplier));
             pile.Spawn(index);
+        }
+
+        private static float GetTierWeightMultiplier(TrashPileType type)
+        {
+            return type.IsHigherTier
+                ? UpgradeEffects.ExplorationHighTierWeightMultiplier
+                : 1f;
         }
 
         private static List<Vector2Int> CollectFreeCells(GridSystem grid, GridOccupancy occupancy, Vector2Int excludeIndex)

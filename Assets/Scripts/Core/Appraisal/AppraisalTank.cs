@@ -15,6 +15,7 @@ namespace CleanPlanet.Core.Appraisal
     {
         [SerializeField] private AppraisalTankIcon _iconPrefab;
         [SerializeField] private CollectibleData[] _pendingItems;
+        [SerializeField] private CollectibleData[] _collectibleCatalog;
         [SerializeField] private Transform _spawnPoint;
         [SerializeField] private Transform _iconParent;
         [SerializeField] private AppraisalFloorSensor _floorSensor;
@@ -40,7 +41,7 @@ namespace CleanPlanet.Core.Appraisal
                 return;
             }
 
-            _pendingItems = MergeWithInbox(_pendingItems);
+            _pendingItems = MergeWithInbox(_pendingItems, _collectibleCatalog);
             _unspawnedCount = _pendingItems.Length;
             PrewarmPool();
         }
@@ -49,9 +50,11 @@ namespace CleanPlanet.Core.Appraisal
         /// 인스펙터에 미리 채워둔 표본 목록에 GameScene에서 수집해온 항목을 이어붙인다.
         /// 이후 스폰/풀링 로직은 출처를 구분하지 않고 동일하게 처리한다.
         /// </summary>
-        private static CollectibleData[] MergeWithInbox(CollectibleData[] pendingItems)
+        private static CollectibleData[] MergeWithInbox(
+            CollectibleData[] pendingItems,
+            CollectibleData[] collectibleCatalog)
         {
-            List<CollectibleData> collected = CollectionInbox.GetPendingItems();
+            List<CollectibleData> collected = CollectionInbox.GetPendingItems(collectibleCatalog);
             if (collected.Count == 0)
             {
                 return pendingItems ?? Array.Empty<CollectibleData>();
@@ -81,7 +84,6 @@ namespace CleanPlanet.Core.Appraisal
             }
 
             item = lowest.Data;
-            CollectionInbox.Remove(item);
             _activeIcons.Remove(lowest);
             ReturnToPool(lowest);
             return true;

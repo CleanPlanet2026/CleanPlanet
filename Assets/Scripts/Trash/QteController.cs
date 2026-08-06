@@ -1,4 +1,5 @@
 using System;
+using CleanPlanet.Upgrade;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -159,13 +160,17 @@ namespace CleanPlanet.Trash
         /// </summary>
         private void PlaceZones()
         {
+            float successWidth = Mathf.Clamp(
+                _successWidth * UpgradeEffects.CollectionQteWidthMultiplier,
+                1f,
+                360f);
             SuccessStartAngle = _randomizeStartAngle
-                ? UnityEngine.Random.Range(0f, 360f - _successWidth)
-                : _fixedStartAngle;
-            SuccessEndAngle = SuccessStartAngle + _successWidth;
+                ? UnityEngine.Random.Range(0f, 360f - successWidth)
+                : Mathf.Min(_fixedStartAngle, 360f - successWidth);
+            SuccessEndAngle = SuccessStartAngle + successWidth;
 
-            float greatWidth = Mathf.Min(_greatWidth, _successWidth);
-            float greatOffset = UnityEngine.Random.Range(0f, _successWidth - greatWidth);
+            float greatWidth = Mathf.Min(_greatWidth, successWidth);
+            float greatOffset = UnityEngine.Random.Range(0f, successWidth - greatWidth);
             GreatStartAngle = SuccessStartAngle + greatOffset;
             GreatEndAngle = GreatStartAngle + greatWidth;
         }

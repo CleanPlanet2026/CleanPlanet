@@ -1,4 +1,5 @@
 using System;
+using CleanPlanet.Core.Persistence;
 using UnityEngine;
 
 namespace CleanPlanet.Core.Currency
@@ -19,7 +20,7 @@ namespace CleanPlanet.Core.Currency
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
         private static void ResetState()
         {
-            _gold = 0;
+            _gold = Mathf.Max(0, GameSaveSystem.Data.Gold);
         }
 
         public void Add(int amount)
@@ -30,6 +31,7 @@ namespace CleanPlanet.Core.Currency
             }
 
             _gold += amount;
+            SaveGold();
             GoldChanged?.Invoke(_gold);
             GoldAdded?.Invoke(amount);
         }
@@ -47,8 +49,20 @@ namespace CleanPlanet.Core.Currency
             }
 
             _gold -= amount;
+            SaveGold();
             GoldChanged?.Invoke(_gold);
             return true;
+        }
+
+        private static void SaveGold()
+        {
+            GameSaveSystem.Data.Gold = _gold;
+            GameSaveSystem.MarkDirty();
+        }
+
+        internal static void ResetProgress()
+        {
+            _gold = 0;
         }
     }
 }

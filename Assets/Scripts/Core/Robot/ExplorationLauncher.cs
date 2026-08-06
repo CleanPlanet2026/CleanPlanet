@@ -1,7 +1,7 @@
-using CleanPlanet.UI;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 namespace CleanPlanet.Core.Robot
 {
@@ -12,8 +12,8 @@ namespace CleanPlanet.Core.Robot
     {
         [SerializeField] private string _gameSceneName = "GameScene";
         [SerializeField] private string _launchKeyBinding = "<Keyboard>/r";
-        [SerializeField, Min(0f)] private float _minChargeToExplore = RobotBattery.MaxCharge;
-        [SerializeField] private HoldToConfirmButton _launchButton;
+        [SerializeField, Min(0f)] private float _minChargeToExplore = RobotBattery.BaseMaxCharge;
+        [SerializeField] private Button _launchButton;
 
         private InputAction _launchAction;
 
@@ -29,7 +29,7 @@ namespace CleanPlanet.Core.Robot
 
             if (_launchButton != null)
             {
-                _launchButton.Confirmed += TryLaunchExploration;
+                _launchButton.onClick.AddListener(TryLaunchExploration);
             }
         }
 
@@ -39,7 +39,7 @@ namespace CleanPlanet.Core.Robot
 
             if (_launchButton != null)
             {
-                _launchButton.Confirmed -= TryLaunchExploration;
+                _launchButton.onClick.RemoveListener(TryLaunchExploration);
             }
         }
 

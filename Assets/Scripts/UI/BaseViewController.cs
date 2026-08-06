@@ -1,3 +1,4 @@
+using CleanPlanet.Core;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,6 +10,11 @@ namespace CleanPlanet.UI
         [SerializeField] private GameObject _upgradePanel;
         [SerializeField] private Button _emotionRobotButton;
         [SerializeField] private Button _upgradeButton;
+
+        private void Awake()
+        {
+            GameSessionState.MarkBaseReached();
+        }
 
         private void OnEnable()
         {

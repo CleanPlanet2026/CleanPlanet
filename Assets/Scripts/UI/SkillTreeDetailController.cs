@@ -76,7 +76,7 @@ namespace CleanPlanet.UI
         [SerializeField] private Color _availableColor = new(1f, 0.82f, 0.4f, 1f);
         [SerializeField] private Color _upgradedColor = new(0.22f, 0.85f, 0.77f, 1f);
 
-        private readonly UpgradeRuntimeState _runtimeState = new();
+        private readonly UpgradeRuntimeState _runtimeState = UpgradeRuntimeState.Shared;
         private UnityAction[] _selectionActions;
         private int _selectedOptionIndex;
 

@@ -1,4 +1,5 @@
 using UnityEngine;
+using CleanPlanet.Upgrade;
 
 namespace CleanPlanet.Core.Robot
 {
@@ -12,7 +13,8 @@ namespace CleanPlanet.Core.Robot
 
         private void Update()
         {
-            RobotBattery.Drain(_drainPerSecond * Time.deltaTime);
+            RobotBattery.Drain(
+                _drainPerSecond * UpgradeEffects.BatteryDrainMultiplier * Time.deltaTime);
         }
     }
 }

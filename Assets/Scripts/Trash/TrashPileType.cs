@@ -43,15 +43,19 @@ namespace CleanPlanet.Trash
         public string Name => _name;
         public TrashPile Prefab => _prefab;
         public float SpawnWeight => _spawnWeight;
+        public bool IsHigherTier => _previousTier != null;
 
         /// <summary>
         /// 자기 등급 수집물과 PreviousTier 체인의 모든 수집물을 가중치 기준으로 추첨한다.
         /// 후보가 하나도 없으면 null.
         /// </summary>
-        public CollectibleData RollReward()
+        public CollectibleData RollReward(float ownTierWeightMultiplier = 1f)
         {
             var pool = new List<DropEntry>();
-            CollectDropPool(pool, isOwnTier: true);
+            CollectDropPool(
+                pool,
+                isOwnTier: true,
+                ownTierWeightMultiplier: ownTierWeightMultiplier);
 
             if (pool.Count == 0)
             {
@@ -61,9 +65,14 @@ namespace CleanPlanet.Trash
             return WeightedRandom.Pick(pool, entry => entry.Weight).Collectible;
         }
 
-        private void CollectDropPool(List<DropEntry> pool, bool isOwnTier)
+        private void CollectDropPool(
+            List<DropEntry> pool,
+            bool isOwnTier,
+            float ownTierWeightMultiplier)
         {
-            float weight = isOwnTier ? _ownWeight : _inheritedWeight;
+            float weight = isOwnTier
+                ? _ownWeight * ownTierWeightMultiplier
+                : _inheritedWeight;
 
             if (_ownItems != null)
             {
@@ -76,7 +85,10 @@ namespace CleanPlanet.Trash
                 }
             }
 
-            _previousTier?.CollectDropPool(pool, isOwnTier: false);
+            _previousTier?.CollectDropPool(
+                pool,
+                isOwnTier: false,
+                ownTierWeightMultiplier: ownTierWeightMultiplier);
         }
     }
 }

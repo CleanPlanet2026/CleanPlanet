@@ -27,6 +27,7 @@ namespace CleanPlanet.Core.Appraisal
         public ItemGrade Grade => _grade;
         public int BaseValue => _baseValue;
         public Sprite Icon => _icon;
+        public string PersistenceId => name;
 
         /// <summary>
         /// 감정로봇 디스플레이(릴)에서 쓸 화면용 아이콘. 검은 화면에 어울리게 주황으로

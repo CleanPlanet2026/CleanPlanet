@@ -1,4 +1,5 @@
 using System;
+using CleanPlanet.Upgrade;
 using UnityEngine;
 using CleanPlanet.Player;
 
@@ -98,9 +99,17 @@ namespace CleanPlanet.Trash
             TrashPile trash = _pendingTrash;
             _pendingTrash = null;
 
-            int count = trash.GetRewardCount(result);
+            int count = ApplyRewardMultiplier(trash.GetRewardCount(result));
             trash.Remove();
             OnCollectibleRewardGranted?.Invoke(trash, count);
+        }
+
+        private static int ApplyRewardMultiplier(int baseCount)
+        {
+            float adjustedCount = baseCount * UpgradeEffects.CollectionRewardMultiplier;
+            int guaranteedCount = Mathf.FloorToInt(adjustedCount);
+            float additionalChance = adjustedCount - guaranteedCount;
+            return guaranteedCount + (UnityEngine.Random.value < additionalChance ? 1 : 0);
         }
     }
 }

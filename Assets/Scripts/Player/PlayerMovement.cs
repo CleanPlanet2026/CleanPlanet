@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using CleanPlanet.Map;
+using CleanPlanet.Upgrade;
 
 namespace CleanPlanet.Player
 {
@@ -142,7 +143,9 @@ namespace CleanPlanet.Player
             while (Vector2.Distance(transform.position, targetWorld) > 0.0001f)
             {
                 Vector2 next = Vector2.MoveTowards(
-                    transform.position, targetWorld, _cellsPerSecond * Grid.CellSize * Time.deltaTime);
+                    transform.position,
+                    targetWorld,
+                    _cellsPerSecond * UpgradeEffects.MovementSpeedMultiplier * Grid.CellSize * Time.deltaTime);
                 transform.position = new Vector3(next.x, next.y, transform.position.z);
                 yield return null;
             }

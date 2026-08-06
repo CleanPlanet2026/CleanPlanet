@@ -1,5 +1,7 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using CleanPlanet.Core.Persistence;
 using GameAudioSettings = CleanPlanet.Core.Audio.AudioSettings;
 
 namespace CleanPlanet.UI
@@ -17,6 +19,8 @@ namespace CleanPlanet.UI
         private GameObject _panel;
         private Text _musicValue;
         private Text _buttonSfxValue;
+        private Text _resetButtonLabel;
+        private bool _isResetConfirmationPending;
 
         private void Awake()
         {
@@ -64,7 +68,7 @@ namespace CleanPlanet.UI
             rect.anchorMax = new Vector2(1f, 1f);
             rect.pivot = new Vector2(1f, 1f);
             rect.anchoredPosition = new Vector2(-32f, -108f);
-            rect.sizeDelta = new Vector2(420f, 260f);
+            rect.sizeDelta = new Vector2(420f, 330f);
             panel.AddComponent<Image>().color = PanelColor;
 
             CreateText("Title", panel.transform, "오디오 설정", 26, TextAnchor.MiddleCenter,
@@ -84,6 +88,10 @@ namespace CleanPlanet.UI
 
             Button closeButton = CreateTextButton(panel.transform, "닫기", new Vector2(0f, -210f));
             closeButton.onClick.AddListener(ClosePanel);
+
+            Button resetButton = CreateTextButton(panel.transform, "데이터 초기화", new Vector2(0f, -270f));
+            _resetButtonLabel = resetButton.GetComponentInChildren<Text>();
+            resetButton.onClick.AddListener(RequestProgressReset);
 
             musicSlider.SetValueWithoutNotify(GameAudioSettings.MusicVolume);
             buttonSfxSlider.SetValueWithoutNotify(GameAudioSettings.ButtonSfxVolume);
@@ -255,7 +263,30 @@ namespace CleanPlanet.UI
 
         private void ClosePanel()
         {
+            CancelProgressReset();
             _panel.SetActive(false);
+        }
+
+        private void RequestProgressReset()
+        {
+            if (!_isResetConfirmationPending)
+            {
+                _isResetConfirmationPending = true;
+                _resetButtonLabel.text = "한 번 더 누르면 초기화";
+                return;
+            }
+
+            GameSaveSystem.ResetProgress();
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        }
+
+        private void CancelProgressReset()
+        {
+            _isResetConfirmationPending = false;
+            if (_resetButtonLabel != null)
+            {
+                _resetButtonLabel.text = "데이터 초기화";
+            }
         }
 
         private void SetMusicVolume(float volume)
