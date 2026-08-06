@@ -16,6 +16,7 @@
 5. 타이틀 화면에서 음악과 버튼 효과음 음량을 조절하는 설정 UI를 추가한다.
 6. 게임의 정화·재생 테마가 드러나는 타이틀 배경을 생성해 적용한다.
 7. PR #20의 전체 변경을 최신 `main` 기준 브랜치로 옮겨 WebGL 배포 워크플로우가 실행되게 한다.
+8. 비어 보이는 탐험 화면에 게임 테마와 어울리는 배경을 생성해 적용한다.
 
 ## AI와 논의한 내용
 
@@ -40,6 +41,8 @@ WebGL 한글 폰트 수정 이후에도 안정적으로 보이도록 PR #18 브�
 - 타이틀 배경은 중앙 UI 가독성을 유지하면서 오염된 지역이 자연으로 회복되는 픽셀 아트 구도로 제작한다.
 - 배경이 게임 메시지를 전달하므로 타이틀 부제는 제거한다.
 - PR #20 변경은 최신 `origin/main`에서 만든 통합 브랜치에 merge commit으로 합쳐 기존 이력을 보존한다.
+- 탐험 배경은 10×8 이동 영역의 가독성을 위해 중앙 대비를 낮추고 폐허·오염·식생 디테일을 가장자리에 집중한다.
+- 배경은 게임 오브젝트보다 낮은 정렬 순서로 배치하고 16:9 정사영 카메라 화면보다 약간 크게 표시한다.
 
 ## 변경된 주요 파일
 
@@ -52,6 +55,8 @@ WebGL 한글 폰트 수정 이후에도 안정적으로 보이도록 PR #18 브�
 - `Assets/Scripts/UI/TitleAudioSettingsView.cs`
 - `Assets/Scenes/TitleScene.unity`
 - `Assets/Art/Sprites/UI/TitleBackground.png`
+- `Assets/Art/Sprites/Environment/ExplorationBackground.png`
+- `Assets/Scenes/GameScene.unity`
 - `docs/ai-prompts/pr-021-integrate-game-ui.md`
 
 ## 검증 내용
@@ -64,10 +69,11 @@ WebGL 한글 폰트 수정 이후에도 안정적으로 보이도록 PR #18 브�
 - Unity `6000.5.6f1` 배치 모드에서 스크립트 컴파일, 어셈블리 재로드와 정상 종료를 확인했다.
 - OpenGameArt 원본 페이지와 배포 파일의 readme에서 CC0 라이선스와 선택적 크레딧 조건을 확인했다.
 - 최신 `origin/main`과 PR #20 작업 브랜치가 충돌 없이 병합됨을 확인했다.
+- 탐험 배경의 16:9 구도, 비어 있는 중앙 플레이 영역, 텍스트·UI·워터마크 부재를 확인했다.
 
 ## AI 활용 범위
 
-AI가 기존 UI 계층과 RectTransform을 분석하고 씬 YAML을 최소 수정한 뒤 정적 검증과 Git 작업을 수행했다. 사용자는 수정 대상과 우선순위를 결정했다.
+AI가 기존 UI 계층과 RectTransform을 분석하고 씬 YAML을 최소 수정했으며, 탐험 화면용 픽셀아트 배경을 생성해 적용한 뒤 정적 검증과 Git 작업을 수행했다. 사용자는 수정 대상과 우선순위를 결정했다.
 
 ## 후속 작업
 
