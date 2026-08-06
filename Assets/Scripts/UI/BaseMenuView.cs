@@ -35,19 +35,12 @@ namespace CleanPlanet.UI
         {
             GameObject panel = CreateUiObject("Base Menu Panel", transform);
             RectTransform rect = panel.GetComponent<RectTransform>();
-            SetTopLeftRect(rect, new Vector2(300f, 190f), new Vector2(24f, -104f));
+            SetTopLeftRect(rect, new Vector2(300f, 72f), new Vector2(24f, -104f));
             panel.AddComponent<Image>().color = PanelColor;
 
-            CreateText("Title", panel.transform, "메뉴", 26, TextAnchor.MiddleCenter,
-                new Vector2(0f, -34f), new Vector2(260f, 42f));
-
             Button returnButton = CreateButton("Return To Title Button", panel.transform,
-                "타이틀로 돌아가기", new Vector2(0f, -92f), new Vector2(244f, 48f), ControlColor);
+                "타이틀로 돌아가기", new Vector2(0f, -36f), new Vector2(244f, 48f), ControlColor);
             returnButton.onClick.AddListener(OpenConfirmation);
-
-            Button closeButton = CreateButton("Close Menu Button", panel.transform,
-                "닫기", new Vector2(0f, -148f), new Vector2(120f, 40f), ControlColor);
-            closeButton.onClick.AddListener(CloseMenu);
             return panel;
         }
 
@@ -80,11 +73,6 @@ namespace CleanPlanet.UI
         {
             _menuPanel.SetActive(!_menuPanel.activeSelf);
             _menuPanel.transform.SetAsLastSibling();
-        }
-
-        private void CloseMenu()
-        {
-            _menuPanel.SetActive(false);
         }
 
         private void OpenConfirmation()
