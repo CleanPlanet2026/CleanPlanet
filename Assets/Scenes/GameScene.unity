@@ -1044,6 +1044,7 @@ GameObject:
   - component: {fileID: 6601000005}
   - component: {fileID: 6601000006}
   - component: {fileID: 6601000007}
+  - component: {fileID: 6601000008}
   m_Layer: 0
   m_Name: Battery HUD Canvas
   m_TagString: Untagged
@@ -1165,6 +1166,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5938a15a8c845d89f4ded6485b513a1, type: 3}
   m_Name:
   m_EditorClassIdentifier: Assembly-CSharp::CleanPlanet.UI.ExplorationCollectionHudView
+  _font: {fileID: 12800000, guid: aadee97f146b64219b87f9bbbdb39e50, type: 3}
+--- !u!114 &6601000008
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6601000001}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d161b6c80504dcd817830bfb6d16410, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::CleanPlanet.UI.ExplorationTutorialView
   _font: {fileID: 12800000, guid: aadee97f146b64219b87f9bbbdb39e50, type: 3}
 --- !u!1 &6602000001
 GameObject:
@@ -2043,7 +2057,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -24, y: -24}
+  m_AnchoredPosition: {x: -24, y: -92}
   m_SizeDelta: {x: 340, y: 32}
   m_Pivot: {x: 1, y: 1}
 --- !u!114 &6611000003
