@@ -1609,7 +1609,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e7a92c1d5b83f406a19c2e8b7d0f4a1, type: 3}
   m_Name:
   m_EditorClassIdentifier: Assembly-CSharp::CleanPlanet.UI.HoldToConfirmButton
-  _holdDuration: 3
+  _holdDuration: 1
   _progressFill: {fileID: 5505000004}
 --- !u!1 &5505000001
 GameObject:
@@ -1764,7 +1764,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "탐험 출발"
+  m_Text: "1초간 길게 누르기\n탐험 시작"
 --- !u!1 &182913344
 GameObject:
   m_ObjectHideFlags: 0
