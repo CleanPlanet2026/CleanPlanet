@@ -1,17 +1,18 @@
-# PR #20: 업그레이드 UI 정리 및 전체 버튼 효과음 적용
+# PR #20: 업그레이드 UI 정리 및 게임 오디오 적용
 
 ## 개요
 
 - 브랜치: `fix/upgrade-ui-clipping`
 - PR: #20
 - 작성일: 2026-08-06
-- 작업 목적: 업그레이드 화면 텍스트를 안정적으로 표시하고 게임 전체 버튼에 임시 클릭 효과음을 적용한다.
+- 작업 목적: 업그레이드 화면 텍스트를 안정적으로 표시하고 전체 버튼 효과음과 게임 배경음악을 적용한다.
 
 ## 주요 요청
 
 1. 업그레이드 화면의 `SYSTEM UPGRADE TREE` 텍스트 잘림을 수정한다.
 2. 좌하단의 완료·구매 가능·잠김 범례를 다시 제대로 표시한다.
 3. 별도 음원 파일 없이 전체 버튼에 임시 클릭 효과음을 적용한다.
+4. 게임 전체에서 반복 재생되는 배경음악을 선정하고 적용한다.
 
 ## AI와 논의한 내용
 
@@ -28,11 +29,16 @@ WebGL 한글 폰트 수정 이후에도 안정적으로 보이도록 PR #18 브�
 - UI 레이아웃은 별도 스크립트 없이 기존 uGUI RectTransform만 최소 수정한다.
 - 일반 uGUI 버튼은 클릭 시, 홀드 버튼은 확정 시 공통 임시 효과음을 재생한다.
 - 임시 효과음은 런타임에 생성해 별도 오디오 에셋을 추가하지 않는다.
+- CC0 `Exploration Theme`을 타이틀에서 재생하고 씬 전환 후에도 끊기지 않게 유지한다.
 
 ## 변경된 주요 파일
 
 - `Assets/Scenes/BaseScene.unity`
 - `Assets/Scripts/UI/GlobalButtonSfx.cs`
+- `Assets/Audio/BGM/ExplorationTheme.ogg`
+- `Assets/Audio/BGM/ExplorationTheme.LICENSE.md`
+- `Assets/Scripts/Core/Audio/BackgroundMusicPlayer.cs`
+- `Assets/Scenes/TitleScene.unity`
 - `docs/ai-prompts/pr-020-upgrade-ui-clipping.md`
 
 ## 검증 내용
@@ -43,6 +49,7 @@ WebGL 한글 폰트 수정 이후에도 안정적으로 보이도록 PR #18 브�
 - Unity 에디터와 WebGL의 최종 육안 검증은 후속 확인이 필요하다.
 - `BaseScene`의 일반 버튼 30개, `TitleScene`의 일반 버튼 1개와 별도 홀드 버튼 구조를 확인했다.
 - Unity `6000.5.6f1` 배치 모드에서 스크립트 컴파일, 어셈블리 재로드와 정상 종료를 확인했다.
+- OpenGameArt 원본 페이지와 배포 파일의 readme에서 CC0 라이선스와 선택적 크레딧 조건을 확인했다.
 
 ## AI 활용 범위
 
@@ -53,3 +60,4 @@ AI가 기존 UI 계층과 RectTransform을 분석하고 씬 YAML을 최소 수�
 - PR #18 병합 후 PR #20의 베이스를 `main`으로 변경하거나 순서대로 병합한다.
 - Unity 에디터와 실제 WebGL 해상도에서 두 텍스트가 잘리지 않는지 확인한다.
 - 최종 UI 효과음이 준비되면 런타임 임시음을 실제 AudioClip으로 교체한다.
+- 에디터와 WebGL에서 BGM 음량 및 루프 경계가 자연스러운지 최종 청음한다.
