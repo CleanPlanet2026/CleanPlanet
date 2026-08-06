@@ -39,7 +39,7 @@ namespace CleanPlanet.UI
             panel.AddComponent<Image>().color = PanelColor;
 
             Button returnButton = CreateButton("Return To Title Button", panel.transform,
-                "타이틀로 돌아가기", new Vector2(0f, -36f), new Vector2(244f, 48f), ControlColor);
+                "타이틀로 돌아가기", Vector2.zero, new Vector2(244f, 48f), ControlColor);
             returnButton.onClick.AddListener(OpenConfirmation);
             return panel;
         }
