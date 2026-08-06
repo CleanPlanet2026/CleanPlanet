@@ -29,8 +29,9 @@ namespace CleanPlanet.Core.Audio
             _audioSource.playOnAwake = false;
             _audioSource.loop = true;
             _audioSource.spatialBlend = 0f;
-            _audioSource.volume = _volume;
+            _audioSource.volume = _volume * AudioSettings.MusicVolume;
             _audioSource.clip = _music;
+            AudioSettings.MusicVolumeChanged += HandleMusicVolumeChanged;
 
             if (_music != null)
             {
@@ -40,10 +41,17 @@ namespace CleanPlanet.Core.Audio
 
         private void OnDestroy()
         {
+            AudioSettings.MusicVolumeChanged -= HandleMusicVolumeChanged;
+
             if (_instance == this)
             {
                 _instance = null;
             }
+        }
+
+        private void HandleMusicVolumeChanged(float volume)
+        {
+            _audioSource.volume = _volume * volume;
         }
     }
 }

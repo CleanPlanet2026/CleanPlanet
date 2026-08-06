@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using GameAudioSettings = CleanPlanet.Core.Audio.AudioSettings;
 
 namespace CleanPlanet.UI
 {
@@ -37,15 +38,17 @@ namespace CleanPlanet.UI
             _audioSource.playOnAwake = false;
             _audioSource.loop = false;
             _audioSource.spatialBlend = 0f;
-            _audioSource.volume = 0.35f;
+            _audioSource.volume = 0.35f * GameAudioSettings.ButtonSfxVolume;
             _temporaryClickClip = CreateTemporaryClickClip();
 
             SceneManager.sceneLoaded += HandleSceneLoaded;
+            GameAudioSettings.ButtonSfxVolumeChanged += HandleButtonSfxVolumeChanged;
         }
 
         private void OnDestroy()
         {
             SceneManager.sceneLoaded -= HandleSceneLoaded;
+            GameAudioSettings.ButtonSfxVolumeChanged -= HandleButtonSfxVolumeChanged;
 
             if (_instance == this)
             {
@@ -60,9 +63,7 @@ namespace CleanPlanet.UI
 
         private void RegisterButtons()
         {
-            Button[] buttons = FindObjectsByType<Button>(
-                FindObjectsInactive.Include,
-                FindObjectsSortMode.None);
+            Button[] buttons = FindObjectsByType<Button>(FindObjectsInactive.Include);
 
             foreach (Button button in buttons)
             {
@@ -70,9 +71,8 @@ namespace CleanPlanet.UI
                 button.onClick.AddListener(PlayClick);
             }
 
-            HoldToConfirmButton[] holdButtons = FindObjectsByType<HoldToConfirmButton>(
-                FindObjectsInactive.Include,
-                FindObjectsSortMode.None);
+            HoldToConfirmButton[] holdButtons =
+                FindObjectsByType<HoldToConfirmButton>(FindObjectsInactive.Include);
 
             foreach (HoldToConfirmButton holdButton in holdButtons)
             {
@@ -84,6 +84,11 @@ namespace CleanPlanet.UI
         private void PlayClick()
         {
             _audioSource.PlayOneShot(_temporaryClickClip);
+        }
+
+        private void HandleButtonSfxVolumeChanged(float volume)
+        {
+            _audioSource.volume = 0.35f * volume;
         }
 
         private static AudioClip CreateTemporaryClickClip()

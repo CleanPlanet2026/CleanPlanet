@@ -875,6 +875,7 @@ GameObject:
   - component: {fileID: 1933417115}
   - component: {fileID: 1933417114}
   - component: {fileID: 1933417113}
+  - component: {fileID: 2100000010}
   m_Layer: 0
   m_Name: Title Canvas
   m_TagString: Untagged
@@ -895,6 +896,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CleanPlanet.UI.TitleScreenController
   _gameSceneName: GameScene
+--- !u!114 &2100000010
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1933417112}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f66171aee0214697a3a8e0a9eb175fa0, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::CleanPlanet.UI.TitleAudioSettingsView
+  _font: {fileID: 12800000, guid: 31efe8d3353c24bbcb4f8bac7e32a7b8, type: 3}
 --- !u!114 &1933417114
 MonoBehaviour:
   m_ObjectHideFlags: 0

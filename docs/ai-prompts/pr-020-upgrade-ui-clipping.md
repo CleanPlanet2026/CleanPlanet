@@ -13,6 +13,7 @@
 2. 좌하단의 완료·구매 가능·잠김 범례를 다시 제대로 표시한다.
 3. 별도 음원 파일 없이 전체 버튼에 임시 클릭 효과음을 적용한다.
 4. 게임 전체에서 반복 재생되는 배경음악을 선정하고 적용한다.
+5. 타이틀 화면에서 음악과 버튼 효과음 음량을 조절하는 설정 UI를 추가한다.
 
 ## AI와 논의한 내용
 
@@ -30,6 +31,7 @@ WebGL 한글 폰트 수정 이후에도 안정적으로 보이도록 PR #18 브�
 - 일반 uGUI 버튼은 클릭 시, 홀드 버튼은 확정 시 공통 임시 효과음을 재생한다.
 - 임시 효과음은 런타임에 생성해 별도 오디오 에셋을 추가하지 않는다.
 - CC0 `Exploration Theme`을 타이틀에서 재생하고 씬 전환 후에도 끊기지 않게 유지한다.
+- 설정값은 `PlayerPrefs`에 저장하고 슬라이더 조작 즉시 현재 오디오에 반영한다.
 
 ## 변경된 주요 파일
 
@@ -38,6 +40,8 @@ WebGL 한글 폰트 수정 이후에도 안정적으로 보이도록 PR #18 브�
 - `Assets/Audio/BGM/ExplorationTheme.ogg`
 - `Assets/Audio/BGM/ExplorationTheme.LICENSE.md`
 - `Assets/Scripts/Core/Audio/BackgroundMusicPlayer.cs`
+- `Assets/Scripts/Core/Audio/AudioSettings.cs`
+- `Assets/Scripts/UI/TitleAudioSettingsView.cs`
 - `Assets/Scenes/TitleScene.unity`
 - `docs/ai-prompts/pr-020-upgrade-ui-clipping.md`
 
@@ -61,3 +65,4 @@ AI가 기존 UI 계층과 RectTransform을 분석하고 씬 YAML을 최소 수�
 - Unity 에디터와 실제 WebGL 해상도에서 두 텍스트가 잘리지 않는지 확인한다.
 - 최종 UI 효과음이 준비되면 런타임 임시음을 실제 AudioClip으로 교체한다.
 - 에디터와 WebGL에서 BGM 음량 및 루프 경계가 자연스러운지 최종 청음한다.
+- WebGL에서 설정값이 재실행 후에도 유지되는지 확인한다.
