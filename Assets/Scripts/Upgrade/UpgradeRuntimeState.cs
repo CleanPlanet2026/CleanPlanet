@@ -5,6 +5,8 @@ namespace CleanPlanet.Upgrade
 {
     public sealed class UpgradeRuntimeState
     {
+        public static UpgradeRuntimeState Shared { get; } = new();
+
         private readonly Dictionary<string, int> _levels = new();
 
         public event Action<string, int> LevelChanged;

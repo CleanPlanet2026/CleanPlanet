@@ -1,4 +1,5 @@
 using UnityEngine;
+using CleanPlanet.Upgrade;
 
 namespace CleanPlanet.Core.Robot
 {
@@ -11,7 +12,8 @@ namespace CleanPlanet.Core.Robot
 
         private void Update()
         {
-            RobotBattery.Recharge(_rechargePerSecond * Time.deltaTime);
+            RobotBattery.Recharge(
+                _rechargePerSecond * UpgradeEffects.BatteryChargeMultiplier * Time.deltaTime);
         }
     }
 }
