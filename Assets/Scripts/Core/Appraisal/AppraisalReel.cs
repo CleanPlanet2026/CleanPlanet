@@ -74,6 +74,10 @@ namespace CleanPlanet.Core.Appraisal
         [SerializeField] private Sprite[] _decoyIcons;
         [SerializeField] private int[] _decoyMultipliers = { 1, 2, 4, 8, 16 };
 
+        [SerializeField] private AudioSource _tickAudioSource;
+        [SerializeField] private AudioClip _tickClip;
+        [SerializeField] private AudioClip _settleClip;
+
         public bool IsSpinning { get; private set; }
 
         private bool _isValid;
@@ -197,6 +201,10 @@ namespace CleanPlanet.Core.Appraisal
             float recycleBound = -(_window.rect.height * 0.5f + _cellHeight);
             float scrollDistance = 0f;
 
+            // 셀 하나가 지나갈 때마다 한 번씩 틱을 울린다. 정착 구간의 ease-out으로 셀당
+            // 진행 거리가 점점 짧아지므로 틱 간격도 자연히 벌어져 슬롯머신처럼 감속한다.
+            float nextTickDistance = _cellHeight;
+
             // 스핀 구간: 일정 속도로 계속 흘려보내다가, 창 아래로 완전히 빠져나간 셀만
             // 반대쪽(위)으로 재배치하고 새 디코이 값을 채워 무한 스크롤처럼 보이게 한다.
             float spinElapsed = 0f;
@@ -206,6 +214,12 @@ namespace CleanPlanet.Core.Appraisal
                 spinElapsed += dt;
                 scrollDistance += _scrollSpeed * dt;
                 SetContentY(-scrollDistance);
+
+                while (scrollDistance >= nextTickDistance)
+                {
+                    PlayTick();
+                    nextTickDistance += _cellHeight;
+                }
 
                 for (int i = 0; i < cellCount; i++)
                 {
@@ -244,12 +258,22 @@ namespace CleanPlanet.Core.Appraisal
                 float eased = 1f - Mathf.Pow(1f - progress, 3f);
                 scrollDistance = startDistance + distanceToTravel * eased;
                 SetContentY(-scrollDistance);
+
+                // 마지막 칸(정답이 들어오는 칸)의 틱은 생략한다. 그 자리는 착지 순간의
+                // clank가 대신 울려 "틱틱틱…쿵" 하고 멈추는 느낌을 만든다.
+                while (scrollDistance >= nextTickDistance && nextTickDistance < targetDistance)
+                {
+                    PlayTick();
+                    nextTickDistance += _cellHeight;
+                }
+
                 yield return null;
             }
 
             // 최종값 보장: 누적 오차나 지속 시간 0 설정과 무관하게 실제 값과 정중앙 위치로 강제 고정.
             SetContentY(-targetDistance);
             applyTarget(_cells[targetIndex]);
+            PlaySettle();
 
             IsSpinning = false;
             _spinCoroutine = null;
@@ -291,6 +315,26 @@ namespace CleanPlanet.Core.Appraisal
             }
 
             return fallbackIndex;
+        }
+
+        private void PlayTick()
+        {
+            if (_tickAudioSource == null || _tickClip == null)
+            {
+                return;
+            }
+
+            _tickAudioSource.PlayOneShot(_tickClip);
+        }
+
+        private void PlaySettle()
+        {
+            if (_tickAudioSource == null || _settleClip == null)
+            {
+                return;
+            }
+
+            _tickAudioSource.PlayOneShot(_settleClip);
         }
 
         private void FillDecoyIcon(ReelCell cell)

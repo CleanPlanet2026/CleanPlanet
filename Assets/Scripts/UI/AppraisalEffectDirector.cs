@@ -1,3 +1,4 @@
+using System.Collections;
 using CleanPlanet.Core.Currency;
 using CleanPlanet.Utils;
 using UnityEngine;
@@ -19,6 +20,8 @@ namespace CleanPlanet.UI
         [SerializeField] private CameraShake _cameraShake;
         [SerializeField] private ScreenFlash _screenFlash;
         [SerializeField] private TierBanner _banner;
+        [SerializeField, Min(0f)] private float _extraSfxDelay = 0.3f;
+        [SerializeField, Min(0f)] private float _extraSfxVolume = 2f;
 
         private void OnEnable()
         {
@@ -58,6 +61,19 @@ namespace CleanPlanet.UI
             PlayTier(tier);
         }
 
+        private IEnumerator PlayExtraSfxDelayed(AudioClip clip)
+        {
+            if (_extraSfxDelay > 0f)
+            {
+                yield return new WaitForSeconds(_extraSfxDelay);
+            }
+
+            if (_audioSource != null)
+            {
+                _audioSource.PlayOneShot(clip, _extraSfxVolume);
+            }
+        }
+
         private void PlayTier(AppraisalTier tier)
         {
             _spawner.Burst(tier.CoinCount, tier.Duration, tier.CoinScale, tier.Explode);
@@ -70,6 +86,13 @@ namespace CleanPlanet.UI
             if (tier.AccentSfx != null)
             {
                 _audioSource.PlayOneShot(tier.AccentSfx);
+            }
+
+            if (tier.ExtraSfx != null)
+            {
+                // 코인·액센트가 동시에 크게 터지는 순간을 피해 살짝 늦게, 조금 크게 울려
+                // 큰 소리에 묻히지 않게 한다.
+                StartCoroutine(PlayExtraSfxDelayed(tier.ExtraSfx));
             }
 
             if (tier.ShakeIntensity > 0f && _cameraShake != null)
