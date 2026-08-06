@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using CleanPlanet.Core.Appraisal;
+using UnityEngine;
 
 namespace CleanPlanet.Core.Collection
 {
@@ -11,6 +12,12 @@ namespace CleanPlanet.Core.Collection
     public static class CollectionInbox
     {
         private static readonly List<CollectibleData> _pending = new();
+
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
+        private static void ResetState()
+        {
+            _pending.Clear();
+        }
 
         public static void Add(CollectibleData item, int count)
         {
@@ -29,11 +36,17 @@ namespace CleanPlanet.Core.Collection
         /// 쌓인 항목을 모두 꺼내고 보관소를 비운다. BaseScene의 AppraisalTank가
         /// Awake에서 한 번 호출해 자신의 대기 목록에 합친다.
         /// </summary>
-        public static List<CollectibleData> DrainAll()
+        public static List<CollectibleData> GetPendingItems()
         {
-            var drained = new List<CollectibleData>(_pending);
-            _pending.Clear();
-            return drained;
+            return new List<CollectibleData>(_pending);
+        }
+
+        public static void Remove(CollectibleData item)
+        {
+            if (item != null)
+            {
+                _pending.Remove(item);
+            }
         }
     }
 }

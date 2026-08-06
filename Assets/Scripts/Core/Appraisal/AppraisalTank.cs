@@ -51,7 +51,7 @@ namespace CleanPlanet.Core.Appraisal
         /// </summary>
         private static CollectibleData[] MergeWithInbox(CollectibleData[] pendingItems)
         {
-            List<CollectibleData> collected = CollectionInbox.DrainAll();
+            List<CollectibleData> collected = CollectionInbox.GetPendingItems();
             if (collected.Count == 0)
             {
                 return pendingItems ?? Array.Empty<CollectibleData>();
@@ -81,6 +81,7 @@ namespace CleanPlanet.Core.Appraisal
             }
 
             item = lowest.Data;
+            CollectionInbox.Remove(item);
             _activeIcons.Remove(lowest);
             ReturnToPool(lowest);
             return true;
