@@ -1962,7 +1962,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "1초간 길게 누르기\n탐험 종료"
+  m_Text: "탐험 종료\n<size=16>1초 동안 누르기</size>"
 --- !u!1 &6611000001
 GameObject:
   m_ObjectHideFlags: 0
