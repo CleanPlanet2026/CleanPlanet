@@ -1,4 +1,5 @@
 using System;
+using CleanPlanet.Upgrade;
 
 namespace CleanPlanet.Core.Robot
 {
@@ -8,14 +9,15 @@ namespace CleanPlanet.Core.Robot
     /// </summary>
     public static class RobotBattery
     {
-        public const float MaxCharge = 100f;
+        public const float BaseMaxCharge = 100f;
 
-        private static float _charge = MaxCharge;
+        private static float _charge = BaseMaxCharge;
 
         public static event Action<float> ChargeChanged;
         public static event Action Depleted;
 
         public static float Charge => _charge;
+        public static float MaxCharge => BaseMaxCharge * UpgradeEffects.BatteryCapacityMultiplier;
         public static bool IsFull => _charge >= MaxCharge;
 
         public static void Drain(float amount)

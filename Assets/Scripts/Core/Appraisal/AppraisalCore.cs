@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using CleanPlanet.Upgrade;
 using UnityEngine;
 
 namespace CleanPlanet.Core.Appraisal
@@ -46,7 +47,8 @@ namespace CleanPlanet.Core.Appraisal
         public AppraisalResult Appraise(CollectibleData item)
         {
             int multiplier = PickMultiplier();
-            int payout = item.BaseValue * multiplier;
+            int payout = Mathf.RoundToInt(
+                item.BaseValue * multiplier * UpgradeEffects.AppraisalPayoutMultiplier);
             var result = new AppraisalResult(item, multiplier, payout);
 
             OnAppraised?.Invoke(result);
@@ -62,9 +64,19 @@ namespace CleanPlanet.Core.Appraisal
             }
 
             float totalWeight = 0f;
+            float baseMultiplierWeight = 0f;
+            float highMultiplierWeight = 0f;
             foreach (var entry in _multiplierTable)
             {
                 totalWeight += entry.Weight;
+                if (entry.Multiplier > 1)
+                {
+                    highMultiplierWeight += entry.Weight;
+                }
+                else
+                {
+                    baseMultiplierWeight += entry.Weight;
+                }
             }
 
             if (totalWeight <= 0f)
@@ -75,9 +87,16 @@ namespace CleanPlanet.Core.Appraisal
 
             float roll = UnityEngine.Random.Range(0f, totalWeight);
             float cumulative = 0f;
+            float bonusWeight = Mathf.Min(
+                totalWeight * UpgradeEffects.AppraisalHighMultiplierChanceBonus,
+                baseMultiplierWeight);
             foreach (var entry in _multiplierTable)
             {
-                cumulative += entry.Weight;
+                cumulative += GetAdjustedWeight(
+                    entry,
+                    baseMultiplierWeight,
+                    highMultiplierWeight,
+                    bonusWeight);
                 if (roll <= cumulative)
                 {
                     return entry.Multiplier;
@@ -85,6 +104,30 @@ namespace CleanPlanet.Core.Appraisal
             }
 
             return _multiplierTable[^1].Multiplier;
+        }
+
+        private static float GetAdjustedWeight(
+            AppraisalMultiplierEntry entry,
+            float baseMultiplierWeight,
+            float highMultiplierWeight,
+            float bonusWeight)
+        {
+            if (entry.Multiplier <= 1)
+            {
+                if (baseMultiplierWeight <= 0f)
+                {
+                    return entry.Weight;
+                }
+
+                return entry.Weight - bonusWeight * entry.Weight / baseMultiplierWeight;
+            }
+
+            if (highMultiplierWeight <= 0f)
+            {
+                return entry.Weight;
+            }
+
+            return entry.Weight + bonusWeight * entry.Weight / highMultiplierWeight;
         }
     }
 }

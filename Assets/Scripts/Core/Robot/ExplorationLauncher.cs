@@ -12,7 +12,7 @@ namespace CleanPlanet.Core.Robot
     {
         [SerializeField] private string _gameSceneName = "GameScene";
         [SerializeField] private string _launchKeyBinding = "<Keyboard>/r";
-        [SerializeField, Min(0f)] private float _minChargeToExplore = RobotBattery.MaxCharge;
+        [SerializeField, Min(0f)] private float _minChargeToExplore = RobotBattery.BaseMaxCharge;
         [SerializeField] private Button _launchButton;
 
         private InputAction _launchAction;

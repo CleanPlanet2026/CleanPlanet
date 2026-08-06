@@ -7,6 +7,10 @@ namespace CleanPlanet.Upgrade
         private const string MovementTurboId = "movement_turbo";
         private const string BatterySavingId = "battery_saving";
         private const string BatteryFastChargeId = "battery_fast_charge";
+        private const string BatteryHighDensityId = "battery_high_density";
+        private const string AppraisalSensorId = "appraisal_sensor";
+        private const string AppraisalPatternLearningId = "appraisal_pattern_learning";
+        private const string AppraisalRareDetectionId = "appraisal_rare_detection";
 
         public static float MovementSpeedMultiplier =>
             1f
@@ -19,6 +23,16 @@ namespace CleanPlanet.Upgrade
 
         public static float BatteryChargeMultiplier =>
             IsPurchased(BatteryFastChargeId) ? 1f / 0.7f : 1f;
+
+        public static float BatteryCapacityMultiplier =>
+            IsPurchased(BatteryHighDensityId) ? 1.5f : 1f;
+
+        public static float AppraisalHighMultiplierChanceBonus =>
+            GetPurchasedBonus(AppraisalSensorId, 0.04f)
+            + GetPurchasedBonus(AppraisalPatternLearningId, 0.07f);
+
+        public static float AppraisalPayoutMultiplier =>
+            IsPurchased(AppraisalRareDetectionId) ? 1.12f : 1f;
 
         private static float GetPurchasedBonus(string upgradeId, float bonus)
         {
