@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using CleanPlanet.Core.Appraisal;
 using UnityEngine;
@@ -13,10 +14,15 @@ namespace CleanPlanet.Core.Collection
     {
         private static readonly List<CollectibleData> _pending = new();
 
+        public static event Action<int> CountChanged;
+
+        public static int Count => _pending.Count;
+
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
         private static void ResetState()
         {
             _pending.Clear();
+            CountChanged = null;
         }
 
         public static void Add(CollectibleData item, int count)
@@ -30,6 +36,8 @@ namespace CleanPlanet.Core.Collection
             {
                 _pending.Add(item);
             }
+
+            CountChanged?.Invoke(_pending.Count);
         }
 
         /// <summary>
@@ -46,6 +54,7 @@ namespace CleanPlanet.Core.Collection
             if (item != null)
             {
                 _pending.Remove(item);
+                CountChanged?.Invoke(_pending.Count);
             }
         }
     }

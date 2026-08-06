@@ -19,6 +19,7 @@
 8. 비어 보이는 탐험 화면에 게임 테마와 어울리는 배경을 생성해 적용한다.
 9. 베이스 화면에서 확인 후 현재 진행 상태를 유지한 채 타이틀로 돌아갈 수 있게 한다.
 10. 탐험 시작은 일반 클릭으로 바꾸고 탐험 종료에만 간단한 확인 단계를 둔다.
+11. 탐험 중 이번 탐험에서 획득한 수집물 개수를 상단 HUD에 실시간으로 표시한다.
 
 ## AI와 논의한 내용
 
@@ -50,6 +51,7 @@ WebGL 한글 폰트 수정 이후에도 안정적으로 보이도록 PR #18 브�
 - 탐험 시작 버튼은 민트색, 종료 버튼은 주황색으로 밝아지는 uGUI 호버·클릭 전환 효과를 사용한다.
 - 베이스 상단 UI는 메뉴, 감정 로봇 탭, 업그레이드 탭, 배터리를 16px 간격으로 왼쪽부터 배치하고 골드는 우측 끝에 분리한다.
 - 베이스 메뉴 드롭다운에는 별도 제목이나 닫기 버튼 없이 `타이틀로 돌아가기` 항목만 표시한다.
+- 탐험 수집물 HUD는 씬 진입 당시 대기 수집물 수를 기준점으로 삼고 이후 증가분만 이벤트로 표시한다.
 
 ## 변경된 주요 파일
 
@@ -65,6 +67,7 @@ WebGL 한글 폰트 수정 이후에도 안정적으로 보이도록 PR #18 브�
 - `Assets/Art/Sprites/Environment/ExplorationBackground.png`
 - `Assets/Scenes/GameScene.unity`
 - `Assets/Scripts/UI/BaseMenuView.cs`
+- `Assets/Scripts/UI/ExplorationCollectionHudView.cs`
 - `docs/ai-prompts/pr-021-integrate-game-ui.md`
 
 ## 검증 내용
