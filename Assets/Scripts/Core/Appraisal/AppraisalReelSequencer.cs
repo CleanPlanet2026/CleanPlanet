@@ -1,86 +1,88 @@
-using System;
 using System.Collections;
 using UnityEngine;
 
 namespace CleanPlanet.Core.Appraisal
 {
     /// <summary>
-    /// 감정 슬롯 릴 연출을 순차 진행하는 시퀀서. 큐에 담긴 수집물을 한 건씩,
-    /// 한 건이 끝나야 다음 건을 시작하는 방식으로 처리한다(큐 소진 시 정지, 순환 없음).
-    /// 각 건의 실제 결과는 AppraisalCore.Appraise로 미리 확정하고, 릴이 스핀하는 동안
-    /// 보여주는 중간 값은 각 AppraisalReel이 관리하는 연출용 코스메틱일 뿐이다.
+    /// 감정 슬롯 릴의 연출만 담당하는 뷰. 실제 감정 계산과 지급 타이밍은 AppraisalService가
+    /// 씬과 무관하게 소유하며, 이 시퀀서는 서비스가 발행하는 OnAppraisalStarted를 받아
+    /// 릴을 돌릴 뿐 결과 계산이나 지급에는 관여하지 않는다. 릴이 화면에 보일 때만(감정 탭)
+    /// 스핀하고, 숨겨진 동안(업그레이드 탭 등)에는 서비스 페이스대로 골드만 조용히 오르며,
+    /// 다시 감정 탭으로 돌아오면 진행 중이던 감정의 남은 시간만큼 스핀을 재시작해
+    /// 아이콘·사운드를 복원한다.
     /// </summary>
     public sealed class AppraisalReelSequencer : MonoBehaviour
     {
-        [SerializeField] private AppraisalCore _appraisalCore;
         [SerializeField] private AppraisalDisplay _display;
-        [SerializeField] private AppraisalTank _tank;
 
         [SerializeField, Min(0f)] private float _leftSpinDuration = 1f;
         [SerializeField, Min(0f)] private float _rightSpinDuration = 3f;
-        [SerializeField, Min(0f)] private float _resultHoldDuration = 0.5f;
 
-        public event Action<AppraisalResult> OnPayoutConfirmed;
+        private Coroutine _visualCoroutine;
 
-        private Coroutine _sequenceCoroutine;
-
-        private void Start()
+        private void Awake()
         {
-            if (_appraisalCore == null || _display == null || _tank == null)
+            if (_display == null)
             {
                 Debug.LogError($"{nameof(AppraisalReelSequencer)}에 필요한 참조가 없습니다.", this);
                 enabled = false;
-                return;
             }
+        }
 
-            _sequenceCoroutine = StartCoroutine(RunSequence());
+        private void OnEnable()
+        {
+            AppraisalService.OnAppraisalStarted += HandleAppraisalStarted;
         }
 
         private void OnDisable()
         {
-            if (_sequenceCoroutine != null)
+            AppraisalService.OnAppraisalStarted -= HandleAppraisalStarted;
+            StopVisual();
+        }
+
+        private void Start()
+        {
+            // 이 오브젝트가 활성화되기 전(다른 씬에 있었거나 방금 로드됐거나)에 이미
+            // 서비스가 감정을 시작했다면 그 남은 시간만큼만 스핀을 이어 붙인다.
+            if (AppraisalService.TryGetActiveAppraisal(out AppraisalResult activeResult, out float remaining))
             {
-                StopCoroutine(_sequenceCoroutine);
-                _sequenceCoroutine = null;
+                BeginVisual(activeResult, remaining);
             }
         }
 
-        private IEnumerator RunSequence()
+        private void HandleAppraisalStarted(CollectibleData item, AppraisalResult result, float duration)
         {
-            while (_tank.HasRemaining)
-            {
-                if (_tank.TryTakeBottomItem(out CollectibleData item))
-                {
-                    yield return RunOneAppraisal(item);
-                }
-                else
-                {
-                    // 집을 수 있는(바닥에 안정된) 아이콘이 아직 없을 뿐이므로 다음 프레임에 재시도.
-                    yield return null;
-                }
-            }
-
-            _sequenceCoroutine = null;
+            BeginVisual(result, duration);
         }
 
-        private IEnumerator RunOneAppraisal(CollectibleData item)
+        private void BeginVisual(AppraisalResult result, float windowDuration)
         {
-            AppraisalResult result = _appraisalCore.Appraise(item);
+            StopVisual();
+            _visualCoroutine = StartCoroutine(RunVisual(result, windowDuration));
+        }
 
-            // 감정은 화면이 보이든(감정 탭) 안 보이든(업그레이드 탭) 항상 같은 속도로
-            // 진행돼 자동으로 돈이 벌린다. 릴을 실제로 돌릴 수 있을 때만 스핀 연출을 켜고,
-            // 숨겨져 있으면 스핀 대신 같은 시간만큼 기다려 지급 속도를 동일하게 유지한다.
-            // (스핀 없이 즉시 지급되던 버그 방지)
-            float spinTime = Mathf.Max(_leftSpinDuration, _rightSpinDuration);
+        private void StopVisual()
+        {
+            if (_visualCoroutine != null)
+            {
+                StopCoroutine(_visualCoroutine);
+                _visualCoroutine = null;
+            }
+        }
+
+        private IEnumerator RunVisual(AppraisalResult result, float windowDuration)
+        {
             float elapsed = 0f;
             bool wasReady = _display.IsReady;
 
             if (wasReady)
             {
-                _display.BeginAppraisal(result, _leftSpinDuration, _rightSpinDuration);
+                _display.BeginAppraisal(result,
+                    Mathf.Min(_leftSpinDuration, windowDuration),
+                    Mathf.Min(_rightSpinDuration, windowDuration));
             }
 
-            while (elapsed < spinTime)
+            while (elapsed < windowDuration)
             {
                 bool ready = _display.IsReady;
 
@@ -89,7 +91,7 @@ namespace CleanPlanet.Core.Appraisal
                 // 진행 중이던 아이콘·사운드를 복원한다.
                 if (ready && !wasReady)
                 {
-                    float remaining = spinTime - elapsed;
+                    float remaining = windowDuration - elapsed;
                     _display.BeginAppraisal(result,
                         Mathf.Min(_leftSpinDuration, remaining),
                         Mathf.Min(_rightSpinDuration, remaining));
@@ -100,9 +102,7 @@ namespace CleanPlanet.Core.Appraisal
                 yield return null;
             }
 
-            OnPayoutConfirmed?.Invoke(result);
-
-            yield return new WaitForSeconds(_resultHoldDuration);
+            _visualCoroutine = null;
         }
     }
 }

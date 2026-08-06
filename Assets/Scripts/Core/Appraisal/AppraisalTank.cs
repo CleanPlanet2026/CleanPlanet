@@ -7,15 +7,16 @@ using UnityEngine;
 namespace CleanPlanet.Core.Appraisal
 {
     /// <summary>
-    /// 감정 대기 중인 수집물을 유리관 안에 물리로 쌓아두는 공급원.
-    /// 감정이 필요할 때마다 관 맨 아래(y 최소) 아이콘을 제거해 그 CollectibleData를 넘긴다.
-    /// 아이콘 오브젝트는 시작 시 풀링해두고 런타임 Instantiate/Destroy 없이 재사용한다.
+    /// 감정 대기 중인 수집물을 유리관 안에 물리로 쌓아두고 시각적으로만 보여주는 뷰.
+    /// 실제로 어느 항목을 언제 감정할지는 AppraisalService가 CollectionInbox를 직접 보고
+    /// 결정하며, 이 탱크는 그 결과(OnAppraisalCompleted)를 받아 바닥 아이콘을 치우는
+    /// 표시 전담이다. 아이콘 오브젝트는 시작 시 풀링해두고 런타임 Instantiate/Destroy 없이
+    /// 재사용한다.
     /// </summary>
     public sealed class AppraisalTank : MonoBehaviour
     {
         [SerializeField] private AppraisalTankIcon _iconPrefab;
         [SerializeField] private CollectibleData[] _pendingItems;
-        [SerializeField] private CollectibleData[] _collectibleCatalog;
         [SerializeField] private Transform _spawnPoint;
         [SerializeField] private Transform _iconParent;
         [SerializeField] private AppraisalFloorSensor _floorSensor;
@@ -26,12 +27,6 @@ namespace CleanPlanet.Core.Appraisal
         private readonly List<AppraisalTankIcon> _activeIcons = new();
         private int _unspawnedCount;
 
-        /// <summary>
-        /// 아직 스폰되지 않았거나(대기 중) 관 안에 남아있는(공중이든 바닥이든) 항목이 있으면 true.
-        /// Sequencer가 "집을 게 잠깐 없을 뿐"과 "완전히 소진됨"을 구분하는 데 사용한다.
-        /// </summary>
-        public bool HasRemaining => _activeIcons.Count > 0 || _unspawnedCount > 0;
-
         private void Awake()
         {
             if (_iconPrefab == null || _spawnPoint == null || _floorSensor == null)
@@ -41,20 +36,33 @@ namespace CleanPlanet.Core.Appraisal
                 return;
             }
 
-            _pendingItems = MergeWithInbox(_pendingItems, _collectibleCatalog);
+            _pendingItems = MergeWithInbox(_pendingItems);
             _unspawnedCount = _pendingItems.Length;
             PrewarmPool();
         }
 
+        private void OnEnable()
+        {
+            AppraisalService.OnAppraisalCompleted += HandleAppraisalCompleted;
+        }
+
+        private void OnDisable()
+        {
+            AppraisalService.OnAppraisalCompleted -= HandleAppraisalCompleted;
+        }
+
         /// <summary>
         /// 인스펙터에 미리 채워둔 표본 목록에 GameScene에서 수집해온 항목을 이어붙인다.
-        /// 이후 스폰/풀링 로직은 출처를 구분하지 않고 동일하게 처리한다.
+        /// 이후 스폰/풀링 로직은 출처를 구분하지 않고 동일하게 처리한다. id→CollectibleData
+        /// 해석에는 AppraisalConfig의 카탈로그를 쓴다(씬에 별도 카탈로그를 두지 않는다).
         /// </summary>
-        private static CollectibleData[] MergeWithInbox(
-            CollectibleData[] pendingItems,
-            CollectibleData[] collectibleCatalog)
+        private static CollectibleData[] MergeWithInbox(CollectibleData[] pendingItems)
         {
-            List<CollectibleData> collected = CollectionInbox.GetPendingItems(collectibleCatalog);
+            IReadOnlyList<CollectibleData> catalog = AppraisalConfig.Instance != null
+                ? AppraisalConfig.Instance.Catalog
+                : null;
+
+            List<CollectibleData> collected = CollectionInbox.GetPendingItems(catalog);
             if (collected.Count == 0)
             {
                 return pendingItems ?? Array.Empty<CollectibleData>();
@@ -71,22 +79,19 @@ namespace CleanPlanet.Core.Appraisal
         }
 
         /// <summary>
-        /// 관 맨 아래(y 최소) 아이콘을 제거하고 그 데이터를 반환한다.
-        /// 제거와 반환이 한 호출 안에서 함께 일어나므로 "빠지는 것=감정되는 것"이 항상 일치한다.
+        /// 서비스가 감정을 완료한 시점에 그 항목과 같은 아이콘을(없으면 맨 아래 아이콘을)
+        /// 관에서 치운다. 관은 표시 전담이라 매칭이 어긋나도 게임 진행에는 영향이 없다.
         /// </summary>
-        public bool TryTakeBottomItem(out CollectibleData item)
+        private void HandleAppraisalCompleted(AppraisalResult result)
         {
-            AppraisalTankIcon lowest = FindLowestIcon();
-            if (lowest == null)
+            AppraisalTankIcon match = FindLowestIcon(icon => icon.Data == result.Item) ?? FindLowestIcon();
+            if (match == null)
             {
-                item = null;
-                return false;
+                return;
             }
 
-            item = lowest.Data;
-            _activeIcons.Remove(lowest);
-            ReturnToPool(lowest);
-            return true;
+            _activeIcons.Remove(match);
+            ReturnToPool(match);
         }
 
         /// <summary>
@@ -147,10 +152,11 @@ namespace CleanPlanet.Core.Appraisal
         }
 
         /// <summary>
-        /// 바닥 트리거(_floorSensor) 안에 들어와 안정된 아이콘 중에서만 y 최소를 찾는다.
-        /// 아직 낙하 중인 아이콘은 후보에서 제외되어 공중에서 사라지지 않는다.
+        /// 바닥 트리거(_floorSensor) 안에 들어와 안정된 아이콘 중에서(선택적으로 predicate를
+        /// 만족하는 것 중에서) y 최소를 찾는다. 아직 낙하 중인 아이콘은 후보에서 제외되어
+        /// 공중에서 사라지지 않는다.
         /// </summary>
-        private AppraisalTankIcon FindLowestIcon()
+        private AppraisalTankIcon FindLowestIcon(Func<AppraisalTankIcon, bool> predicate = null)
         {
             AppraisalTankIcon lowest = null;
             float lowestY = float.PositiveInfinity;
@@ -158,6 +164,11 @@ namespace CleanPlanet.Core.Appraisal
             foreach (AppraisalTankIcon icon in _activeIcons)
             {
                 if (!_floorSensor.Contains(icon))
+                {
+                    continue;
+                }
+
+                if (predicate != null && !predicate(icon))
                 {
                     continue;
                 }

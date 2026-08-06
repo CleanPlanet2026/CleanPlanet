@@ -6293,6 +6293,7 @@ GameObject:
   - component: {fileID: 721973284}
   - component: {fileID: 721973283}
   - component: {fileID: 2200000001}
+  - component: {fileID: 2200000002}
   m_Layer: 0
   m_Name: Skill Detail Panel
   m_TagString: Untagged
@@ -7811,23 +7812,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CleanPlanet.Core.Appraisal.AppraisalTank
   _iconPrefab: {fileID: 8114147824853029528, guid: 578b655ff5a034986a351a028d59f6e6, type: 3}
   _pendingItems: []
-  _collectibleCatalog:
-  - {fileID: 11400000, guid: 70a9d8cbe5c3b4103a0d56f30aba1d20, type: 2}
-  - {fileID: 11400000, guid: 51180610bcca746e18c5d45f2f0eee74, type: 2}
-  - {fileID: 11400000, guid: ce363888d92fb44eca923c0b19b97925, type: 2}
-  - {fileID: 11400000, guid: eff856c10005f4395b8301585afbd63b, type: 2}
-  - {fileID: 11400000, guid: 669a8be242d9142f5af56962da2daaf1, type: 2}
-  - {fileID: 11400000, guid: de317c604971d4b36801115cef7338a5, type: 2}
-  - {fileID: 11400000, guid: dcae110aa917945d487d5fedcede6225, type: 2}
-  - {fileID: 11400000, guid: 232ab7b1283d6463792b57298edd800a, type: 2}
-  - {fileID: 11400000, guid: a4392f5c94ce643bb9386a6564f56e8d, type: 2}
-  - {fileID: 11400000, guid: 176e54d48dc874d22aff706c0bae3b8b, type: 2}
-  - {fileID: 11400000, guid: 71493d6491343407684583343ec2e592, type: 2}
-  - {fileID: 11400000, guid: a824c896bdf634a13bf383697153db97, type: 2}
-  - {fileID: 11400000, guid: a23a01466973545cbb99a799ff28ac0b, type: 2}
-  - {fileID: 11400000, guid: 911ad3be20dab4633b27e537df54414f, type: 2}
-  - {fileID: 11400000, guid: 32d49d868327641329daa358bcf68e62, type: 2}
-  - {fileID: 11400000, guid: 5647bd6efc5ad4f3b90218bd55c58838, type: 2}
   _spawnPoint: {fileID: 216647569}
   _iconParent: {fileID: 0}
   _floorSensor: {fileID: 1185126114}
@@ -15808,11 +15792,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 2012933220}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 380c8144b662145f7ac52d022a1af009, type: 3}
+  m_Script: {fileID: 0}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CleanPlanet.Core.Appraisal.AppraisalDriver
-  _sequencer: {fileID: 2012933225}
-  _wallet: {fileID: 25087312}
 --- !u!114 &2012933222
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15822,20 +15804,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 2012933220}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e40fd135893ea48379f6757007b6c29d, type: 3}
+  m_Script: {fileID: 0}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CleanPlanet.Core.Appraisal.AppraisalCore
-  _multiplierTable:
-  - _multiplier: 1
-    _weight: 50
-  - _multiplier: 2
-    _weight: 25
-  - _multiplier: 4
-    _weight: 15
-  - _multiplier: 8
-    _weight: 7
-  - _multiplier: 16
-    _weight: 3
 --- !u!4 &2012933223
 Transform:
   m_ObjectHideFlags: 0
@@ -15877,12 +15848,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b9bd59b158234ea1b09c314c2ec1a01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CleanPlanet.Core.Appraisal.AppraisalReelSequencer
-  _appraisalCore: {fileID: 2012933222}
   _display: {fileID: 2012933224}
-  _tank: {fileID: 1062089869}
   _leftSpinDuration: 1
   _rightSpinDuration: 3
-  _resultHoldDuration: 0.5
 --- !u!1 &2025740245
 GameObject:
   m_ObjectHideFlags: 0
@@ -16811,6 +16779,105 @@ MonoBehaviour:
   _lockedColor: {r: 0.25, g: 0.32, b: 0.35, a: 1}
   _availableColor: {r: 1, g: 0.82, b: 0.4, a: 1}
   _upgradedColor: {r: 0.22, g: 0.85, b: 0.77, a: 1}
+  _sfxSource: {fileID: 2200000002}
+  _upgradeSfx: {fileID: 8300000, guid: 2407dbaddb1b4b188f099728e430dfcc, type: 3}
+--- !u!82 &2200000002
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 721973281}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 0}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &5501000001
 GameObject:
   m_ObjectHideFlags: 0

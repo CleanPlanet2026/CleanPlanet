@@ -73,7 +73,7 @@ MonoBehaviour:
     _duration: 4
     _coinSfx: {fileID: 8300000, guid: 3605f9b7f858b4e82bf49423ecdaf5b8, type: 3}
     _accentSfx: {fileID: 8300000, guid: faa04923411d4eb5b65073dd45431281, type: 3}
-    _extraSfx: {fileID: 8300000, guid: bf16b0a4ee30433cbed9937a8c0abdab, type: 3}
+    _extraSfx: {fileID: 0}
     _shakeIntensity: 0.35
     _flash: 1
     _bannerText: "!!! \uC7AD\uD31F !!!"
