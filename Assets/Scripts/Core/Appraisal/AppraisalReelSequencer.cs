@@ -18,6 +18,9 @@ namespace CleanPlanet.Core.Appraisal
         [SerializeField, Min(0f)] private float _leftSpinDuration = 1f;
         [SerializeField, Min(0f)] private float _rightSpinDuration = 3f;
 
+        [SerializeField] private AudioSource _sfxSource;
+        [SerializeField] private AudioClip _itemEnterSfx;
+
         private Coroutine _visualCoroutine;
 
         private void Awake()
@@ -52,6 +55,13 @@ namespace CleanPlanet.Core.Appraisal
 
         private void HandleAppraisalStarted(CollectibleData item, AppraisalResult result, float duration)
         {
+            // 수집물이 새로 감정에 들어오는 순간의 사운드. 화면이 보일 때만(감정 탭) 울리고,
+            // 씬 로드 복원(Start)이나 탭 복귀 재연출은 새 진입이 아니므로 여기서 처리하지 않는다.
+            if (_display.IsReady && _sfxSource != null && _itemEnterSfx != null)
+            {
+                _sfxSource.PlayOneShot(_itemEnterSfx);
+            }
+
             BeginVisual(result, duration);
         }
 
