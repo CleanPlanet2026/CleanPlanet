@@ -955,6 +955,8 @@ MonoBehaviour:
   _baseSceneName: BaseScene
   _stopKeyBinding: <Keyboard>/r
   _stopButton: {fileID: 6608000005}
+  _uiRoot: {fileID: 6601000002}
+  _font: {fileID: 12800000, guid: aadee97f146b64219b87f9bbbdb39e50, type: 3}
 --- !u!114 &1503161457
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1804,13 +1806,41 @@ MonoBehaviour:
   m_GameObject: {fileID: 6608000001}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e7a92c1d5b83f406a19c2e8b7d0f4a1, type: 3}
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
   m_Name:
-  m_EditorClassIdentifier: Assembly-CSharp::CleanPlanet.UI.HoldToConfirmButton
-  _holdDuration: 1
-  _progressFill: {fileID: 6609000004}
-  _label: {fileID: 6610000004}
-  _hoverLabel: "1초간 길게 클릭"
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Button
+  m_Navigation:
+    m_Mode: 3
+    m_WrapAround: 0
+    m_SelectOnUp: {fileID: 0}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnRight: {fileID: 0}
+  m_Transition: 1
+  m_Colors:
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 0.9, g: 0.78, b: 0.7, a: 1}
+    m_PressedColor: {r: 0.75, g: 0.58, b: 0.5, a: 1}
+    m_SelectedColor: {r: 0.9, g: 0.78, b: 0.7, a: 1}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_ColorMultiplier: 1
+    m_FadeDuration: 0.1
+  m_SpriteState:
+    m_HighlightedSprite: {fileID: 0}
+    m_PressedSprite: {fileID: 0}
+    m_SelectedSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 0}
+  m_AnimationTriggers:
+    m_NormalTrigger: Normal
+    m_HighlightedTrigger: Highlighted
+    m_PressedTrigger: Pressed
+    m_SelectedTrigger: Selected
+    m_DisabledTrigger: Disabled
+  m_Interactable: 1
+  m_TargetGraphic: {fileID: 6608000004}
+  m_OnClick:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &6609000001
 GameObject:
   m_ObjectHideFlags: 0
