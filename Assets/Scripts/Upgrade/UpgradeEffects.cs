@@ -14,6 +14,9 @@ namespace CleanPlanet.Upgrade
         private const string CollectionGripId = "collection_grip";
         private const string CollectionScannerId = "collection_storage";
         private const string CollectionRecoveryId = "collection_recovery";
+        private const string ExplorationWideScanId = "exploration_wide_scan";
+        private const string ExplorationSignalBoostId = "exploration_signal_boost";
+        private const string ExplorationPrecisionScanId = "exploration_precision_scan";
 
         public static float MovementSpeedMultiplier =>
             1f
@@ -44,6 +47,15 @@ namespace CleanPlanet.Upgrade
 
         public static float CollectionQteWidthMultiplier =>
             IsPurchased(CollectionScannerId) ? 1.35f : 1f;
+
+        public static float ExplorationSpawnCountMultiplier =>
+            IsPurchased(ExplorationWideScanId) ? 1.2f : 1f;
+
+        public static float ExplorationHighTierWeightMultiplier =>
+            IsPurchased(ExplorationSignalBoostId) ? 1.2f : 1f;
+
+        public static float ExplorationOwnTierWeightMultiplier =>
+            IsPurchased(ExplorationPrecisionScanId) ? 1.3f : 1f;
 
         private static float GetPurchasedBonus(string upgradeId, float bonus)
         {

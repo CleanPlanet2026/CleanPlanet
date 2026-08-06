@@ -2504,7 +2504,7 @@ GameObject:
   - component: {fileID: 265849046}
   - component: {fileID: 265849045}
   m_Layer: 0
-  m_Name: "\uBD84\uD574 \uC18D\uB3C4 Label"
+  m_Name: "\uD0D0\uC0AC \uC219\uB828\uB3C4 Label"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2562,7 +2562,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\uBD84\uD574 \uC18D\uB3C4"
+  m_Text: "\uD0D0\uC0AC \uC219\uB828\uB3C4"
 --- !u!222 &265849046
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -7408,7 +7408,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\uBCD1\uB82C \uBD84\uD574"
+  m_Text: "\uC815\uBC00 \uC2A4\uCE94"
 --- !u!222 &817925583
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -8515,7 +8515,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\uC808\uC0AD\uB0A0"
+  m_Text: "\uAD11\uC5ED \uD0D0\uC9C0"
 --- !u!222 &1067217007
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -13185,7 +13185,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\uC815\uBC00 \uACF5\uAD6C"
+  m_Text: "\uC2E0\uD638 \uC99D\uD3ED"
 --- !u!222 &1584474523
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -16541,45 +16541,45 @@ MonoBehaviour:
     _cost: 2,500 G
     _costAmount: 2500
   - _button: {fileID: 1402707422}
-    _upgradeId: disassembly_parallel
+    _upgradeId: exploration_wide_scan
     _prerequisiteId: robot_core
     _initialLevel: 0
     _maxLevel: 1
     _state: "\u25CF \uAD6C\uB9E4 \uAC00\uB2A5"
-    _skillName: "\uBCD1\uB82C \uBD84\uD574"
-    _branch: "\uBD84\uD574 \uC219\uB828\uB3C4"
-    _description: "\uC5EC\uB7EC \uBD80\uD488\uC744 \uB3D9\uC2DC\uC5D0 \uCC98\uB9AC\uD574
-      \uBD84\uD574 \uC2DC\uAC04\uC744 \uB2E8\uCD95\uD569\uB2C8\uB2E4."
-    _currentEffect: "-10% \uC2DC\uAC04"
-    _nextEffect: "-20% \uC2DC\uAC04"
+    _skillName: "\uAD11\uC5ED \uD0D0\uC9C0"
+    _branch: "\uD0D0\uC0AC \uC219\uB828\uB3C4"
+    _description: "\uD0D0\uC9C0 \uBC94\uC704\uB97C \uB113\uD600 \uD0D0\uD5D8\uC5D0\uC11C \uBC1C\uACAC\uD558\uB294
+      \uC4F0\uB808\uAE30 \uC218\uB97C \uB298\uB9BD\uB2C8\uB2E4."
+    _currentEffect: "+10% \uC0DD\uC131\uB7C9"
+    _nextEffect: "+20% \uC0DD\uC131\uB7C9"
     _cost: 600 G
     _costAmount: 600
   - _button: {fileID: 1760999685}
-    _upgradeId: disassembly_precision
-    _prerequisiteId: disassembly_parallel
+    _upgradeId: exploration_signal_boost
+    _prerequisiteId: exploration_wide_scan
     _initialLevel: 0
     _maxLevel: 1
     _state: "\u25CF \uAD6C\uB9E4 \uAC00\uB2A5"
-    _skillName: "\uC815\uBC00 \uC808\uB2E8"
-    _branch: "\uBD84\uD574 \uC219\uB828\uB3C4"
-    _description: "\uC815\uBC00\uD55C \uC808\uB2E8\uC73C\uB85C \uBD84\uD574 \uACFC\uC815\uC758
-      \uC790\uC6D0 \uC190\uC2E4\uC744 \uC904\uC785\uB2C8\uB2E4."
-    _currentEffect: "+15% \uD68C\uC218"
-    _nextEffect: "+30% \uD68C\uC218"
+    _skillName: "\uC2E0\uD638 \uC99D\uD3ED"
+    _branch: "\uD0D0\uC0AC \uC219\uB828\uB3C4"
+    _description: "\uBBF8\uC57D\uD55C \uC2E0\uD638\uB97C \uC99D\uD3ED\uD574 \uC0C1\uC704 \uB4F1\uAE09
+      \uC4F0\uB808\uAE30\uB97C \uB354 \uC790\uC8FC \uBC1C\uACAC\uD569\uB2C8\uB2E4."
+    _currentEffect: "+10% \uB4F1\uC7A5 \uAC00\uC911\uCE58"
+    _nextEffect: "+20% \uB4F1\uC7A5 \uAC00\uC911\uCE58"
     _cost: 1,400 G
     _costAmount: 1400
   - _button: {fileID: 1793816550}
-    _upgradeId: disassembly_sorting
-    _prerequisiteId: disassembly_precision
+    _upgradeId: exploration_precision_scan
+    _prerequisiteId: exploration_signal_boost
     _initialLevel: 0
     _maxLevel: 1
     _state: "\u25CF \uAD6C\uB9E4 \uAC00\uB2A5"
-    _skillName: "\uC790\uB3D9 \uBD84\uB958"
-    _branch: "\uBD84\uD574 \uC219\uB828\uB3C4"
-    _description: "\uBD84\uD574\uB41C \uBD80\uD488\uC744 \uC790\uB3D9\uC73C\uB85C
-      \uBD84\uB958\uD574 \uCC98\uB9AC\uB7C9\uC744 \uB192\uC785\uB2C8\uB2E4."
-    _currentEffect: "+25% \uCC98\uB9AC\uB7C9"
-    _nextEffect: "+45% \uCC98\uB9AC\uB7C9"
+    _skillName: "\uC815\uBC00 \uC2A4\uCE94"
+    _branch: "\uD0D0\uC0AC \uC219\uB828\uB3C4"
+    _description: "\uC4F0\uB808\uAE30\uB97C \uC815\uBC00\uD558\uAC8C \uBD84\uC11D\uD574 \uD574\uB2F9
+      \uB4F1\uAE09 \uC218\uC9D1\uBB3C\uC758 \uBC1C\uACAC\uB960\uC744 \uB192\uC785\uB2C8\uB2E4."
+    _currentEffect: "+15% \uACE0\uC720 \uB4F1\uAE09"
+    _nextEffect: "+30% \uACE0\uC720 \uB4F1\uAE09"
     _cost: 2,800 G
     _costAmount: 2800
   - _button: {fileID: 1171074069}
@@ -16719,13 +16719,13 @@ MonoBehaviour:
     _toUpgradeId: appraisal_rare_detection
     _line: {fileID: 1414291110}
   - _fromUpgradeId: robot_core
-    _toUpgradeId: disassembly_parallel
+    _toUpgradeId: exploration_wide_scan
     _line: {fileID: 1650277670}
-  - _fromUpgradeId: disassembly_parallel
-    _toUpgradeId: disassembly_precision
+  - _fromUpgradeId: exploration_wide_scan
+    _toUpgradeId: exploration_signal_boost
     _line: {fileID: 670357242}
-  - _fromUpgradeId: disassembly_precision
-    _toUpgradeId: disassembly_sorting
+  - _fromUpgradeId: exploration_signal_boost
+    _toUpgradeId: exploration_precision_scan
     _line: {fileID: 114446441}
   - _fromUpgradeId: robot_core
     _toUpgradeId: battery_saving
