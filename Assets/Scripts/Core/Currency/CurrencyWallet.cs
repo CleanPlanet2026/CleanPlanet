@@ -9,12 +9,18 @@ namespace CleanPlanet.Core.Currency
     /// </summary>
     public sealed class CurrencyWallet : MonoBehaviour
     {
-        [SerializeField, Min(0)] private int _gold;
+        private static int _gold;
 
         public event Action<int> GoldChanged;
         public event Action<int> GoldAdded;
 
         public int Gold => _gold;
+
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
+        private static void ResetState()
+        {
+            _gold = 0;
+        }
 
         public void Add(int amount)
         {
