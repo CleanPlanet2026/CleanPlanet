@@ -1170,7 +1170,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "<color=#38D9C4>\u25A1</color> \uC644\uB8CC   <color=#FFD166>\u25A1</color> \uAD6C\uB9E4 \uAC00\uB2A5   <color=#405259>\u25A1</color> \uC7A0\uAE40"
+  m_Text: "<color=#38D9C4>\u25A1</color> \uAC15\uD654 \uC644\uB8CC   <color=#FFD166>\u25A1</color> \uAD6C\uB9E4 \uAC00\uB2A5   <color=#405259>\u25A1</color> \uC120\uD589 \uAC15\uD654 \uD544\uC694"
 --- !u!222 &153136501
 CanvasRenderer:
   m_ObjectHideFlags: 0
