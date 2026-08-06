@@ -1,8 +1,10 @@
 using System;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using CleanPlanet.Map;
 using CleanPlanet.Trash;
+using CleanPlanet.Utils;
 
 namespace CleanPlanet.Player
 {
@@ -61,6 +63,16 @@ namespace CleanPlanet.Player
 
         private void OnClickPerformed(InputAction.CallbackContext context)
         {
+            if (PointerGate.IsLocked)
+            {
+                return;
+            }
+
+            if (EventSystem.current != null && EventSystem.current.IsPointerOverGameObject())
+            {
+                return;
+            }
+
             Vector2 screenPos = Mouse.current.position.ReadValue();
             Vector3 worldPos = Camera.ScreenToWorldPoint(
                 new Vector3(screenPos.x, screenPos.y, -Camera.transform.position.z));

@@ -24,6 +24,7 @@ namespace CleanPlanet.Trash
         {
             _clickToMove.OnTrashSelected += HandleTrashSelected;
             _movement.OnRobotArrived += HandleRobotArrived;
+            _qte.OnQTEStarted += HandleQteStarted;
             _qte.OnGreatSuccess += HandleGreatSuccess;
             _qte.OnSuccess += HandleSuccess;
             _qte.OnFail += HandleFail;
@@ -33,9 +34,15 @@ namespace CleanPlanet.Trash
         {
             _clickToMove.OnTrashSelected -= HandleTrashSelected;
             _movement.OnRobotArrived -= HandleRobotArrived;
+            _qte.OnQTEStarted -= HandleQteStarted;
             _qte.OnGreatSuccess -= HandleGreatSuccess;
             _qte.OnSuccess -= HandleSuccess;
             _qte.OnFail -= HandleFail;
+        }
+
+        private void HandleQteStarted()
+        {
+            _clickToMove.enabled = false;
         }
 
         private void HandleTrashSelected(TrashPile trash)
@@ -80,6 +87,8 @@ namespace CleanPlanet.Trash
 
         private void HandleQteResult(QteResult result)
         {
+            _clickToMove.enabled = true;
+
             if (_pendingTrash == null)
             {
                 Debug.LogWarning($"[TrashInteractionController] QTE 결과({result})를 받았지만 선택된 더미가 없습니다.");

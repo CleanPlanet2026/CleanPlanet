@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using CleanPlanet.Core.Collection;
 using UnityEngine;
 
 namespace CleanPlanet.Core.Appraisal
@@ -31,16 +33,33 @@ namespace CleanPlanet.Core.Appraisal
 
         private void Awake()
         {
-            if (_iconPrefab == null || _spawnPoint == null || _pendingItems == null || _pendingItems.Length == 0
-                || _floorSensor == null)
+            if (_iconPrefab == null || _spawnPoint == null || _floorSensor == null)
             {
-                Debug.LogError($"{nameof(AppraisalTank)}에 필요한 참조 또는 대기 목록이 없습니다.", this);
+                Debug.LogError($"{nameof(AppraisalTank)}에 필요한 참조가 없습니다.", this);
                 enabled = false;
                 return;
             }
 
+            _pendingItems = MergeWithInbox(_pendingItems);
             _unspawnedCount = _pendingItems.Length;
             PrewarmPool();
+        }
+
+        /// <summary>
+        /// 인스펙터에 미리 채워둔 표본 목록에 GameScene에서 수집해온 항목을 이어붙인다.
+        /// 이후 스폰/풀링 로직은 출처를 구분하지 않고 동일하게 처리한다.
+        /// </summary>
+        private static CollectibleData[] MergeWithInbox(CollectibleData[] pendingItems)
+        {
+            List<CollectibleData> collected = CollectionInbox.DrainAll();
+            if (collected.Count == 0)
+            {
+                return pendingItems ?? Array.Empty<CollectibleData>();
+            }
+
+            var merged = new List<CollectibleData>(pendingItems ?? Array.Empty<CollectibleData>());
+            merged.AddRange(collected);
+            return merged.ToArray();
         }
 
         private void Start()
@@ -116,7 +135,7 @@ namespace CleanPlanet.Core.Appraisal
             AppraisalTankIcon icon = _pool.Dequeue();
             _floorSensor.Release(icon);
 
-            float offsetX = Random.Range(-_spawnWidth * 0.5f, _spawnWidth * 0.5f);
+            float offsetX = UnityEngine.Random.Range(-_spawnWidth * 0.5f, _spawnWidth * 0.5f);
             Vector3 spawnPosition = _spawnPoint.position + new Vector3(offsetX, 0f, 0f);
 
             icon.Setup(data, spawnPosition);

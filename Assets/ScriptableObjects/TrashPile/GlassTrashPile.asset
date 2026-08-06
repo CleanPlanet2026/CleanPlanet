@@ -15,20 +15,11 @@ MonoBehaviour:
   _name: Glass
   _prefab: {fileID: 2745287877070949079, guid: 4dc13ef6864a0344990d252eeaa081b0, type: 3}
   _spawnWeight: 1
-  _dropTable:
-  - Collectible: {fileID: 11400000, guid: a23a01466973545cbb99a799ff28ac0b, type: 2}
-    Weight: 1
-  - Collectible: {fileID: 11400000, guid: 911ad3be20dab4633b27e537df54414f, type: 2}
-    Weight: 1
-  - Collectible: {fileID: 11400000, guid: 32d49d868327641329daa358bcf68e62, type: 2}
-    Weight: 1
-  - Collectible: {fileID: 11400000, guid: 5647bd6efc5ad4f3b90218bd55c58838, type: 2}
-    Weight: 1
-  - Collectible: {fileID: 11400000, guid: 70a9d8cbe5c3b4103a0d56f30aba1d20, type: 2}
-    Weight: 3
-  - Collectible: {fileID: 11400000, guid: 51180610bcca746e18c5d45f2f0eee74, type: 2}
-    Weight: 3
-  - Collectible: {fileID: 11400000, guid: ce363888d92fb44eca923c0b19b97925, type: 2}
-    Weight: 3
-  - Collectible: {fileID: 11400000, guid: eff856c10005f4395b8301585afbd63b, type: 2}
-    Weight: 3
+  _ownItems:
+  - {fileID: 11400000, guid: a23a01466973545cbb99a799ff28ac0b, type: 2}
+  - {fileID: 11400000, guid: 911ad3be20dab4633b27e537df54414f, type: 2}
+  - {fileID: 11400000, guid: 32d49d868327641329daa358bcf68e62, type: 2}
+  - {fileID: 11400000, guid: 5647bd6efc5ad4f3b90218bd55c58838, type: 2}
+  _ownWeight: 1
+  _previousTier: {fileID: 11400000, guid: cd30909e04d2aa445a43e5b982d56921, type: 2}
+  _inheritedWeight: 3
