@@ -17,6 +17,7 @@
 6. 게임의 정화·재생 테마가 드러나는 타이틀 배경을 생성해 적용한다.
 7. PR #20의 전체 변경을 최신 `main` 기준 브랜치로 옮겨 WebGL 배포 워크플로우가 실행되게 한다.
 8. 비어 보이는 탐험 화면에 게임 테마와 어울리는 배경을 생성해 적용한다.
+9. 베이스 화면에서 확인 후 현재 진행 상태를 유지한 채 타이틀로 돌아갈 수 있게 한다.
 
 ## AI와 논의한 내용
 
@@ -43,6 +44,7 @@ WebGL 한글 폰트 수정 이후에도 안정적으로 보이도록 PR #18 브�
 - PR #20 변경은 최신 `origin/main`에서 만든 통합 브랜치에 merge commit으로 합쳐 기존 이력을 보존한다.
 - 탐험 배경은 10×8 이동 영역의 가독성을 위해 중앙 대비를 낮추고 폐허·오염·식생 디테일을 가장자리에 집중한다.
 - 배경은 게임 오브젝트보다 낮은 정렬 순서로 배치하고 16:9 정사영 카메라 화면보다 약간 크게 표시한다.
+- 타이틀 복귀는 베이스 메뉴에서만 제공하고 확인 단계를 거치며, 세션 상태 초기화 없이 `TitleScene`만 로드한다.
 
 ## 변경된 주요 파일
 
@@ -57,6 +59,7 @@ WebGL 한글 폰트 수정 이후에도 안정적으로 보이도록 PR #18 브�
 - `Assets/Art/Sprites/UI/TitleBackground.png`
 - `Assets/Art/Sprites/Environment/ExplorationBackground.png`
 - `Assets/Scenes/GameScene.unity`
+- `Assets/Scripts/UI/BaseMenuView.cs`
 - `docs/ai-prompts/pr-021-integrate-game-ui.md`
 
 ## 검증 내용
