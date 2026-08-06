@@ -1809,6 +1809,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CleanPlanet.UI.HoldToConfirmButton
   _holdDuration: 1
   _progressFill: {fileID: 6609000004}
+  _label: {fileID: 6610000004}
+  _hoverLabel: "1초간 길게 클릭"
 --- !u!1 &6609000001
 GameObject:
   m_ObjectHideFlags: 0
@@ -1962,7 +1964,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "탐험 종료\n<size=16>1초 동안 누르기</size>"
+  m_Text: "탐험 종료"
 --- !u!1 &6611000001
 GameObject:
   m_ObjectHideFlags: 0
