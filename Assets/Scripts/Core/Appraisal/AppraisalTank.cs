@@ -20,16 +20,19 @@ namespace CleanPlanet.Core.Appraisal
         [SerializeField] private Transform _spawnPoint;
         [SerializeField] private Transform _iconParent;
         [SerializeField] private AppraisalFloorSensor _floorSensor;
-        [SerializeField, Min(0f)] private float _spawnWidth = 1f;
-        [SerializeField, Min(0.01f)] private float _spawnInterval = 0.04f;
+        [SerializeField, Min(0f)] private float _spawnWidth = 40f;
+        [SerializeField, Min(0.01f)] private float _spawnInterval = 0.08f;
+        [SerializeField, Min(0f)] private float _consumeSlideDistance = 20f;
+        [SerializeField, Min(0.01f)] private float _consumeSlideDuration = 0.35f;
 
         private readonly Queue<AppraisalTankIcon> _pool = new();
         private readonly List<AppraisalTankIcon> _activeIcons = new();
-        private int _unspawnedCount;
+        private readonly Queue<CollectibleData> _spawnQueue = new();
+        private Coroutine _spawnRoutine;
 
         private void Awake()
         {
-            if (_iconPrefab == null || _spawnPoint == null || _floorSensor == null)
+            if (_iconPrefab == null || _floorSensor == null || _spawnPoint == null)
             {
                 Debug.LogError($"{nameof(AppraisalTank)}에 필요한 참조가 없습니다.", this);
                 enabled = false;
@@ -37,18 +40,42 @@ namespace CleanPlanet.Core.Appraisal
             }
 
             _pendingItems = MergeWithInbox(_pendingItems);
-            _unspawnedCount = _pendingItems.Length;
             PrewarmPool();
         }
 
         private void OnEnable()
         {
             AppraisalService.OnAppraisalCompleted += HandleAppraisalCompleted;
+            CollectionInbox.ItemsAdded += HandleItemsAdded;
+            EnsureSpawnRoutine();
         }
 
         private void OnDisable()
         {
             AppraisalService.OnAppraisalCompleted -= HandleAppraisalCompleted;
+            CollectionInbox.ItemsAdded -= HandleItemsAdded;
+            // Unity가 비활성화 시 코루틴을 멈추므로 핸들을 비워 재활성화 때 다시 시작하게 한다.
+            _spawnRoutine = null;
+        }
+
+        /// <summary>
+        /// 플레이 도중 인박스에 수집물이 새로 들어오면(수집·디버그 추가 등) 관 위 스폰
+        /// 지점에서 떨어뜨려 쌓는다. 씬 진입 시 이미 있던 항목은 Start에서 처리되므로
+        /// 여기서 중복 처리되지 않는다(ItemsAdded는 새 추가에만 발생).
+        /// </summary>
+        private void HandleItemsAdded(CollectibleData item, int count)
+        {
+            if (item == null)
+            {
+                return;
+            }
+
+            for (int i = 0; i < count; i++)
+            {
+                _spawnQueue.Enqueue(item);
+            }
+
+            EnsureSpawnRoutine();
         }
 
         /// <summary>
@@ -75,7 +102,43 @@ namespace CleanPlanet.Core.Appraisal
 
         private void Start()
         {
-            StartCoroutine(SpawnPendingItems());
+            foreach (CollectibleData item in _pendingItems)
+            {
+                if (item != null)
+                {
+                    _spawnQueue.Enqueue(item);
+                }
+            }
+
+            EnsureSpawnRoutine();
+        }
+
+        private void EnsureSpawnRoutine()
+        {
+            if (_spawnRoutine == null && isActiveAndEnabled)
+            {
+                _spawnRoutine = StartCoroutine(DrainSpawnQueue());
+            }
+        }
+
+        /// <summary>
+        /// 대기열의 항목을 관 위 스폰 지점에서 일정 간격으로 하나씩 떨어뜨린다. 시간차를 둬서
+        /// 여러 개가 한 점에 겹쳐 생성돼 물리로 튕겨나가는 것을 막고, 중력으로 자연스럽게 쌓이게 한다.
+        /// </summary>
+        private IEnumerator DrainSpawnQueue()
+        {
+            var wait = new WaitForSeconds(_spawnInterval);
+
+            while (_spawnQueue.Count > 0)
+            {
+                CollectibleData data = _spawnQueue.Dequeue();
+                float offsetX = UnityEngine.Random.Range(-_spawnWidth * 0.5f, _spawnWidth * 0.5f);
+                Vector3 position = _spawnPoint.position + new Vector3(offsetX, 0f, 0f);
+                SpawnAt(data, position);
+                yield return wait;
+            }
+
+            _spawnRoutine = null;
         }
 
         /// <summary>
@@ -91,7 +154,32 @@ namespace CleanPlanet.Core.Appraisal
             }
 
             _activeIcons.Remove(match);
-            ReturnToPool(match);
+            _floorSensor.Release(match);
+            StartCoroutine(ConsumeIcon(match));
+        }
+
+        /// <summary>
+        /// 감정에 소비된 아이콘을 즉시 없애지 않고 관 아래로 스르륵 내려가며 옅어지게 한 뒤
+        /// 풀로 되돌린다. 내려가는 동안 물리는 꺼 둔다(FreezeForConsume).
+        /// </summary>
+        private IEnumerator ConsumeIcon(AppraisalTankIcon icon)
+        {
+            icon.FreezeForConsume();
+
+            Vector3 start = icon.transform.position;
+            Vector3 end = start + Vector3.down * _consumeSlideDistance;
+
+            float elapsed = 0f;
+            while (elapsed < _consumeSlideDuration)
+            {
+                elapsed += Time.deltaTime;
+                float t = Mathf.Clamp01(elapsed / _consumeSlideDuration);
+                icon.transform.position = Vector3.Lerp(start, end, t);
+                icon.SetAlpha(1f - t);
+                yield return null;
+            }
+
+            ReturnToPool(icon);
         }
 
         /// <summary>
@@ -106,7 +194,7 @@ namespace CleanPlanet.Core.Appraisal
             }
 
             _activeIcons.Clear();
-            _unspawnedCount = 0;
+            _spawnQueue.Clear();
         }
 
         private void PrewarmPool()
@@ -119,34 +207,19 @@ namespace CleanPlanet.Core.Appraisal
             }
         }
 
-        private IEnumerator SpawnPendingItems()
+        private void SpawnAt(CollectibleData data, Vector3 position)
         {
-            var tick = new WaitForSeconds(_spawnInterval);
-
-            foreach (CollectibleData data in _pendingItems)
-            {
-                SpawnOne(data);
-                yield return tick;
-            }
-        }
-
-        private void SpawnOne(CollectibleData data)
-        {
-            _unspawnedCount--;
-
             if (_pool.Count == 0)
             {
-                Debug.LogWarning($"{nameof(AppraisalTank)}: 풀이 부족해 {data.Name}을(를) 스폰하지 못했습니다.", this);
-                return;
+                AppraisalTankIcon extra = Instantiate(_iconPrefab, _iconParent != null ? _iconParent : transform);
+                extra.gameObject.SetActive(false);
+                _pool.Enqueue(extra);
             }
 
             AppraisalTankIcon icon = _pool.Dequeue();
             _floorSensor.Release(icon);
 
-            float offsetX = UnityEngine.Random.Range(-_spawnWidth * 0.5f, _spawnWidth * 0.5f);
-            Vector3 spawnPosition = _spawnPoint.position + new Vector3(offsetX, 0f, 0f);
-
-            icon.Setup(data, spawnPosition);
+            icon.Setup(data, position);
             icon.gameObject.SetActive(true);
             _activeIcons.Add(icon);
         }
