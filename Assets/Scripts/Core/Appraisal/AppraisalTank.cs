@@ -27,6 +27,7 @@ namespace CleanPlanet.Core.Appraisal
 
         private readonly Queue<AppraisalTankIcon> _pool = new();
         private readonly List<AppraisalTankIcon> _activeIcons = new();
+        private readonly List<AppraisalTankIcon> _consuming = new();
         private readonly Queue<CollectibleData> _spawnQueue = new();
         private Coroutine _spawnRoutine;
 
@@ -45,6 +46,7 @@ namespace CleanPlanet.Core.Appraisal
 
         private void OnEnable()
         {
+            AppraisalService.OnAppraisalStarted += HandleAppraisalStarted;
             AppraisalService.OnAppraisalCompleted += HandleAppraisalCompleted;
             CollectionInbox.ItemsAdded += HandleItemsAdded;
             EnsureSpawnRoutine();
@@ -52,10 +54,20 @@ namespace CleanPlanet.Core.Appraisal
 
         private void OnDisable()
         {
+            AppraisalService.OnAppraisalStarted -= HandleAppraisalStarted;
             AppraisalService.OnAppraisalCompleted -= HandleAppraisalCompleted;
             CollectionInbox.ItemsAdded -= HandleItemsAdded;
             // Unity가 비활성화 시 코루틴을 멈추므로 핸들을 비워 재활성화 때 다시 시작하게 한다.
             _spawnRoutine = null;
+
+            // 소비 슬라이드 코루틴도 비활성화 때 함께 멈춰, 반투명 상태로 방치된 아이콘이
+            // 다시 켰을 때 투명하게 남는다. 소비 중이던 아이콘을 즉시 풀로 회수해 정리한다.
+            for (int i = _consuming.Count - 1; i >= 0; i--)
+            {
+                ReturnToPool(_consuming[i]);
+            }
+
+            _consuming.Clear();
         }
 
         /// <summary>
@@ -142,19 +154,41 @@ namespace CleanPlanet.Core.Appraisal
         }
 
         /// <summary>
-        /// 서비스가 감정을 완료한 시점에 그 항목과 같은 아이콘을(없으면 맨 아래 아이콘을)
-        /// 관에서 치운다. 관은 표시 전담이라 매칭이 어긋나도 게임 진행에는 영향이 없다.
+        /// 서비스가 한 건의 감정을 "시작"할 때, 릴이 보여주기 시작하는 그 항목의 아이콘을
+        /// 관에서 빼내 아래로 내려보낸다. 릴 표시와 파이프에서 빠지는 아이템이 같은 시점에
+        /// 같은 것이 되도록 완료가 아닌 시작에 맞춘다. 같은 종류 아이콘이 없으면(아직 안 떨어졌거나
+        /// 매칭 실패) 맨 아래 아이콘으로 대체한다.
         /// </summary>
-        private void HandleAppraisalCompleted(AppraisalResult result)
+        private void HandleAppraisalStarted(CollectibleData item, AppraisalResult result, float duration)
         {
-            AppraisalTankIcon match = FindLowestIcon(icon => icon.Data == result.Item) ?? FindLowestIcon();
+            AppraisalTankIcon match = FindMatchingIcon(item) ?? FindLowestGroundedIcon();
             if (match == null)
             {
                 return;
             }
 
+            ConsumeMatch(match);
+        }
+
+        /// <summary>
+        /// 안전망: 감정이 진행 중일 때 씬에 들어와 시작 이벤트를 놓친 경우, 완료 시점에도
+        /// 그 항목 아이콘이 관에 남아 있으면 여기서 정리한다. 정상 흐름에선 시작 때 이미
+        /// 빠졌으므로 매칭되는 아이콘이 없어 아무 일도 하지 않는다.
+        /// </summary>
+        private void HandleAppraisalCompleted(AppraisalResult result)
+        {
+            AppraisalTankIcon match = FindMatchingIcon(result.Item);
+            if (match != null)
+            {
+                ConsumeMatch(match);
+            }
+        }
+
+        private void ConsumeMatch(AppraisalTankIcon match)
+        {
             _activeIcons.Remove(match);
             _floorSensor.Release(match);
+            _consuming.Add(match);
             StartCoroutine(ConsumeIcon(match));
         }
 
@@ -179,6 +213,7 @@ namespace CleanPlanet.Core.Appraisal
                 yield return null;
             }
 
+            _consuming.Remove(icon);
             ReturnToPool(icon);
         }
 
@@ -225,11 +260,37 @@ namespace CleanPlanet.Core.Appraisal
         }
 
         /// <summary>
-        /// 바닥 트리거(_floorSensor) 안에 들어와 안정된 아이콘 중에서(선택적으로 predicate를
-        /// 만족하는 것 중에서) y 최소를 찾는다. 아직 낙하 중인 아이콘은 후보에서 제외되어
-        /// 공중에서 사라지지 않는다.
+        /// 감정 대상과 같은 종류의 아이콘 중 y 최소를 찾는다. 바닥 안착 여부와 무관하게
+        /// 찾아, 아직 낙하 중이더라도 "지금 감정 중인 바로 그 종류"를 정확히 빼낼 수 있게 한다.
         /// </summary>
-        private AppraisalTankIcon FindLowestIcon(Func<AppraisalTankIcon, bool> predicate = null)
+        private AppraisalTankIcon FindMatchingIcon(CollectibleData item)
+        {
+            AppraisalTankIcon lowest = null;
+            float lowestY = float.PositiveInfinity;
+
+            foreach (AppraisalTankIcon icon in _activeIcons)
+            {
+                if (icon.Data != item)
+                {
+                    continue;
+                }
+
+                float y = icon.transform.position.y;
+                if (y < lowestY)
+                {
+                    lowestY = y;
+                    lowest = icon;
+                }
+            }
+
+            return lowest;
+        }
+
+        /// <summary>
+        /// 바닥 트리거 안에 안착한 아이콘 중 y 최소를 찾는다(종류 매칭 실패 시 대체용).
+        /// 아직 낙하 중인 아이콘은 제외해 공중에서 사라지지 않게 한다.
+        /// </summary>
+        private AppraisalTankIcon FindLowestGroundedIcon()
         {
             AppraisalTankIcon lowest = null;
             float lowestY = float.PositiveInfinity;
@@ -237,11 +298,6 @@ namespace CleanPlanet.Core.Appraisal
             foreach (AppraisalTankIcon icon in _activeIcons)
             {
                 if (!_floorSensor.Contains(icon))
-                {
-                    continue;
-                }
-
-                if (predicate != null && !predicate(icon))
                 {
                     continue;
                 }
@@ -259,6 +315,8 @@ namespace CleanPlanet.Core.Appraisal
 
         private void ReturnToPool(AppraisalTankIcon icon)
         {
+            // 소비 슬라이드로 옅어진 상태가 남지 않도록 알파를 복구해 두고 회수한다.
+            icon.SetAlpha(1f);
             icon.gameObject.SetActive(false);
             _pool.Enqueue(icon);
         }
