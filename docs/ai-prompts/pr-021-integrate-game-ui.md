@@ -21,6 +21,7 @@
 10. 탐험 시작은 일반 클릭으로 바꾸고 탐험 종료에만 간단한 확인 단계를 둔다.
 11. 탐험 중 이번 탐험에서 획득한 수집물 개수를 상단 HUD에 실시간으로 표시한다.
 12. 최초 탐험 진입 시 조작 설명창을 표시하고 우측 상단 도움말 버튼으로 다시 열 수 있게 한다.
+13. 베이스에 한 번이라도 도착한 세션에서는 타이틀 화면에 베이스 직행 버튼을 표시한다.
 
 ## AI와 논의한 내용
 
@@ -54,6 +55,7 @@ WebGL 한글 폰트 수정 이후에도 안정적으로 보이도록 PR #18 브�
 - 베이스 메뉴 드롭다운에는 별도 제목이나 닫기 버튼 없이 `타이틀로 돌아가기` 항목만 표시한다.
 - 탐험 수집물 HUD는 씬 진입 당시 대기 수집물 수를 기준점으로 삼고 이후 증가분만 이벤트로 표시한다.
 - 탐험 설명창은 쓰레기 클릭 이동, 타이밍에 맞춘 스페이스바 입력, 배터리 소진 시 자동 복귀와 탐험 종료 버튼을 통한 조기 복귀를 안내하며 열린 동안 게임을 일시정지한다.
+- 베이스 방문 여부는 현재 플레이 세션에서만 유지하고, 방문 이후 타이틀에는 `시작하기`와 별도로 `베이스로 이동` 버튼을 표시한다.
 
 ## 변경된 주요 파일
 
@@ -71,6 +73,8 @@ WebGL 한글 폰트 수정 이후에도 안정적으로 보이도록 PR #18 브�
 - `Assets/Scripts/UI/BaseMenuView.cs`
 - `Assets/Scripts/UI/ExplorationCollectionHudView.cs`
 - `Assets/Scripts/UI/ExplorationTutorialView.cs`
+- `Assets/Scripts/Core/GameSessionState.cs`
+- `Assets/Scripts/UI/TitleScreenController.cs`
 - `docs/ai-prompts/pr-021-integrate-game-ui.md`
 
 ## 검증 내용
