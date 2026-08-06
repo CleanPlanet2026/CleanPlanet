@@ -11,8 +11,8 @@ namespace CleanPlanet.Core.Audio
         public static event Action<float> MusicVolumeChanged;
         public static event Action<float> ButtonSfxVolumeChanged;
 
-        public static float MusicVolume => PlayerPrefs.GetFloat(MusicVolumeKey, 1f);
-        public static float ButtonSfxVolume => PlayerPrefs.GetFloat(ButtonSfxVolumeKey, 1f);
+        public static float MusicVolume => PlayerPrefs.GetFloat(MusicVolumeKey, 0.5f);
+        public static float ButtonSfxVolume => PlayerPrefs.GetFloat(ButtonSfxVolumeKey, 0.5f);
 
         public static void SetMusicVolume(float volume)
         {

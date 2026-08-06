@@ -10,7 +10,6 @@ namespace CleanPlanet.Core.Audio
         private static BackgroundMusicPlayer _instance;
 
         [SerializeField] private AudioClip _music;
-        [SerializeField, Range(0f, 1f)] private float _volume = 0.28f;
 
         private AudioSource _audioSource;
 
@@ -29,7 +28,7 @@ namespace CleanPlanet.Core.Audio
             _audioSource.playOnAwake = false;
             _audioSource.loop = true;
             _audioSource.spatialBlend = 0f;
-            _audioSource.volume = _volume * AudioSettings.MusicVolume;
+            _audioSource.volume = AudioSettings.MusicVolume;
             _audioSource.clip = _music;
             AudioSettings.MusicVolumeChanged += HandleMusicVolumeChanged;
 
@@ -51,7 +50,7 @@ namespace CleanPlanet.Core.Audio
 
         private void HandleMusicVolumeChanged(float volume)
         {
-            _audioSource.volume = _volume * volume;
+            _audioSource.volume = volume;
         }
     }
 }

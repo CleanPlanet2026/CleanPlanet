@@ -1688,7 +1688,6 @@ MonoBehaviour:
   m_Name:
   m_EditorClassIdentifier: Assembly-CSharp::CleanPlanet.Core.Audio.BackgroundMusicPlayer
   _music: {fileID: 8300000, guid: 15b6162904882014ba530abcae3661dc, type: 3}
-  _volume: 0.28
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

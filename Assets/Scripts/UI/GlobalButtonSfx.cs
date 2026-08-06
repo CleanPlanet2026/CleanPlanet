@@ -38,7 +38,7 @@ namespace CleanPlanet.UI
             _audioSource.playOnAwake = false;
             _audioSource.loop = false;
             _audioSource.spatialBlend = 0f;
-            _audioSource.volume = 0.35f * GameAudioSettings.ButtonSfxVolume;
+            _audioSource.volume = GameAudioSettings.ButtonSfxVolume;
             _temporaryClickClip = CreateTemporaryClickClip();
 
             SceneManager.sceneLoaded += HandleSceneLoaded;
@@ -88,7 +88,7 @@ namespace CleanPlanet.UI
 
         private void HandleButtonSfxVolumeChanged(float volume)
         {
-            _audioSource.volume = 0.35f * volume;
+            _audioSource.volume = volume;
         }
 
         private static AudioClip CreateTemporaryClickClip()
