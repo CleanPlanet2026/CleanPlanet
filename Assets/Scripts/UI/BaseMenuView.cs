@@ -22,7 +22,7 @@ namespace CleanPlanet.UI
         private void Awake()
         {
             Button menuButton = CreateButton("Menu Button", transform, "메뉴",
-                new Vector2(28f, -28f), new Vector2(132f, 52f), ControlColor, true);
+                new Vector2(24f, -24f), new Vector2(120f, 64f), ControlColor, true);
             _menuPanel = CreateMenuPanel();
             _confirmationOverlay = CreateConfirmationOverlay();
 
@@ -35,7 +35,7 @@ namespace CleanPlanet.UI
         {
             GameObject panel = CreateUiObject("Base Menu Panel", transform);
             RectTransform rect = panel.GetComponent<RectTransform>();
-            SetTopLeftRect(rect, new Vector2(300f, 190f), new Vector2(28f, -92f));
+            SetTopLeftRect(rect, new Vector2(300f, 190f), new Vector2(24f, -104f));
             panel.AddComponent<Image>().color = PanelColor;
 
             CreateText("Title", panel.transform, "메뉴", 26, TextAnchor.MiddleCenter,
