@@ -1,4 +1,5 @@
 using System.Collections;
+using CleanPlanet.Core.Appraisal;
 using CleanPlanet.Core.Currency;
 using CleanPlanet.Utils;
 using UnityEngine;
@@ -20,6 +21,7 @@ namespace CleanPlanet.UI
         [SerializeField] private CameraShake _cameraShake;
         [SerializeField] private ScreenFlash _screenFlash;
         [SerializeField] private TierBanner _banner;
+        [SerializeField] private AppraisalDisplay _display;
         [SerializeField, Min(0f)] private float _extraSfxDelay = 0.3f;
         [SerializeField, Min(0f)] private float _extraSfxVolume = 2f;
 
@@ -52,6 +54,13 @@ namespace CleanPlanet.UI
 
         private void HandleGoldAdded(int payout)
         {
+            // 감정 화면이 보이지 않을 때(업그레이드 탭 등)는 골드만 오르고 연출은 생략한다.
+            // 골드 값은 CurrencyWallet.Add의 GoldChanged로 이미 HUD에 반영된다.
+            if (_display != null && !_display.IsReady)
+            {
+                return;
+            }
+
             AppraisalTier tier = _tierTable.DetermineTier(payout);
             if (tier == null)
             {

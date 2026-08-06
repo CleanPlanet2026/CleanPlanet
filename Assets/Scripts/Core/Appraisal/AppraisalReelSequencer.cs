@@ -67,10 +67,36 @@ namespace CleanPlanet.Core.Appraisal
         {
             AppraisalResult result = _appraisalCore.Appraise(item);
 
-            _display.BeginAppraisal(result, _leftSpinDuration, _rightSpinDuration);
+            // 감정은 화면이 보이든(감정 탭) 안 보이든(업그레이드 탭) 항상 같은 속도로
+            // 진행돼 자동으로 돈이 벌린다. 릴을 실제로 돌릴 수 있을 때만 스핀 연출을 켜고,
+            // 숨겨져 있으면 스핀 대신 같은 시간만큼 기다려 지급 속도를 동일하게 유지한다.
+            // (스핀 없이 즉시 지급되던 버그 방지)
+            float spinTime = Mathf.Max(_leftSpinDuration, _rightSpinDuration);
+            float elapsed = 0f;
+            bool wasReady = _display.IsReady;
 
-            while (_display.IsSpinning)
+            if (wasReady)
             {
+                _display.BeginAppraisal(result, _leftSpinDuration, _rightSpinDuration);
+            }
+
+            while (elapsed < spinTime)
+            {
+                bool ready = _display.IsReady;
+
+                // 숨겼다가 감정 탭으로 다시 돌아오면 릴이 비활성화되며 셀이 숨겨져 빈
+                // 릴처럼 보인다. 이 전환을 감지해 남은 시간만큼 스핀을 재시작하여
+                // 진행 중이던 아이콘·사운드를 복원한다.
+                if (ready && !wasReady)
+                {
+                    float remaining = spinTime - elapsed;
+                    _display.BeginAppraisal(result,
+                        Mathf.Min(_leftSpinDuration, remaining),
+                        Mathf.Min(_rightSpinDuration, remaining));
+                }
+
+                wasReady = ready;
+                elapsed += Time.deltaTime;
                 yield return null;
             }
 
