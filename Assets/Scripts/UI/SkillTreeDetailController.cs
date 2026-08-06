@@ -75,6 +75,8 @@ namespace CleanPlanet.UI
         [SerializeField] private Color _lockedColor = new(0.25f, 0.32f, 0.35f, 1f);
         [SerializeField] private Color _availableColor = new(1f, 0.82f, 0.4f, 1f);
         [SerializeField] private Color _upgradedColor = new(0.22f, 0.85f, 0.77f, 1f);
+        [SerializeField] private AudioSource _sfxSource;
+        [SerializeField] private AudioClip _upgradeSfx;
 
         private UpgradeRuntimeState _runtimeState;
         private UnityAction[] _selectionActions;
@@ -159,8 +161,17 @@ namespace CleanPlanet.UI
 
             if (_runtimeState.TryUpgrade(option.UpgradeId, option.InitialLevel, option.MaxLevel))
             {
+                PlayUpgradeSfx();
                 RefreshTreeVisuals();
                 RefreshUpgradeState(option);
+            }
+        }
+
+        private void PlayUpgradeSfx()
+        {
+            if (_sfxSource != null && _upgradeSfx != null)
+            {
+                _sfxSource.PlayOneShot(_upgradeSfx);
             }
         }
 
