@@ -15,6 +15,7 @@ namespace CleanPlanet.Core.Collection
         private static readonly List<CollectibleData> _pending = new();
 
         public static event Action<int> CountChanged;
+        public static event Action<CollectibleData, int> ItemsAdded;
 
         public static int Count => _pending.Count;
 
@@ -23,6 +24,7 @@ namespace CleanPlanet.Core.Collection
         {
             _pending.Clear();
             CountChanged = null;
+            ItemsAdded = null;
         }
 
         public static void Add(CollectibleData item, int count)
@@ -38,6 +40,7 @@ namespace CleanPlanet.Core.Collection
             }
 
             CountChanged?.Invoke(_pending.Count);
+            ItemsAdded?.Invoke(item, count);
         }
 
         /// <summary>
