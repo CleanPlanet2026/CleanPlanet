@@ -53,6 +53,40 @@ namespace CleanPlanet.UI
             Debug.Log($"[Debug] 수집물 {added}종을 Inbox에 1개씩 추가했습니다. 감정 화면을 새로 열면 반영됩니다.", this);
         }
 
+        [ContextMenu("Inbox 전부 비우기 (저장까지)")]
+        public void ClearInbox()
+        {
+            int before = CollectionInbox.Count;
+            CollectionInbox.Clear();
+            Debug.Log($"[Debug] Inbox를 비웠습니다. ({before}개 삭제, 저장 반영). 관에 남은 아이콘은 씬을 다시 열면 사라집니다.", this);
+        }
+
+        [ContextMenu("Inbox 내용 로그")]
+        public void LogInbox()
+        {
+            IReadOnlyList<string> ids = CollectionInbox.PendingIds;
+            if (ids.Count == 0)
+            {
+                Debug.Log("[Debug] Inbox가 비어 있습니다.", this);
+                return;
+            }
+
+            var counts = new Dictionary<string, int>();
+            foreach (string id in ids)
+            {
+                counts.TryGetValue(id, out int c);
+                counts[id] = c + 1;
+            }
+
+            var lines = new List<string>();
+            foreach (KeyValuePair<string, int> pair in counts)
+            {
+                lines.Add($"  {pair.Key} x{pair.Value}");
+            }
+
+            Debug.Log($"[Debug] Inbox 총 {ids.Count}개:\n{string.Join("\n", lines)}", this);
+        }
+
         private static IEnumerable<CollectibleData> LoadAllCollectibles()
         {
 #if UNITY_EDITOR

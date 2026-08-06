@@ -90,6 +90,27 @@ namespace CleanPlanet.Core.Collection
             }
         }
 
+        /// <summary>
+        /// 대기 중인 수집물을 전부 비우고 그 상태를 저장까지 반영한다. 내부 ResetProgress와
+        /// 달리 세이브에도 기록하므로, 씬을 다시 열거나 게임을 재시작해도 되살아나지 않는다.
+        /// </summary>
+        public static void Clear()
+        {
+            if (_pendingIds.Count == 0)
+            {
+                return;
+            }
+
+            _pendingIds.Clear();
+            SavePendingItems();
+            CountChanged?.Invoke(_pendingIds.Count);
+        }
+
+        /// <summary>
+        /// 현재 대기 중인 수집물 id 목록(읽기 전용). 디버그·표시용.
+        /// </summary>
+        public static IReadOnlyList<string> PendingIds => _pendingIds;
+
         private static void SavePendingItems()
         {
             GameSaveSystem.Data.PendingCollectibleIds.Clear();
