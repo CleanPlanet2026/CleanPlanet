@@ -1,4 +1,5 @@
 using System;
+using CleanPlanet.Core.Persistence;
 using CleanPlanet.Upgrade;
 
 namespace CleanPlanet.Core.Robot
@@ -11,7 +12,7 @@ namespace CleanPlanet.Core.Robot
     {
         public const float BaseMaxCharge = 100f;
 
-        private static float _charge = BaseMaxCharge;
+        private static float _charge;
 
         public static event Action<float> ChargeChanged;
         public static event Action Depleted;
@@ -19,6 +20,12 @@ namespace CleanPlanet.Core.Robot
         public static float Charge => _charge;
         public static float MaxCharge => BaseMaxCharge * UpgradeEffects.BatteryCapacityMultiplier;
         public static bool IsFull => _charge >= MaxCharge;
+
+        [UnityEngine.RuntimeInitializeOnLoadMethod(UnityEngine.RuntimeInitializeLoadType.BeforeSceneLoad)]
+        private static void LoadState()
+        {
+            _charge = Math.Min(MaxCharge, Math.Max(0f, GameSaveSystem.Data.BatteryCharge));
+        }
 
         public static void Drain(float amount)
         {
@@ -28,6 +35,7 @@ namespace CleanPlanet.Core.Robot
             }
 
             _charge = Math.Max(0f, _charge - amount);
+            SaveCharge();
             ChargeChanged?.Invoke(_charge);
 
             if (_charge <= 0f)
@@ -44,7 +52,19 @@ namespace CleanPlanet.Core.Robot
             }
 
             _charge = Math.Min(MaxCharge, _charge + amount);
+            SaveCharge();
             ChargeChanged?.Invoke(_charge);
+        }
+
+        private static void SaveCharge()
+        {
+            GameSaveSystem.Data.BatteryCharge = _charge;
+            GameSaveSystem.MarkDirty();
+        }
+
+        internal static void ResetProgress()
+        {
+            _charge = BaseMaxCharge;
         }
     }
 }

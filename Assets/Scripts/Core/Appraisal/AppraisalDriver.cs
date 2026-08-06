@@ -1,4 +1,5 @@
 using CleanPlanet.Core.Currency;
+using CleanPlanet.Core.Collection;
 using UnityEngine;
 
 namespace CleanPlanet.Core.Appraisal
@@ -34,6 +35,7 @@ namespace CleanPlanet.Core.Appraisal
 
         private void HandlePayoutConfirmed(AppraisalResult result)
         {
+            CollectionInbox.Remove(result.Item);
             _wallet.Add(result.Payout);
         }
     }

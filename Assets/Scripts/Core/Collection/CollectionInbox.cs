@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using CleanPlanet.Core.Appraisal;
+using CleanPlanet.Core.Persistence;
 using UnityEngine;
 
 namespace CleanPlanet.Core.Collection
@@ -12,17 +13,18 @@ namespace CleanPlanet.Core.Collection
     /// </summary>
     public static class CollectionInbox
     {
-        private static readonly List<CollectibleData> _pending = new();
+        private static readonly List<string> _pendingIds = new();
 
         public static event Action<int> CountChanged;
         public static event Action<CollectibleData, int> ItemsAdded;
 
-        public static int Count => _pending.Count;
+        public static int Count => _pendingIds.Count;
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
         private static void ResetState()
         {
-            _pending.Clear();
+            _pendingIds.Clear();
+            _pendingIds.AddRange(GameSaveSystem.Data.PendingCollectibleIds);
             CountChanged = null;
             ItemsAdded = null;
         }
@@ -36,10 +38,11 @@ namespace CleanPlanet.Core.Collection
 
             for (int i = 0; i < count; i++)
             {
-                _pending.Add(item);
+                _pendingIds.Add(item.PersistenceId);
             }
 
-            CountChanged?.Invoke(_pending.Count);
+            SavePendingItems();
+            CountChanged?.Invoke(_pendingIds.Count);
             ItemsAdded?.Invoke(item, count);
         }
 
@@ -47,18 +50,56 @@ namespace CleanPlanet.Core.Collection
         /// 쌓인 항목을 모두 꺼내고 보관소를 비운다. BaseScene의 AppraisalTank가
         /// Awake에서 한 번 호출해 자신의 대기 목록에 합친다.
         /// </summary>
-        public static List<CollectibleData> GetPendingItems()
+        public static List<CollectibleData> GetPendingItems(IEnumerable<CollectibleData> catalog)
         {
-            return new List<CollectibleData>(_pending);
+            var byId = new Dictionary<string, CollectibleData>();
+            if (catalog != null)
+            {
+                foreach (CollectibleData item in catalog)
+                {
+                    if (item != null)
+                    {
+                        byId[item.PersistenceId] = item;
+                    }
+                }
+            }
+
+            var items = new List<CollectibleData>(_pendingIds.Count);
+            foreach (string id in _pendingIds)
+            {
+                if (byId.TryGetValue(id, out CollectibleData item))
+                {
+                    items.Add(item);
+                }
+                else
+                {
+                    Debug.LogWarning($"Saved collectible '{id}' is missing from the catalog.");
+                }
+            }
+
+            return items;
         }
 
         public static void Remove(CollectibleData item)
         {
             if (item != null)
             {
-                _pending.Remove(item);
-                CountChanged?.Invoke(_pending.Count);
+                _pendingIds.Remove(item.PersistenceId);
+                SavePendingItems();
+                CountChanged?.Invoke(_pendingIds.Count);
             }
+        }
+
+        private static void SavePendingItems()
+        {
+            GameSaveSystem.Data.PendingCollectibleIds.Clear();
+            GameSaveSystem.Data.PendingCollectibleIds.AddRange(_pendingIds);
+            GameSaveSystem.MarkDirty();
+        }
+
+        internal static void ResetProgress()
+        {
+            _pendingIds.Clear();
         }
     }
 }

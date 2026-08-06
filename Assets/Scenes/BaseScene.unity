@@ -8326,7 +8326,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CleanPlanet.Core.Appraisal.AppraisalTank
   _iconPrefab: {fileID: 8114147824853029528, guid: 578b655ff5a034986a351a028d59f6e6, type: 3}
-  _pendingItems:
+  _pendingItems: []
+  _collectibleCatalog:
   - {fileID: 11400000, guid: 70a9d8cbe5c3b4103a0d56f30aba1d20, type: 2}
   - {fileID: 11400000, guid: 51180610bcca746e18c5d45f2f0eee74, type: 2}
   - {fileID: 11400000, guid: ce363888d92fb44eca923c0b19b97925, type: 2}

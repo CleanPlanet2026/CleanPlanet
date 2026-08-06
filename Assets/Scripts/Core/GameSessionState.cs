@@ -1,3 +1,4 @@
+using CleanPlanet.Core.Persistence;
 using UnityEngine;
 
 namespace CleanPlanet.Core
@@ -9,12 +10,24 @@ namespace CleanPlanet.Core
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
         private static void ResetState()
         {
-            HasReachedBase = false;
+            HasReachedBase = GameSaveSystem.Data.HasReachedBase;
         }
 
         public static void MarkBaseReached()
         {
+            if (HasReachedBase)
+            {
+                return;
+            }
+
             HasReachedBase = true;
+            GameSaveSystem.Data.HasReachedBase = true;
+            GameSaveSystem.MarkDirty();
+        }
+
+        internal static void ResetProgress()
+        {
+            HasReachedBase = false;
         }
     }
 }
