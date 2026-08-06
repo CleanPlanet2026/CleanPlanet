@@ -10,6 +10,7 @@ namespace CleanPlanet.UI
         private static readonly Color ControlColor = new(0.08f, 0.18f, 0.22f, 1f);
         private static readonly Color AccentColor = new(0.22f, 0.85f, 0.77f, 1f);
         private static readonly Color TextColor = new(0.92f, 0.97f, 0.96f, 1f);
+        private static Sprite _circleHandleSprite;
 
         [SerializeField] private Font _font;
 
@@ -70,16 +71,16 @@ namespace CleanPlanet.UI
                 new Vector2(0f, -30f), new Vector2(360f, 42f));
 
             CreateText("Music Label", panel.transform, "음악", 19, TextAnchor.MiddleLeft,
-                new Vector2(-135f, -86f), new Vector2(100f, 32f));
-            Slider musicSlider = CreateSlider("Music Slider", panel.transform, new Vector2(25f, -86f));
+                new Vector2(-135f, -82f), new Vector2(100f, 32f));
+            Slider musicSlider = CreateSlider("Music Slider", panel.transform, new Vector2(35f, -82f));
             _musicValue = CreateText("Music Value", panel.transform, string.Empty, 17,
-                TextAnchor.MiddleRight, new Vector2(160f, -86f), new Vector2(70f, 32f));
+                TextAnchor.MiddleRight, new Vector2(175f, -82f), new Vector2(60f, 32f));
 
             CreateText("Button Sfx Label", panel.transform, "버튼 효과음", 19, TextAnchor.MiddleLeft,
-                new Vector2(-135f, -142f), new Vector2(130f, 32f));
-            Slider buttonSfxSlider = CreateSlider("Button Sfx Slider", panel.transform, new Vector2(25f, -142f));
+                new Vector2(-135f, -150f), new Vector2(130f, 32f));
+            Slider buttonSfxSlider = CreateSlider("Button Sfx Slider", panel.transform, new Vector2(35f, -150f));
             _buttonSfxValue = CreateText("Button Sfx Value", panel.transform, string.Empty, 17,
-                TextAnchor.MiddleRight, new Vector2(160f, -142f), new Vector2(70f, 32f));
+                TextAnchor.MiddleRight, new Vector2(175f, -150f), new Vector2(60f, 32f));
 
             Button closeButton = CreateTextButton(panel.transform, "닫기", new Vector2(0f, -210f));
             closeButton.onClick.AddListener(ClosePanel);
@@ -96,7 +97,11 @@ namespace CleanPlanet.UI
         private Slider CreateSlider(string name, Transform parent, Vector2 position)
         {
             GameObject sliderObject = CreateUiObject(name, parent);
-            SetCenteredRect(sliderObject.GetComponent<RectTransform>(), new Vector2(200f, 32f), position);
+            SetCenteredRect(sliderObject.GetComponent<RectTransform>(), new Vector2(220f, 48f), position);
+
+            Image hitArea = sliderObject.AddComponent<Image>();
+            hitArea.color = Color.clear;
+            hitArea.raycastTarget = true;
 
             Slider slider = sliderObject.AddComponent<Slider>();
             slider.minValue = 0f;
@@ -105,7 +110,6 @@ namespace CleanPlanet.UI
             Image background = CreateImage("Background", sliderObject.transform, ControlColor);
             RectTransform backgroundRect = background.rectTransform;
             SetCenterRect(backgroundRect, new Vector2(200f, 8f), Vector2.zero);
-            background.raycastTarget = true;
 
             GameObject fillArea = CreateUiObject("Fill Area", sliderObject.transform);
             RectTransform fillAreaRect = fillArea.GetComponent<RectTransform>();
@@ -119,13 +123,57 @@ namespace CleanPlanet.UI
             GameObject handleArea = CreateUiObject("Handle Slide Area", sliderObject.transform);
             Stretch(handleArea.GetComponent<RectTransform>());
             Image handle = CreateImage("Handle", handleArea.transform, TextColor);
-            SetCenterRect(handle.rectTransform, new Vector2(18f, 24f), Vector2.zero);
+            handle.sprite = GetCircleHandleSprite();
+            handle.preserveAspect = true;
+            SetCenterRect(handle.rectTransform, new Vector2(30f, 30f), Vector2.zero);
 
             slider.fillRect = fill.rectTransform;
             slider.handleRect = handle.rectTransform;
             slider.targetGraphic = handle;
             slider.direction = Slider.Direction.LeftToRight;
             return slider;
+        }
+
+        private static Sprite GetCircleHandleSprite()
+        {
+            if (_circleHandleSprite != null)
+            {
+                return _circleHandleSprite;
+            }
+
+            const int size = 32;
+            const float radius = 14f;
+            Vector2 center = new((size - 1) * 0.5f, (size - 1) * 0.5f);
+            Color[] pixels = new Color[size * size];
+
+            for (int y = 0; y < size; y++)
+            {
+                for (int x = 0; x < size; x++)
+                {
+                    float distance = Vector2.Distance(new Vector2(x, y), center);
+                    float alpha = Mathf.Clamp01(radius + 1f - distance);
+                    pixels[y * size + x] = new Color(1f, 1f, 1f, alpha);
+                }
+            }
+
+            Texture2D texture = new(size, size, TextureFormat.RGBA32, false)
+            {
+                name = "Runtime Audio Slider Handle",
+                filterMode = FilterMode.Bilinear,
+                wrapMode = TextureWrapMode.Clamp,
+                hideFlags = HideFlags.HideAndDontSave
+            };
+            texture.SetPixels(pixels);
+            texture.Apply();
+
+            _circleHandleSprite = Sprite.Create(
+                texture,
+                new Rect(0f, 0f, size, size),
+                new Vector2(0.5f, 0.5f),
+                100f);
+            _circleHandleSprite.name = "Runtime Audio Slider Handle";
+            _circleHandleSprite.hideFlags = HideFlags.HideAndDontSave;
+            return _circleHandleSprite;
         }
 
         private Button CreateTextButton(Transform parent, string label, Vector2 position)

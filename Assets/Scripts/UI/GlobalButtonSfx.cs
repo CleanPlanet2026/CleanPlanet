@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -12,12 +13,23 @@ namespace CleanPlanet.UI
     public sealed class GlobalButtonSfx : MonoBehaviour
     {
         private const int SampleRate = 44100;
-        private const float ClipDuration = 0.06f;
+
+        private enum ButtonSound
+        {
+            Select,
+            Navigate,
+            Adjust,
+            Confirm,
+            HoldConfirm
+        }
 
         private static GlobalButtonSfx _instance;
 
+        private readonly HashSet<Button> _registeredButtons = new();
+        private readonly HashSet<HoldToConfirmButton> _registeredHoldButtons = new();
+        private readonly Dictionary<ButtonSound, AudioClip> _clips = new();
+
         private AudioSource _audioSource;
-        private AudioClip _temporaryClickClip;
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
         private static void Initialize()
@@ -39,7 +51,7 @@ namespace CleanPlanet.UI
             _audioSource.loop = false;
             _audioSource.spatialBlend = 0f;
             _audioSource.volume = GameAudioSettings.ButtonSfxVolume;
-            _temporaryClickClip = CreateTemporaryClickClip();
+            CreateTemporaryClips();
 
             SceneManager.sceneLoaded += HandleSceneLoaded;
             GameAudioSettings.ButtonSfxVolumeChanged += HandleButtonSfxVolumeChanged;
@@ -63,12 +75,20 @@ namespace CleanPlanet.UI
 
         private void RegisterButtons()
         {
+            _registeredButtons.RemoveWhere(button => button == null);
+            _registeredHoldButtons.RemoveWhere(button => button == null);
+
             Button[] buttons = FindObjectsByType<Button>(FindObjectsInactive.Include);
 
             foreach (Button button in buttons)
             {
-                button.onClick.RemoveListener(PlayClick);
-                button.onClick.AddListener(PlayClick);
+                if (!_registeredButtons.Add(button))
+                {
+                    continue;
+                }
+
+                ButtonSound sound = Classify(button);
+                button.onClick.AddListener(() => Play(sound));
             }
 
             HoldToConfirmButton[] holdButtons =
@@ -76,14 +96,16 @@ namespace CleanPlanet.UI
 
             foreach (HoldToConfirmButton holdButton in holdButtons)
             {
-                holdButton.Confirmed -= PlayClick;
-                holdButton.Confirmed += PlayClick;
+                if (_registeredHoldButtons.Add(holdButton))
+                {
+                    holdButton.Confirmed += () => Play(ButtonSound.HoldConfirm);
+                }
             }
         }
 
-        private void PlayClick()
+        private void Play(ButtonSound sound)
         {
-            _audioSource.PlayOneShot(_temporaryClickClip);
+            _audioSource.PlayOneShot(_clips[sound]);
         }
 
         private void HandleButtonSfxVolumeChanged(float volume)
@@ -91,27 +113,66 @@ namespace CleanPlanet.UI
             _audioSource.volume = volume;
         }
 
-        private static AudioClip CreateTemporaryClickClip()
+        private void CreateTemporaryClips()
         {
-            int sampleCount = Mathf.CeilToInt(SampleRate * ClipDuration);
+            _clips[ButtonSound.Select] = CreateTemporaryClip("UI Select", 1050f, 720f, 0.05f, 0.18f);
+            _clips[ButtonSound.Navigate] = CreateTemporaryClip("UI Navigate", 760f, 1180f, 0.07f, 0.22f);
+            _clips[ButtonSound.Adjust] = CreateTemporaryClip("UI Adjust", 1450f, 1080f, 0.035f, 0.14f);
+            _clips[ButtonSound.Confirm] = CreateTemporaryClip("UI Confirm", 620f, 980f, 0.09f, 0.28f);
+            _clips[ButtonSound.HoldConfirm] = CreateTemporaryClip("UI Hold Confirm", 460f, 760f, 0.13f, 0.34f);
+        }
+
+        private static ButtonSound Classify(Button button)
+        {
+            string buttonName = button.name;
+
+            if (buttonName.Contains("Start") || buttonName.Contains("Upgrade Button"))
+            {
+                return ButtonSound.Confirm;
+            }
+
+            if (buttonName.Contains("Tab") ||
+                buttonName.Contains("Settings") ||
+                buttonName.Contains("Close") ||
+                buttonName.Contains("Explore Button"))
+            {
+                return ButtonSound.Navigate;
+            }
+
+            if (buttonName.Contains("Zoom") || buttonName.Contains("Reset View"))
+            {
+                return ButtonSound.Adjust;
+            }
+
+            return ButtonSound.Select;
+        }
+
+        private static AudioClip CreateTemporaryClip(
+            string clipName,
+            float startFrequency,
+            float endFrequency,
+            float duration,
+            float harmonicAmount)
+        {
+            int sampleCount = Mathf.CeilToInt(SampleRate * duration);
             float[] samples = new float[sampleCount];
             float phase = 0f;
 
             for (int i = 0; i < sampleCount; i++)
             {
                 float time = i / (float)SampleRate;
-                float progress = time / ClipDuration;
-                float frequency = Mathf.Lerp(1350f, 720f, progress);
+                float progress = time / duration;
+                float frequency = Mathf.Lerp(startFrequency, endFrequency, progress);
                 float attack = Mathf.Clamp01(time / 0.003f);
-                float envelope = attack * Mathf.Exp(-42f * time);
+                float envelope = attack * Mathf.Exp(-3.5f * time / duration);
 
                 phase += 2f * Mathf.PI * frequency / SampleRate;
-                float tone = Mathf.Sin(phase) + Mathf.Sin(phase * 2f) * 0.2f;
-                samples[i] = tone * envelope * 0.24f;
+                float tone = Mathf.Sin(phase) + Mathf.Sin(phase * 2f) * harmonicAmount;
+                samples[i] = tone * envelope * 0.22f;
             }
 
             AudioClip clip = AudioClip.Create(
-                "Temporary UI Click",
+                clipName,
                 sampleCount,
                 1,
                 SampleRate,
