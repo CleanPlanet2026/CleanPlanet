@@ -18,6 +18,7 @@ MonoBehaviour:
     _duration: 1
     _coinSfx: {fileID: 8300000, guid: 743fc62926cc4638b42d12e5c3428c25, type: 3}
     _accentSfx: {fileID: 0}
+    _extraSfx: {fileID: 0}
     _shakeIntensity: 0
     _flash: 0
     _bannerText: 
@@ -28,6 +29,7 @@ MonoBehaviour:
     _duration: 1
     _coinSfx: {fileID: 8300000, guid: 743fc62926cc4638b42d12e5c3428c25, type: 3}
     _accentSfx: {fileID: 0}
+    _extraSfx: {fileID: 0}
     _shakeIntensity: 0
     _flash: 0
     _bannerText: 
@@ -38,6 +40,7 @@ MonoBehaviour:
     _duration: 2
     _coinSfx: {fileID: 8300000, guid: d8086a96b2f8430698f5e72f8ef80b87, type: 3}
     _accentSfx: {fileID: 0}
+    _extraSfx: {fileID: 0}
     _shakeIntensity: 0
     _flash: 0
     _bannerText: 
@@ -47,7 +50,8 @@ MonoBehaviour:
     _coinCount: 60
     _duration: 2
     _coinSfx: {fileID: 8300000, guid: d8086a96b2f8430698f5e72f8ef80b87, type: 3}
-    _accentSfx: {fileID: 0}
+    _accentSfx: {fileID: 8300000, guid: 36526c7e450e4468b9a1aef578875dd7, type: 3}
+    _extraSfx: {fileID: 0}
     _shakeIntensity: 0.1
     _flash: 0
     _bannerText: "\uB300\uBC15!"
@@ -57,7 +61,8 @@ MonoBehaviour:
     _coinCount: 150
     _duration: 4
     _coinSfx: {fileID: 8300000, guid: 3605f9b7f858b4e82bf49423ecdaf5b8, type: 3}
-    _accentSfx: {fileID: 8300000, guid: 36526c7e450e4468b9a1aef578875dd7, type: 3}
+    _accentSfx: {fileID: 8300000, guid: 36540525de2a47a286fc0f4bf5641d47, type: 3}
+    _extraSfx: {fileID: 0}
     _shakeIntensity: 0.2
     _flash: 0
     _bannerText: "\uCD08\uB300\uBC15!!"
@@ -68,6 +73,7 @@ MonoBehaviour:
     _duration: 4
     _coinSfx: {fileID: 8300000, guid: 3605f9b7f858b4e82bf49423ecdaf5b8, type: 3}
     _accentSfx: {fileID: 8300000, guid: faa04923411d4eb5b65073dd45431281, type: 3}
+    _extraSfx: {fileID: 0}
     _shakeIntensity: 0.35
     _flash: 1
     _bannerText: "!!! \uC7AD\uD31F !!!"

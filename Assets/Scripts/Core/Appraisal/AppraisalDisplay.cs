@@ -15,6 +15,15 @@ namespace CleanPlanet.Core.Appraisal
         public bool IsSpinning => (_iconReel != null && _iconReel.IsSpinning)
             || (_multiplierReel != null && _multiplierReel.IsSpinning);
 
+        /// <summary>
+        /// 두 릴이 모두 활성 상태여서 실제로 스핀을 시작할 수 있는지 여부.
+        /// 감정로봇 패널이 숨겨지면 릴 오브젝트가 비활성이 되어 false가 된다.
+        /// 시퀀서는 이 값이 true일 때만 감정을 진행해, 숨긴 동안 스핀 없이
+        /// 즉시 지급되는 문제를 막는다.
+        /// </summary>
+        public bool IsReady => _iconReel != null && _iconReel.isActiveAndEnabled
+            && _multiplierReel != null && _multiplierReel.isActiveAndEnabled;
+
         public void BeginAppraisal(AppraisalResult result, float leftDuration, float rightDuration)
         {
             if (_iconReel == null || _multiplierReel == null)

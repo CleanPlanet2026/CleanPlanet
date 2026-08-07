@@ -15,6 +15,7 @@ namespace CleanPlanet.UI
         [SerializeField] private float _duration;
         [SerializeField] private AudioClip _coinSfx;
         [SerializeField] private AudioClip _accentSfx;
+        [SerializeField] private AudioClip _extraSfx;
         [SerializeField] private float _shakeIntensity;
         [SerializeField] private bool _flash;
         [SerializeField] private string _bannerText;
@@ -47,6 +48,7 @@ namespace CleanPlanet.UI
         public float Duration => _duration;
         public AudioClip CoinSfx => _coinSfx;
         public AudioClip AccentSfx => _accentSfx;
+        public AudioClip ExtraSfx => _extraSfx;
         public float ShakeIntensity => _shakeIntensity;
         public bool Flash => _flash;
         public string BannerText => _bannerText;
