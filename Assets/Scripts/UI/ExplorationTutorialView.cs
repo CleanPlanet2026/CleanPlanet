@@ -46,23 +46,24 @@ namespace CleanPlanet.UI
             overlay.AddComponent<Image>().color = OverlayColor;
 
             GameObject panel = CreateUiObject("Tutorial Panel", overlay.transform);
-            SetCenterRect(panel.GetComponent<RectTransform>(), new Vector2(700f, 520f), Vector2.zero);
+            SetCenterRect(panel.GetComponent<RectTransform>(), new Vector2(700f, 620f), Vector2.zero);
             panel.AddComponent<Image>().color = PanelColor;
 
             CreateText("Title", panel.transform, "탐험 방법", 32, FontStyle.Bold,
-                TextAnchor.MiddleCenter, new Vector2(0f, 195f), new Vector2(620f, 52f));
+                TextAnchor.MiddleCenter, new Vector2(0f, 245f), new Vector2(620f, 52f));
 
             Text description = CreateText("Instructions", panel.transform,
                 "1. 쓰레기 더미를 클릭하면 로봇이 이동합니다.\n\n" +
                 "2. 타이밍에 맞춰 스페이스바를 누르세요.\n\n" +
-                "3. 배터리가 모두 소진되면 자동으로 베이스로 복귀합니다.\n\n" +
-                "4. 탐험 종료 버튼으로 일찍 베이스에 돌아갈 수 있습니다.",
-                22, FontStyle.Normal, TextAnchor.MiddleLeft,
-                new Vector2(0f, 22f), new Vector2(580f, 310f));
+                "3. 발광 포탈을 클릭하면 다른 구역으로 이동하며, 포탈로 다시 돌아올 수 있습니다.\n\n" +
+                "4. 배터리가 모두 소진되면 자동으로 베이스로 복귀합니다.\n\n" +
+                "5. 탐험 종료 버튼으로 일찍 베이스에 돌아갈 수 있습니다.",
+                20, FontStyle.Normal, TextAnchor.MiddleLeft,
+                new Vector2(0f, 25f), new Vector2(580f, 410f));
             description.lineSpacing = 1.15f;
 
             Button startButton = CreateButton("Close Tutorial Button", panel.transform, "탐험 시작",
-                new Vector2(0f, -205f), new Vector2(200f, 56f), AccentColor);
+                new Vector2(0f, -255f), new Vector2(200f, 56f), AccentColor);
             startButton.onClick.AddListener(CloseTutorial);
             return overlay;
         }

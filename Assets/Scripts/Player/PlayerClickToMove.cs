@@ -25,6 +25,7 @@ namespace CleanPlanet.Player
         /// 클릭한 Cell의 점유자가 TrashPile이고 이동이 실제로 시작됐을 때만 발행된다.
         /// </summary>
         public event Action<TrashPile> OnTrashSelected;
+        public event Action<ExplorationPortal> OnPortalSelected;
 
         private TargetCellSelector _targetSelector;
         private InputAction _clickAction;
@@ -85,10 +86,20 @@ namespace CleanPlanet.Player
             }
 
             TrashPile trash = Occupancy.GetOccupant(clickedIndex)?.GetComponent<TrashPile>();
+            ExplorationPortal portal = Occupancy.GetOccupant(clickedIndex)?.GetComponent<ExplorationPortal>();
 
-            if (Movement.TryMoveTo(destination) && trash != null)
+            if (!Movement.TryMoveTo(destination))
+            {
+                return;
+            }
+
+            if (trash != null)
             {
                 OnTrashSelected?.Invoke(trash);
+            }
+            else if (portal != null)
+            {
+                OnPortalSelected?.Invoke(portal);
             }
         }
 

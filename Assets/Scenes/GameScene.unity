@@ -166,7 +166,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
+  m_Name:
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -297,7 +297,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a79441f348de89743a2939f4d699eac1, type: 3}
-  m_Name: 
+  m_Name:
   m_EditorClassIdentifier: Unity.RenderPipelines.Universal.Runtime::UnityEngine.Rendering.Universal.UniversalAdditionalCameraData
   m_RenderShadows: 1
   m_RequiresDepthTextureOption: 2
@@ -378,7 +378,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
+  m_Name:
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -436,7 +436,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 34169fb6a60ff944d9e7d74c6c5f673e, type: 3}
-  m_Name: 
+  m_Name:
   m_EditorClassIdentifier: Assembly-CSharp::CleanPlanet.Trash.QteController
   _needleSpeed: 180
   _successWidth: 110
@@ -444,6 +444,21 @@ MonoBehaviour:
   _randomizeStartAngle: 1
   _fixedStartAngle: 0
   _autoStart: 0
+--- !u!4 &400717431
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 400717429}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.10859, y: -1.49518, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &400717432
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -484,16 +499,55 @@ MonoBehaviour:
   _successClip: {fileID: 8300000, guid: 73af6a4e84d34a2a9cf06fa22eae064b, type: 3}
   _greatSuccessClip: {fileID: 8300000, guid: 75d8db510ba0410eae739c6955ecb76d, type: 3}
   _volume: 0.45
---- !u!4 &400717431
+--- !u!1 &740479183
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 740479185}
+  - component: {fileID: 740479184}
+  m_Layer: 0
+  m_Name: ExplorationManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &740479184
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 740479183}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ed0926e7c4e3e14eac4fbf269f64610, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::CleanPlanet.Map.ExplorationManager
+  _startingMapPrefab: {fileID: 6788725271354482526, guid: 6488193e0b88d4f45a3c7e4af0f686ca, type: 3}
+  _mapPrefabs:
+  - {fileID: 6788725271354482526, guid: 6488193e0b88d4f45a3c7e4af0f686ca, type: 3}
+  - {fileID: 6788725271354482526, guid: b493a286e26f4aa499da8a9c13f8d207, type: 3}
+  - {fileID: 6788725271354482526, guid: 9c881c86bd00410780b515942bf89cb4, type: 3}
+  - {fileID: 6788725271354482526, guid: 4b30a6dfc6144ec6bd568dc987ab56cc, type: 3}
+  - {fileID: 6788725271354482526, guid: 5bb02a243864489cb55e0cfbf1a923e8, type: 3}
+  _mapRoot: {fileID: 740479185}
+  _playerMovement: {fileID: 7160934477118210215}
+  _playerClickToMove: {fileID: 7160934477118210216}
+--- !u!4 &740479185
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 400717429}
+  m_GameObject: {fileID: 740479183}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.10859, y: -1.49518, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -570,7 +624,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: af85f5112498c1cf05f7f4d61e1a5f16, type: 3}
-  m_Name: 
+  m_Name:
   m_EditorClassIdentifier: Assembly-CSharp::CleanPlanet.Trash.QteUI
   _qte: {fileID: 400717430}
   _root: {fileID: 900000001}
@@ -646,7 +700,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
+  m_Name:
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
   m_Color: {r: 0.9, g: 0.9, b: 0.9, a: 1}
@@ -721,7 +775,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
+  m_Name:
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -849,105 +903,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!1 &1285283148
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1285283150}
-  - component: {fileID: 1285283149}
-  m_Layer: 0
-  m_Name: TrashSpawner
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1285283149
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1285283148}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1f4fd7673b2aee644bf6f4c14f06cc8e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CleanPlanet.Trash.TrashSpawner
-  _gridManager: {fileID: 1347935838}
-  _pileTypes:
-  - {fileID: 11400000, guid: cd30909e04d2aa445a43e5b982d56921, type: 2}
-  - {fileID: 11400000, guid: 396f4bd423b823748abd3edf84d16d3d, type: 2}
-  _spawnCount: 5
---- !u!4 &1285283150
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1285283148}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.10859, y: -1.49518, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1347935837
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1347935839}
-  - component: {fileID: 1347935838}
-  m_Layer: 0
-  m_Name: GridManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1347935838
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1347935837}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 835c0bec01c60f44593dcefc8c4cdea0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CleanPlanet.Map.GridManager
-  _columns: 10
-  _rows: 8
-  _cellSize: 1
-  _origin: {x: -5, y: -4}
-  _playerMovement: {fileID: 7160934477118210215}
-  _playerClickToMove: {fileID: 7160934477118210216}
---- !u!4 &1347935839
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1347935837}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.10859, y: -1.49518, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1503161454
 GameObject:
   m_ObjectHideFlags: 0
@@ -992,7 +947,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c73becab30ea8fa4984405c44d294506, type: 3}
-  m_Name: 
+  m_Name:
   m_EditorClassIdentifier: Assembly-CSharp::CleanPlanet.Core.Robot.ExplorationReturnTrigger
   _baseSceneName: BaseScene
   _stopKeyBinding: <Keyboard>/r
@@ -1009,7 +964,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a8b1f0a4c64b7b041a655b3da8ef93aa, type: 3}
-  m_Name: 
+  m_Name:
   m_EditorClassIdentifier: Assembly-CSharp::CleanPlanet.Trash.TrashCollectionRelay
   _interaction: {fileID: 2128441622}
 --- !u!114 &1503161458
@@ -1022,7 +977,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5995ea5d22c587348b3046f081e19664, type: 3}
-  m_Name: 
+  m_Name:
   m_EditorClassIdentifier: Assembly-CSharp::CleanPlanet.Core.Robot.BatteryDrainer
   _drainPerSecond: 2
 --- !u!1 &2128441621
@@ -1052,7 +1007,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9c8e07bf87c375245ba81631004eae4d, type: 3}
-  m_Name: 
+  m_Name:
   m_EditorClassIdentifier: Assembly-CSharp::CleanPlanet.Trash.TrashInteractionController
   _clickToMove: {fileID: 7160934477118210216}
   _movement: {fileID: 7160934477118210215}
@@ -1151,7 +1106,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
-  m_Name: 
+  m_Name:
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.CanvasScaler
   m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
@@ -1174,7 +1129,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
-  m_Name: 
+  m_Name:
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.GraphicRaycaster
   m_IgnoreReversedGraphics: 1
   m_BlockingObjects: 0
@@ -1191,7 +1146,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9d4e6b1f2a7c4053b8d1e0f3a6c9d2e7, type: 3}
-  m_Name: 
+  m_Name:
   m_EditorClassIdentifier: Assembly-CSharp::CleanPlanet.Core.Robot.LowBatteryWarning
   _warningPanel: {fileID: 6605000001}
   _baseSceneName: BaseScene
@@ -1280,7 +1235,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
+  m_Name:
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
   m_Color: {r: 0, g: 0, b: 0, a: 0.6}
@@ -1310,7 +1265,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3c8f21a9d4b6e0517c2f9a83e6d41b02, type: 3}
-  m_Name: 
+  m_Name:
   m_EditorClassIdentifier: Assembly-CSharp::CleanPlanet.UI.BatteryHudView
   _fillImage: {fileID: 6603000004}
   _label: {fileID: 6604000004}
@@ -1369,7 +1324,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
+  m_Name:
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
   m_Color: {r: 0.3, g: 0.85, b: 0.3, a: 1}
@@ -1444,7 +1399,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
-  m_Name: 
+  m_Name:
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Text
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1524,7 +1479,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
+  m_Name:
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
   m_Color: {r: 0.45, g: 0.03, b: 0.03, a: 0.75}
@@ -1599,7 +1554,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
-  m_Name: 
+  m_Name:
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Text
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 0.85, b: 0.2, a: 1}
@@ -1623,93 +1578,6 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: "\uBC30\uD130\uB9AC \uBD80\uC871 - \uBCA0\uC774\uC2A4\uB85C \uBCF5\uADC0\uD569\uB2C8\uB2E4"
---- !u!1001 &7160934477118210213
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 927447457779542334, guid: c2da7f326ff1a2949928b2897f34b8d9, type: 3}
-      propertyPath: m_Name
-      value: RobotTest
-      objectReference: {fileID: 0}
-    - target: {fileID: 1037690828506594081, guid: c2da7f326ff1a2949928b2897f34b8d9, type: 3}
-      propertyPath: <Camera>k__BackingField
-      value: 
-      objectReference: {fileID: 265786292}
-    - target: {fileID: 1037690828506594081, guid: c2da7f326ff1a2949928b2897f34b8d9, type: 3}
-      propertyPath: <Movement>k__BackingField
-      value: 
-      objectReference: {fileID: 7160934477118210215}
-    - target: {fileID: 7687750494028282380, guid: c2da7f326ff1a2949928b2897f34b8d9, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7687750494028282380, guid: c2da7f326ff1a2949928b2897f34b8d9, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7687750494028282380, guid: c2da7f326ff1a2949928b2897f34b8d9, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7687750494028282380, guid: c2da7f326ff1a2949928b2897f34b8d9, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7687750494028282380, guid: c2da7f326ff1a2949928b2897f34b8d9, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7687750494028282380, guid: c2da7f326ff1a2949928b2897f34b8d9, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7687750494028282380, guid: c2da7f326ff1a2949928b2897f34b8d9, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7687750494028282380, guid: c2da7f326ff1a2949928b2897f34b8d9, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7687750494028282380, guid: c2da7f326ff1a2949928b2897f34b8d9, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7687750494028282380, guid: c2da7f326ff1a2949928b2897f34b8d9, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: c2da7f326ff1a2949928b2897f34b8d9, type: 3}
---- !u!114 &7160934477118210215 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3033987861072522777, guid: c2da7f326ff1a2949928b2897f34b8d9, type: 3}
-  m_PrefabInstance: {fileID: 7160934477118210213}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b19cc25e80374129a17ef5846d518fd5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CleanPlanet.Player.PlayerMovement
---- !u!114 &7160934477118210216 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1037690828506594081, guid: c2da7f326ff1a2949928b2897f34b8d9, type: 3}
-  m_PrefabInstance: {fileID: 7160934477118210213}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 224c5db82ac74d44b8fe30dc47c46890, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CleanPlanet.Player.PlayerClickToMove
 --- !u!1 &6607000001
 GameObject:
   m_ObjectHideFlags: 0
@@ -2064,7 +1932,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "탐험 종료"
+  m_Text: "\uD0D0\uD5D8 \uC885\uB8CC"
 --- !u!1 &6611000001
 GameObject:
   m_ObjectHideFlags: 0
@@ -2198,110 +2066,103 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text:
---- !u!1 &6700000001
-GameObject:
+--- !u!1001 &7160934477118210213
+PrefabInstance:
   m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 6700000002}
-  - component: {fileID: 6700000003}
-  m_Layer: 0
-  m_Name: Exploration Background
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &6700000002
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6700000001}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 1}
-  m_LocalScale: {x: 1.07, y: 1.07, z: 1}
-  m_ConstrainProportionsScale: 1
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!212 &6700000003
-SpriteRenderer:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 927447457779542334, guid: c2da7f326ff1a2949928b2897f34b8d9, type: 3}
+      propertyPath: m_Name
+      value: RobotTest
+      objectReference: {fileID: 0}
+    - target: {fileID: 1037690828506594081, guid: c2da7f326ff1a2949928b2897f34b8d9, type: 3}
+      propertyPath: <Camera>k__BackingField
+      value:
+      objectReference: {fileID: 265786292}
+    - target: {fileID: 1037690828506594081, guid: c2da7f326ff1a2949928b2897f34b8d9, type: 3}
+      propertyPath: <Movement>k__BackingField
+      value:
+      objectReference: {fileID: 7160934477118210215}
+    - target: {fileID: 7687750494028282380, guid: c2da7f326ff1a2949928b2897f34b8d9, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7687750494028282380, guid: c2da7f326ff1a2949928b2897f34b8d9, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7687750494028282380, guid: c2da7f326ff1a2949928b2897f34b8d9, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7687750494028282380, guid: c2da7f326ff1a2949928b2897f34b8d9, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7687750494028282380, guid: c2da7f326ff1a2949928b2897f34b8d9, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7687750494028282380, guid: c2da7f326ff1a2949928b2897f34b8d9, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7687750494028282380, guid: c2da7f326ff1a2949928b2897f34b8d9, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7687750494028282380, guid: c2da7f326ff1a2949928b2897f34b8d9, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7687750494028282380, guid: c2da7f326ff1a2949928b2897f34b8d9, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7687750494028282380, guid: c2da7f326ff1a2949928b2897f34b8d9, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: c2da7f326ff1a2949928b2897f34b8d9, type: 3}
+--- !u!114 &7160934477118210215 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3033987861072522777, guid: c2da7f326ff1a2949928b2897f34b8d9, type: 3}
+  m_PrefabInstance: {fileID: 7160934477118210213}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6700000001}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
-  m_CastShadows: 0
-  m_ReceiveShadows: 0
-  m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 0
-  m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
-  m_ForceMeshLod: -1
-  m_MeshLodSelectionBias: 0
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 0
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: -100
-  m_MaskInteraction: 0
-  m_Sprite: {fileID: -5836381744118626211, guid: fcd38da0a6c14e8a95f391cb3caeb604, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 0
-  m_FlipY: 0
-  m_DrawMode: 0
-  m_Size: {x: 16.72, y: 9.41}
-  m_AdaptiveModeThreshold: 0.5
-  m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
-  m_SpriteSortPoint: 0
-  m_BlendShapeWeights: []
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b19cc25e80374129a17ef5846d518fd5, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::CleanPlanet.Player.PlayerMovement
+--- !u!114 &7160934477118210216 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1037690828506594081, guid: c2da7f326ff1a2949928b2897f34b8d9, type: 3}
+  m_PrefabInstance: {fileID: 7160934477118210213}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 224c5db82ac74d44b8fe30dc47c46890, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::CleanPlanet.Player.PlayerClickToMove
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 265786293}
-  - {fileID: 1347935839}
   - {fileID: 7160934477118210213}
-  - {fileID: 1285283150}
   - {fileID: 2128441623}
   - {fileID: 400717431}
   - {fileID: 900000002}
   - {fileID: 1503161455}
   - {fileID: 6601000002}
   - {fileID: 6607000002}
-  - {fileID: 6700000002}
+  - {fileID: 740479185}

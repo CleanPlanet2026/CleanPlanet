@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using CleanPlanet.Core.Collection;
 using CleanPlanet.Core.Currency;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace CleanPlanet.Core.Appraisal
 {
@@ -15,6 +16,8 @@ namespace CleanPlanet.Core.Appraisal
     /// </summary>
     public sealed class AppraisalService : MonoBehaviour
     {
+        private const string AppraisalSceneName = "BaseScene";
+
         [SerializeField, Min(0.05f)] private float _idlePollInterval = 0.2f;
 
         /// <summary>감정 한 건이 시작될 때 발행된다. BaseScene의 릴이 이 결과로 스핀 연출을 시작한다.</summary>
@@ -71,6 +74,12 @@ namespace CleanPlanet.Core.Appraisal
 
             while (true)
             {
+                if (SceneManager.GetActiveScene().name != AppraisalSceneName)
+                {
+                    yield return idleWait;
+                    continue;
+                }
+
                 AppraisalConfig config = AppraisalConfig.Instance;
                 if (config == null)
                 {

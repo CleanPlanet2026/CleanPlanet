@@ -7903,6 +7903,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CleanPlanet.Core.Appraisal.AppraisalTank
   _iconPrefab: {fileID: 8114147824853029528, guid: 578b655ff5a034986a351a028d59f6e6, type: 3}
+  _config: {fileID: 11400000, guid: 2ace0e46003014bde8d2626af20450e1, type: 2}
   _pendingItems: []
   _spawnPoint: {fileID: 216647569}
   _iconParent: {fileID: 0}

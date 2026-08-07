@@ -16,6 +16,7 @@ namespace CleanPlanet.Core.Appraisal
     public sealed class AppraisalTank : MonoBehaviour
     {
         [SerializeField] private AppraisalTankIcon _iconPrefab;
+        [SerializeField] private AppraisalConfig _config;
         [SerializeField] private CollectibleData[] _pendingItems;
         [SerializeField] private Transform _spawnPoint;
         [SerializeField] private Transform _iconParent;
@@ -33,14 +34,14 @@ namespace CleanPlanet.Core.Appraisal
 
         private void Awake()
         {
-            if (_iconPrefab == null || _floorSensor == null || _spawnPoint == null)
+            if (_iconPrefab == null || _config == null || _floorSensor == null || _spawnPoint == null)
             {
                 Debug.LogError($"{nameof(AppraisalTank)}에 필요한 참조가 없습니다.", this);
                 enabled = false;
                 return;
             }
 
-            _pendingItems = MergeWithInbox(_pendingItems);
+            _pendingItems = MergeWithInbox(_pendingItems, _config.Catalog);
             PrewarmPool();
         }
 
@@ -95,12 +96,10 @@ namespace CleanPlanet.Core.Appraisal
         /// 이후 스폰/풀링 로직은 출처를 구분하지 않고 동일하게 처리한다. id→CollectibleData
         /// 해석에는 AppraisalConfig의 카탈로그를 쓴다(씬에 별도 카탈로그를 두지 않는다).
         /// </summary>
-        private static CollectibleData[] MergeWithInbox(CollectibleData[] pendingItems)
+        private static CollectibleData[] MergeWithInbox(
+            CollectibleData[] pendingItems,
+            IReadOnlyList<CollectibleData> catalog)
         {
-            IReadOnlyList<CollectibleData> catalog = AppraisalConfig.Instance != null
-                ? AppraisalConfig.Instance.Catalog
-                : null;
-
             List<CollectibleData> collected = CollectionInbox.GetPendingItems(catalog);
             if (collected.Count == 0)
             {

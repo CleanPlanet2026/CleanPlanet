@@ -59,7 +59,7 @@ namespace CleanPlanet.Trash
                 return;
             }
 
-            TrashPile pile = Instantiate(type.Prefab);
+            TrashPile pile = Instantiate(type.Prefab, transform);
             pile.Grid = grid;
             pile.Occupancy = occupancy;
             pile.SetReward(type.RollReward(UpgradeEffects.ExplorationOwnTierWeightMultiplier));
