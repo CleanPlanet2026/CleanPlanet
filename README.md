@@ -1,5 +1,9 @@
 # CleanPlanet
 
+![CleanPlanet 타이틀 화면](Assets/Art/Sprites/UI/TitleBackground.png)
+
+[▶ 웹에서 CleanPlanet 플레이하기](https://cleanplanet2026.github.io/CleanPlanet/)
+
 쓰레기를 수집하고 재활용해 황폐한 세계를 발전시키는 2D 탑다운 방치형·증분형 게임입니다.
 
 로봇과 함께 탐험 지역의 쓰레기를 모으고, 베이스에서 수집물을 감정해 골드를 획득하세요. 획득한 골드로 로봇을 업그레이드하면 더 오래, 더 빠르게 탐험할 수 있습니다.
@@ -57,12 +61,6 @@ Assets/
   Scripts/             시스템별 C# 스크립트
   ScriptableObjects/   업그레이드 및 게임 밸런스 데이터
 ```
-
-## 기여자
-
-- [hoyadong1](https://github.com/hoyadong1)
-- [boroboro01](https://github.com/boroboro01)
-- [UHANKNAG](https://github.com/UHANKNAG)
 
 ## 관련 문서
 
