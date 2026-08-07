@@ -131,7 +131,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: -100
   m_MaskInteraction: 0
-  m_Sprite: {fileID: -5836381744118626211, guid: fcd38da0a6c14e8a95f391cb3caeb604, type: 3}
+  m_Sprite: {fileID: -5208348763055832359, guid: f8d9dd73d078c384395056c748f2e257, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -153,7 +153,7 @@ GameObject:
   - component: {fileID: 2166798701493101215}
   - component: {fileID: 6788725271354482526}
   m_Layer: 0
-  m_Name: ExplorationMap01
+  m_Name: ExplorationMap02
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -191,7 +191,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58ee74b06049c924893773fbbf89f36a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CleanPlanet.Map.ExplorationMap
-  _mapId: Map01
+  _mapId: Map02
   _gridManager: {fileID: 1327308685858338826}
 --- !u!1 &5681526318115337029
 GameObject:
@@ -253,7 +253,7 @@ GameObject:
   - component: {fileID: 910000002}
   - component: {fileID: 910000003}
   m_Layer: 0
-  m_Name: Portal To Map02
+  m_Name: Portal To Map01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -286,9 +286,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05729c8ef7ea6e949884a73395a49e5f, type: 3}
   m_Name:
   m_EditorClassIdentifier: Assembly-CSharp::CleanPlanet.Map.ExplorationPortal
-  _gridIndex: {x: 8, y: 7}
-  _destinationMapId: Map02
-  _destinationEntryId: FromMap01
+  _gridIndex: {x: 0, y: 4}
+  _destinationMapId: Map01
+  _destinationEntryId: FromMap02
 --- !u!1 &920000001
 GameObject:
   m_ObjectHideFlags: 0
@@ -300,7 +300,7 @@ GameObject:
   - component: {fileID: 920000002}
   - component: {fileID: 920000003}
   m_Layer: 0
-  m_Name: Entry From Map02
+  m_Name: Entry From Map01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -333,5 +333,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 002b6a49fb74c0842abefa2d19686d55, type: 3}
   m_Name:
   m_EditorClassIdentifier: Assembly-CSharp::CleanPlanet.Map.ExplorationEntryPoint
-  _entryId: FromMap02
-  _gridIndex: {x: 8, y: 6}
+  _entryId: FromMap01
+  _gridIndex: {x: 1, y: 4}

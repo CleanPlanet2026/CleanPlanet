@@ -529,6 +529,9 @@ MonoBehaviour:
   m_Name:
   m_EditorClassIdentifier: Assembly-CSharp::CleanPlanet.Map.ExplorationManager
   _startingMapPrefab: {fileID: 6788725271354482526, guid: 6488193e0b88d4f45a3c7e4af0f686ca, type: 3}
+  _mapPrefabs:
+  - {fileID: 6788725271354482526, guid: 6488193e0b88d4f45a3c7e4af0f686ca, type: 3}
+  - {fileID: 6788725271354482526, guid: b493a286e26f4aa499da8a9c13f8d207, type: 3}
   _mapRoot: {fileID: 740479185}
   _playerMovement: {fileID: 7160934477118210215}
   _playerClickToMove: {fileID: 7160934477118210216}
