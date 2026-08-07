@@ -533,6 +533,8 @@ MonoBehaviour:
   - {fileID: 6788725271354482526, guid: 6488193e0b88d4f45a3c7e4af0f686ca, type: 3}
   - {fileID: 6788725271354482526, guid: b493a286e26f4aa499da8a9c13f8d207, type: 3}
   - {fileID: 6788725271354482526, guid: 9c881c86bd00410780b515942bf89cb4, type: 3}
+  - {fileID: 6788725271354482526, guid: 4b30a6dfc6144ec6bd568dc987ab56cc, type: 3}
+  - {fileID: 6788725271354482526, guid: 5bb02a243864489cb55e0cfbf1a923e8, type: 3}
   _mapRoot: {fileID: 740479185}
   _playerMovement: {fileID: 7160934477118210215}
   _playerClickToMove: {fileID: 7160934477118210216}
