@@ -13,6 +13,7 @@
 2. 방사능 위험은 접근 전에 드러내지 않고 로봇이 더미에 도착한 시점에 판정한다.
 3. 연타 QTE 실패 시 이번 탐험에서 보관 중인 수집물 일부를 잃는다.
 4. 성공 시 추가 보상을 제공하고 탐험 도움말에 조작법을 안내한다.
+5. 현재 기능 브랜치에서 베이스와 탐험 사이에 별도 스테이지 선택 씬을 추가한다.
 
 ## AI와 논의한 내용
 
@@ -37,6 +38,8 @@
 - 실패 시 보관 수집물을 무작위로 10%, 최소 1개·최대 3개 잃는다.
 - 손실은 수집 HUD와 저장 데이터에 즉시 반영한다.
 - 테스트할 때만 Inspector의 발생 확률을 100%로 바꾸고 최종값은 15%로 유지한다.
+- 베이스의 기존 출발 버튼은 배터리 조건을 유지한 채 스테이지 선택 화면으로 연결한다.
+- Stage 1만 활성화하고 Stage 2·3은 향후 해금 시스템을 연결할 수 있는 잠금 카드로 표시한다.
 
 ## 변경된 주요 파일
 
@@ -48,6 +51,11 @@
 - `Assets/Scripts/UI/ExplorationCollectionHudView.cs`
 - `Assets/Scripts/UI/ExplorationTutorialView.cs`
 - `Assets/Scenes/GameScene.unity`
+- `Assets/Scenes/StageSelectScene.unity`
+- `Assets/Scenes/BaseScene.unity`
+- `Assets/Scripts/UI/StageSelectView.cs`
+- `Assets/Scripts/Core/Robot/ExplorationLauncher.cs`
+- `ProjectSettings/EditorBuildSettings.asset`
 - `docs/PROJECT_PROGRESS.md`
 
 ## 검증 내용
@@ -57,14 +65,16 @@
 - `GameScene` 직렬화 오브젝트 ID 중복 0건
 - `GameScene` 내부 참조 누락 0건
 - 새 스크립트 GUID와 씬 컴포넌트 참조가 일치함을 확인
+- `BaseScene`과 `StageSelectScene` 직렬화 오브젝트 ID 및 내부 참조를 정적으로 확인
 - 실제 입력 속도, 성공·실패 연출과 수집물 손실 HUD는 Unity Play Mode 검증 필요
 
 ## AI 활용 범위
 
-사용자는 숨겨진 방사능 판정, 연타 QTE, 실패 시 수집물 손실이라는 핵심 콘셉트와 구현 진행을 결정했다. AI는 기존 QTE·수집 저장·HUD 구조를 분석하고 별도 연타 컨트롤러, 런타임 UI, 보상·손실 흐름, 씬 참조와 문서를 구현했다.
+사용자는 숨겨진 방사능 판정, 연타 QTE, 실패 시 수집물 손실이라는 핵심 콘셉트와 구현 진행을 결정하고, 같은 기능 브랜치에서 스테이지 선택 씬을 추가하도록 요청했다. AI는 기존 QTE·수집 저장·HUD와 베이스 출발 구조를 분석하고 별도 연타 컨트롤러, 런타임 UI, 보상·손실 흐름, 스테이지 선택 화면, 씬 참조와 문서를 구현했다.
 
 ## 후속 작업
 
 - 발생 확률을 임시로 100%로 설정해 성공·실패·수집물 0개 상태를 Unity Play Mode에서 검증한다.
 - 실제 플레이를 통해 3초·12회 입력 난이도와 15% 발생 확률을 추가 조정한다.
 - 필요하면 방사능 경고 및 성공·실패 전용 효과음을 추가한다.
+- Stage 2 이후의 해금 조건과 실제 탐험 씬을 연결한다.
