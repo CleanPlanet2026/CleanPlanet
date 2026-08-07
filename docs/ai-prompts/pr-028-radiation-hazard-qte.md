@@ -14,6 +14,7 @@
 3. 연타 QTE 실패 시 이번 탐험에서 보관 중인 수집물 일부를 잃는다.
 4. 성공 시 추가 보상을 제공하고 탐험 도움말에 조작법을 안내한다.
 5. 현재 기능 브랜치에서 베이스와 탐험 사이에 별도 스테이지 선택 씬을 추가한다.
+6. 스테이지 선택 화면에 어울리는 배경 이미지를 제작해 적용하고 버튼에 호버 효과를 추가한다.
 
 ## AI와 논의한 내용
 
@@ -41,6 +42,8 @@
 - 베이스의 기존 출발 버튼은 배터리 조건을 유지한 채 스테이지 선택 화면으로 연결한다.
 - Stage 1만 활성화하고 Stage 2·3은 향후 해금 시스템을 연결할 수 있는 잠금 카드로 표시한다.
 - 스테이지 선택 씬에는 전용 카메라를 두고 탐험 진입 버튼 문구는 `탐험하기`로 통일한다.
+- 스테이지 선택 배경은 좌측 폐산업 지대와 우측 복원 지대를 대비시키고 중앙 카드 영역은 어둡게 유지한다.
+- 활성 버튼은 포인터 진입 시 색상과 크기가 변하고 누르는 동안 축소되며, 잠긴 버튼에는 확대 효과를 적용하지 않는다.
 
 ## 변경된 주요 파일
 
@@ -55,6 +58,8 @@
 - `Assets/Scenes/StageSelectScene.unity`
 - `Assets/Scenes/BaseScene.unity`
 - `Assets/Scripts/UI/StageSelectView.cs`
+- `Assets/Scripts/UI/StageSelectButtonHover.cs`
+- `Assets/Art/Sprites/UI/StageSelectBackground.png`
 - `Assets/Scripts/Core/Robot/ExplorationLauncher.cs`
 - `ProjectSettings/EditorBuildSettings.asset`
 - `docs/PROJECT_PROGRESS.md`
@@ -67,11 +72,12 @@
 - `GameScene` 내부 참조 누락 0건
 - 새 스크립트 GUID와 씬 컴포넌트 참조가 일치함을 확인
 - `BaseScene`과 `StageSelectScene` 직렬화 오브젝트 ID 및 내부 참조를 정적으로 확인
+- 스테이지 선택 배경 Sprite GUID와 씬 참조가 일치함을 확인
 - 실제 입력 속도, 성공·실패 연출과 수집물 손실 HUD는 Unity Play Mode 검증 필요
 
 ## AI 활용 범위
 
-사용자는 숨겨진 방사능 판정, 연타 QTE, 실패 시 수집물 손실이라는 핵심 콘셉트와 구현 진행을 결정하고, 같은 기능 브랜치에서 스테이지 선택 씬을 추가하도록 요청했다. AI는 기존 QTE·수집 저장·HUD와 베이스 출발 구조를 분석하고 별도 연타 컨트롤러, 런타임 UI, 보상·손실 흐름, 스테이지 선택 화면, 씬 참조와 문서를 구현했다.
+사용자는 숨겨진 방사능 판정, 연타 QTE, 실패 시 수집물 손실이라는 핵심 콘셉트와 구현 진행을 결정하고, 같은 기능 브랜치에서 스테이지 선택 씬과 전용 배경·버튼 호버 효과를 추가하도록 요청했다. AI는 기존 QTE·수집 저장·HUD와 베이스 출발 구조를 분석하고 별도 연타 컨트롤러, 런타임 UI, 보상·손실 흐름, 스테이지 선택 화면, 배경 이미지 생성·적용, 버튼 상호작용, 씬 참조와 문서를 구현했다.
 
 ## 후속 작업
 

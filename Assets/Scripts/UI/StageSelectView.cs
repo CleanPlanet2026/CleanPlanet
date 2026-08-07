@@ -13,13 +13,15 @@ namespace CleanPlanet.UI
         private static readonly Color TextColor = new(0.92f, 0.97f, 0.96f, 1f);
 
         [SerializeField] private Font _font;
+        [SerializeField] private Sprite _backgroundSprite;
         [SerializeField] private string _stageOneSceneName = "GameScene";
         [SerializeField] private string _baseSceneName = "BaseScene";
 
         private void Awake()
         {
             Image background = gameObject.AddComponent<Image>();
-            background.color = BackgroundColor;
+            background.color = _backgroundSprite != null ? Color.white : BackgroundColor;
+            background.sprite = _backgroundSprite;
 
             CreateText("Title", transform, "탐험 스테이지 선택", 42, FontStyle.Bold,
                 new Vector2(0f, 390f), new Vector2(900f, 70f));
@@ -88,6 +90,16 @@ namespace CleanPlanet.UI
             Button button = buttonObject.AddComponent<Button>();
             button.targetGraphic = image;
             button.interactable = interactable;
+            ColorBlock colors = button.colors;
+            colors.normalColor = Color.white;
+            colors.highlightedColor = new Color(1.18f, 1.18f, 1.18f, 1f);
+            colors.pressedColor = new Color(0.72f, 0.8f, 0.78f, 1f);
+            colors.selectedColor = colors.highlightedColor;
+            colors.disabledColor = new Color(0.55f, 0.55f, 0.55f, 0.65f);
+            colors.colorMultiplier = 1f;
+            colors.fadeDuration = 0.08f;
+            button.colors = colors;
+            buttonObject.AddComponent<StageSelectButtonHover>().Initialize(button);
 
             Text text = CreateText("Label", buttonObject.transform, label, 22, FontStyle.Bold,
                 Vector2.zero, Vector2.zero);

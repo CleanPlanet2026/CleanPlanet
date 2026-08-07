@@ -116,6 +116,7 @@ MonoBehaviour:
   m_Name:
   m_EditorClassIdentifier: Assembly-CSharp::CleanPlanet.UI.StageSelectView
   _font: {fileID: 12800000, guid: aadee97f146b64219b87f9bbbdb39e50, type: 3}
+  _backgroundSprite: {fileID: -5836381744118626211, guid: f3b19135016645aaacfd82c67d89a432, type: 3}
   _stageOneSceneName: GameScene
   _baseSceneName: BaseScene
 --- !u!1 &200000001
