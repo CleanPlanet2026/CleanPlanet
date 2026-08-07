@@ -11,6 +11,8 @@ namespace CleanPlanet.Trash
     /// </summary>
     public class TrashPile : MonoBehaviour
     {
+        [SerializeField] private SpriteRenderer _spriteRenderer;
+        [SerializeField] private Sprite[] _visualVariants;
         [SerializeField] private CollectibleData _reward;
         [SerializeField, Min(0)] private int _failMinCount = 0;
         [SerializeField, Min(0)] private int _failMaxCount = 1;
@@ -25,6 +27,14 @@ namespace CleanPlanet.Trash
 
         public event Action<TrashPile> OnTrashCollected;
 
+        private void Awake()
+        {
+            if (_spriteRenderer == null)
+            {
+                _spriteRenderer = GetComponent<SpriteRenderer>();
+            }
+        }
+
         public void SetReward(CollectibleData reward)
         {
             _reward = reward;
@@ -35,6 +45,7 @@ namespace CleanPlanet.Trash
         /// </summary>
         public void Spawn(Vector2Int index)
         {
+            ApplyRandomVisual();
             GridIndex = index;
             transform.position = Grid.GridToWorldCenter(index);
 
@@ -42,6 +53,17 @@ namespace CleanPlanet.Trash
             {
                 Debug.LogWarning($"[TrashPile] 셀 ({index.x},{index.y}) 점유에 실패했습니다.");
             }
+        }
+
+        private void ApplyRandomVisual()
+        {
+            if (_spriteRenderer == null || _visualVariants == null || _visualVariants.Length == 0)
+            {
+                return;
+            }
+
+            int variantIndex = UnityEngine.Random.Range(0, _visualVariants.Length);
+            _spriteRenderer.sprite = _visualVariants[variantIndex];
         }
 
         public int GetRewardCount(QteResult result)

@@ -417,6 +417,8 @@ GameObject:
   - component: {fileID: 400717431}
   - component: {fileID: 400717430}
   - component: {fileID: 900000004}
+  - component: {fileID: 400717432}
+  - component: {fileID: 400717433}
   m_Layer: 0
   m_Name: QTEController
   m_TagString: Untagged
@@ -436,12 +438,52 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34169fb6a60ff944d9e7d74c6c5f673e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CleanPlanet.Trash.QteController
-  _needleSpeed: 250
-  _successWidth: 35
-  _greatWidth: 10
+  _needleSpeed: 180
+  _successWidth: 110
+  _greatWidth: 70
   _randomizeStartAngle: 1
   _fixedStartAngle: 0
   _autoStart: 0
+--- !u!114 &400717432
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 400717429}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22dbf13e99974168a8250d63a65c0837, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::CleanPlanet.Trash.TrashCollectionSfx
+  _qte: {fileID: 400717430}
+  _collectionClips:
+  - {fileID: 8300000, guid: 16a1cc3bfe9935a4683d81f2e4192f6f, type: 3}
+  - {fileID: 8300000, guid: 4acd9005b2f66f44881d478073e03ebc, type: 3}
+  - {fileID: 8300000, guid: 0df5fc5e9038b344caaf306ef79a7ea9, type: 3}
+  _clipStartTimes:
+  - 0.4
+  - 0
+  - 0
+  _volume: 0.2
+  _fadeOutDuration: 0.25
+--- !u!114 &400717433
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 400717429}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bdb7b84d46aa45ea9037a836f39d1734, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::CleanPlanet.Trash.QteResultSfx
+  _qte: {fileID: 400717430}
+  _failClip: {fileID: 8300000, guid: c52d17b3e54d4f52957b84f014c18e13, type: 3}
+  _successClip: {fileID: 8300000, guid: 73af6a4e84d34a2a9cf06fa22eae064b, type: 3}
+  _greatSuccessClip: {fileID: 8300000, guid: 75d8db510ba0410eae739c6955ecb76d, type: 3}
+  _volume: 0.45
 --- !u!4 &400717431
 Transform:
   m_ObjectHideFlags: 0
