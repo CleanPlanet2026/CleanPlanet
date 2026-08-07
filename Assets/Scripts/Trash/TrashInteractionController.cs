@@ -16,7 +16,7 @@ namespace CleanPlanet.Trash
         [SerializeField] private PlayerMovement _movement;
         [SerializeField] private QteController _qte;
         [SerializeField] private RadiationQteController _radiationQte;
-        [SerializeField, Range(0f, 1f)] private float _radiationChance = 0.05f;
+        [SerializeField, Range(0f, 1f)] private float _radiationChance = 0.15f;
         [SerializeField, Min(1f)] private float _radiationRewardMultiplier = 1.5f;
 
         public event Action<TrashPile> OnRobotArrivedToTrash;

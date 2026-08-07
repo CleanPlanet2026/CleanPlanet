@@ -1028,7 +1028,7 @@ MonoBehaviour:
   _movement: {fileID: 7160934477118210215}
   _qte: {fileID: 400717430}
   _radiationQte: {fileID: 400717434}
-  _radiationChance: 0.05
+  _radiationChance: 0.15
   _radiationRewardMultiplier: 1.5
 --- !u!4 &2128441623
 Transform:
