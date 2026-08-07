@@ -109,7 +109,7 @@ namespace CleanPlanet.Trash
             {
                 // 한 바퀴를 다 돌 때까지 입력이 없었다는 뜻 — 실패로 즉시 종료한다.
                 NeedleAngle = 360f;
-                Resolve(QteResult.Fail);
+                Resolve(QteResult.Fail, true);
             }
         }
 
@@ -122,23 +122,29 @@ namespace CleanPlanet.Trash
 
             _consumedThisRun = true;
 
-            if (NeedleAngle >= GreatStartAngle && NeedleAngle <= GreatEndAngle)
-            {
-                Resolve(QteResult.GreatSuccess);
-            }
-            else if (NeedleAngle >= SuccessStartAngle && NeedleAngle <= SuccessEndAngle)
-            {
-                Resolve(QteResult.Success);
-            }
-            else
-            {
-                Resolve(QteResult.Fail);
-            }
+            Resolve(EvaluateResult(NeedleAngle));
         }
 
-        private void Resolve(QteResult result)
+        private QteResult EvaluateResult(float angle)
+        {
+            if (angle >= GreatStartAngle && angle <= GreatEndAngle)
+            {
+                return QteResult.GreatSuccess;
+            }
+
+            return angle >= SuccessStartAngle && angle <= SuccessEndAngle
+                ? QteResult.Success
+                : QteResult.Fail;
+        }
+
+        private void Resolve(QteResult result, bool timedOut = false)
         {
             IsActive = false;
+            Debug.Log(
+                $"[QTE] result={result}, angle={NeedleAngle:F1}, " +
+                $"success={SuccessStartAngle:F1}-{SuccessEndAngle:F1}, " +
+                $"great={GreatStartAngle:F1}-{GreatEndAngle:F1}, timedOut={timedOut}",
+                this);
 
             switch (result)
             {
