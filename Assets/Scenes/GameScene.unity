@@ -419,6 +419,7 @@ GameObject:
   - component: {fileID: 900000004}
   - component: {fileID: 400717432}
   - component: {fileID: 400717433}
+  - component: {fileID: 400717434}
   m_Layer: 0
   m_Name: QTEController
   m_TagString: Untagged
@@ -499,6 +500,20 @@ MonoBehaviour:
   _successClip: {fileID: 8300000, guid: 73af6a4e84d34a2a9cf06fa22eae064b, type: 3}
   _greatSuccessClip: {fileID: 8300000, guid: 75d8db510ba0410eae739c6955ecb76d, type: 3}
   _volume: 0.45
+--- !u!114 &400717434
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 400717429}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c0c552395aa24a0383e298a7edab87bd, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::CleanPlanet.Trash.RadiationQteController
+  _duration: 3
+  _requiredPressCount: 12
 --- !u!1 &740479183
 GameObject:
   m_ObjectHideFlags: 0
@@ -1012,6 +1027,9 @@ MonoBehaviour:
   _clickToMove: {fileID: 7160934477118210216}
   _movement: {fileID: 7160934477118210215}
   _qte: {fileID: 400717430}
+  _radiationQte: {fileID: 400717434}
+  _radiationChance: 0.15
+  _radiationRewardMultiplier: 1.5
 --- !u!4 &2128441623
 Transform:
   m_ObjectHideFlags: 0
@@ -1042,6 +1060,7 @@ GameObject:
   - component: {fileID: 6601000006}
   - component: {fileID: 6601000007}
   - component: {fileID: 6601000008}
+  - component: {fileID: 6601000009}
   m_Layer: 0
   m_Name: Battery HUD Canvas
   m_TagString: Untagged
@@ -1177,6 +1196,21 @@ MonoBehaviour:
   m_Name:
   m_EditorClassIdentifier: Assembly-CSharp::CleanPlanet.UI.ExplorationTutorialView
   _font: {fileID: 12800000, guid: aadee97f146b64219b87f9bbbdb39e50, type: 3}
+--- !u!114 &6601000009
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6601000001}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0f73d45045b4229a7af29518f4424bb, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::CleanPlanet.UI.RadiationQteView
+  _qte: {fileID: 400717434}
+  _font: {fileID: 12800000, guid: aadee97f146b64219b87f9bbbdb39e50, type: 3}
+  _resultDisplayDuration: 0.8
 --- !u!1 &6602000001
 GameObject:
   m_ObjectHideFlags: 0

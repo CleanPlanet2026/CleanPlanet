@@ -6,11 +6,11 @@ using UnityEngine.UI;
 namespace CleanPlanet.Core.Robot
 {
     /// <summary>
-    /// 배터리가 기준치 이상 충전됐을 때만 GameScene으로 돌아가 다시 탐색할 수 있게 막는다.
+    /// 배터리가 기준치 이상 충전됐을 때만 스테이지 선택 화면으로 이동할 수 있게 막는다.
     /// </summary>
     public sealed class ExplorationLauncher : MonoBehaviour
     {
-        [SerializeField] private string _gameSceneName = "GameScene";
+        [SerializeField] private string _stageSelectSceneName = "StageSelectScene";
         [SerializeField] private string _launchKeyBinding = "<Keyboard>/r";
         [SerializeField, Min(0f)] private float _minChargeToExplore = RobotBattery.BaseMaxCharge;
         [SerializeField] private Button _launchButton;
@@ -63,7 +63,7 @@ namespace CleanPlanet.Core.Robot
                 return;
             }
 
-            SceneManager.LoadScene(_gameSceneName);
+            SceneManager.LoadScene(_stageSelectSceneName);
         }
     }
 }

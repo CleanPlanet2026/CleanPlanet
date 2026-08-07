@@ -22,6 +22,7 @@ namespace CleanPlanet.Trash
             }
 
             _interaction.OnCollectibleRewardGranted += HandleRewardGranted;
+            _interaction.OnRadiationPenaltyRequested += HandleRadiationPenalty;
         }
 
         private void OnDisable()
@@ -29,12 +30,25 @@ namespace CleanPlanet.Trash
             if (_interaction != null)
             {
                 _interaction.OnCollectibleRewardGranted -= HandleRewardGranted;
+                _interaction.OnRadiationPenaltyRequested -= HandleRadiationPenalty;
             }
         }
 
         private void HandleRewardGranted(TrashPile trash, int count)
         {
             CollectionInbox.Add(trash.Reward, count);
+        }
+
+        private static void HandleRadiationPenalty()
+        {
+            if (CollectionInbox.Count == 0)
+            {
+                return;
+            }
+
+            int lossCount = Mathf.Clamp(Mathf.CeilToInt(CollectionInbox.Count * 0.1f), 1, 3);
+            int removed = CollectionInbox.RemoveRandom(lossCount);
+            Debug.Log($"[RadiationHazard] 수집물 {removed}개를 잃었습니다.");
         }
     }
 }

@@ -13,7 +13,8 @@ namespace CleanPlanet.UI
 
         [SerializeField] private Font _font;
 
-        private readonly Dictionary<string, int> _countsByName = new();
+        private readonly Dictionary<string, int> _countsById = new();
+        private readonly Dictionary<string, string> _namesById = new();
 
         private Text _totalLabel;
         private Text _breakdownLabel;
@@ -40,49 +41,76 @@ namespace CleanPlanet.UI
 
         private void OnEnable()
         {
-            _countsByName.Clear();
+            _countsById.Clear();
+            _namesById.Clear();
             _totalCount = 0;
             CollectionInbox.ItemsAdded += HandleItemsAdded;
+            CollectionInbox.ItemsRemoved += HandleItemsRemoved;
             UpdateLabels();
         }
 
         private void OnDisable()
         {
             CollectionInbox.ItemsAdded -= HandleItemsAdded;
+            CollectionInbox.ItemsRemoved -= HandleItemsRemoved;
         }
 
         private void HandleItemsAdded(CollectibleData item, int count)
         {
-            string itemName = string.IsNullOrWhiteSpace(item.Name) ? "이름 없는 수집물" : item.Name;
-            _countsByName.TryGetValue(itemName, out int currentCount);
-            _countsByName[itemName] = currentCount + count;
+            string id = item.PersistenceId;
+            _namesById[id] = string.IsNullOrWhiteSpace(item.Name) ? "이름 없는 수집물" : item.Name;
+            _countsById.TryGetValue(id, out int currentCount);
+            _countsById[id] = currentCount + count;
             _totalCount += count;
+            UpdateLabels();
+        }
+
+        private void HandleItemsRemoved(string id, int count)
+        {
+            if (!_countsById.TryGetValue(id, out int currentCount))
+            {
+                return;
+            }
+
+            int removed = Mathf.Min(currentCount, count);
+            int remaining = currentCount - removed;
+            if (remaining > 0)
+            {
+                _countsById[id] = remaining;
+            }
+            else
+            {
+                _countsById.Remove(id);
+                _namesById.Remove(id);
+            }
+
+            _totalCount -= removed;
             UpdateLabels();
         }
 
         private void UpdateLabels()
         {
             _totalLabel.text = $"이번 탐험 수집물  {_totalCount}개";
-            if (_countsByName.Count == 0)
+            if (_countsById.Count == 0)
             {
                 _breakdownLabel.text = "아직 수집한 물품이 없습니다";
                 return;
             }
 
-            var names = new List<string>(_countsByName.Keys);
-            names.Sort();
+            var ids = new List<string>(_countsById.Keys);
+            ids.Sort((left, right) => string.Compare(_namesById[left], _namesById[right], System.StringComparison.Ordinal));
 
             var entries = new List<string>();
-            int visibleCount = Mathf.Min(names.Count, 4);
+            int visibleCount = Mathf.Min(ids.Count, 4);
             for (int i = 0; i < visibleCount; i++)
             {
-                string itemName = names[i];
-                entries.Add($"{itemName} ×{_countsByName[itemName]}");
+                string id = ids[i];
+                entries.Add($"{_namesById[id]} ×{_countsById[id]}");
             }
 
-            if (names.Count > visibleCount)
+            if (ids.Count > visibleCount)
             {
-                entries.Add($"외 {names.Count - visibleCount}종");
+                entries.Add($"외 {ids.Count - visibleCount}종");
             }
 
             _breakdownLabel.text = string.Join("   ·   ", entries);
