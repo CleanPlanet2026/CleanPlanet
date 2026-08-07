@@ -56,10 +56,11 @@ namespace CleanPlanet.UI
                 "1. 쓰레기 더미를 클릭하면 로봇이 이동합니다.\n\n" +
                 "2. 타이밍에 맞춰 스페이스바를 누르세요.\n\n" +
                 "3. 발광 포탈을 클릭하면 다른 구역으로 이동하며, 포탈로 다시 돌아올 수 있습니다.\n\n" +
-                "4. 배터리가 모두 소진되면 자동으로 베이스로 복귀합니다.\n\n" +
-                "5. 탐험 종료 버튼으로 일찍 베이스에 돌아갈 수 있습니다.",
-                20, FontStyle.Normal, TextAnchor.MiddleLeft,
-                new Vector2(0f, 25f), new Vector2(580f, 410f));
+                "4. 방사능이 감지되면 제한 시간 동안 스페이스바를 연타하세요.\n\n" +
+                "5. 배터리가 모두 소진되면 자동으로 베이스로 복귀합니다.\n\n" +
+                "6. 탐험 종료 버튼으로 일찍 베이스에 돌아갈 수 있습니다.",
+                19, FontStyle.Normal, TextAnchor.MiddleLeft,
+                new Vector2(0f, 25f), new Vector2(580f, 430f));
             description.lineSpacing = 1.15f;
 
             Button startButton = CreateButton("Close Tutorial Button", panel.transform, "탐험 시작",
