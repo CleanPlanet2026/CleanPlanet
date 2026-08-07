@@ -13,6 +13,7 @@
 2. 기존 맵과 어울리는 추가 배경을 제작하고 시각적으로 확인 가능한 양방향 포탈을 연결한다.
 3. 맵 전환 이후 쓰레기 QTE가 동작하지 않는 문제와 탐험 수집물이 베이스로 전달되지 않는 문제를 수정한다.
 4. Stage 1 후보 맵을 5개까지 확장하고 현재 진행 상태를 문서화한다.
+5. 탐험 도움말에 발광 포탈을 이용한 구역 이동과 복귀 방법을 안내한다.
 
 ## AI와 논의한 내용
 
@@ -42,6 +43,7 @@ Map04 — Map05
 - `ExplorationManager`가 맵 로드, 캐시, 활성 전환과 진입 위치 배치를 담당한다.
 - 포탈은 목적지 맵 ID와 목적지 진입점 ID를 명시적으로 연결한다.
 - 포탈 위치에는 런타임 생성 방식의 발광 링을 표시한다.
+- 최초 자동 안내와 도움말 버튼이 공유하는 튜토리얼에 포탈 이동·왕복 설명을 포함한다.
 - Map01~Map05를 현재 Stage 1 후보 범위로 유지하고 추가 맵 제작은 플레이 검증 이후 결정한다.
 - 베이스 스테이지 선택 UI와 해금 조건은 별도 후속 PR로 분리한다.
 
@@ -54,6 +56,7 @@ Map04 — Map05
 - `Assets/Scripts/Map/ExplorationPortalVisual.cs`
 - `Assets/Scripts/Map/GridManager.cs`
 - `Assets/Scripts/Player/PlayerClickToMove.cs`
+- `Assets/Scripts/UI/ExplorationTutorialView.cs`
 - `Assets/Scripts/Trash/TrashSpawner.cs`
 - `Assets/Scripts/Core/Appraisal/AppraisalService.cs`
 - `Assets/Scripts/Core/Appraisal/AppraisalTank.cs`
