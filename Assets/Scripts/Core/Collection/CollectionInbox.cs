@@ -17,6 +17,7 @@ namespace CleanPlanet.Core.Collection
 
         public static event Action<int> CountChanged;
         public static event Action<CollectibleData, int> ItemsAdded;
+        public static event Action<string, int> ItemsRemoved;
 
         public static int Count => _pendingIds.Count;
 
@@ -27,6 +28,7 @@ namespace CleanPlanet.Core.Collection
             _pendingIds.AddRange(GameSaveSystem.Data.PendingCollectibleIds);
             CountChanged = null;
             ItemsAdded = null;
+            ItemsRemoved = null;
         }
 
         public static void Add(CollectibleData item, int count)
@@ -88,6 +90,34 @@ namespace CleanPlanet.Core.Collection
                 SavePendingItems();
                 CountChanged?.Invoke(_pendingIds.Count);
             }
+        }
+
+        public static int RemoveRandom(int count)
+        {
+            int removeCount = Mathf.Clamp(count, 0, _pendingIds.Count);
+            if (removeCount == 0)
+            {
+                return 0;
+            }
+
+            var removedById = new Dictionary<string, int>();
+            for (int i = 0; i < removeCount; i++)
+            {
+                int index = UnityEngine.Random.Range(0, _pendingIds.Count);
+                string id = _pendingIds[index];
+                _pendingIds.RemoveAt(index);
+                removedById.TryGetValue(id, out int removed);
+                removedById[id] = removed + 1;
+            }
+
+            SavePendingItems();
+            CountChanged?.Invoke(_pendingIds.Count);
+            foreach (KeyValuePair<string, int> pair in removedById)
+            {
+                ItemsRemoved?.Invoke(pair.Key, pair.Value);
+            }
+
+            return removeCount;
         }
 
         /// <summary>

@@ -15,9 +15,13 @@ namespace CleanPlanet.Trash
         [SerializeField] private PlayerClickToMove _clickToMove;
         [SerializeField] private PlayerMovement _movement;
         [SerializeField] private QteController _qte;
+        [SerializeField] private RadiationQteController _radiationQte;
+        [SerializeField, Range(0f, 1f)] private float _radiationChance = 0.15f;
+        [SerializeField, Min(1f)] private float _radiationRewardMultiplier = 1.5f;
 
         public event Action<TrashPile> OnRobotArrivedToTrash;
         public event Action<TrashPile, int> OnCollectibleRewardGranted;
+        public event Action OnRadiationPenaltyRequested;
 
         private TrashPile _pendingTrash;
         private RobotSpriteAnimator _robotAnimator;
@@ -35,6 +39,9 @@ namespace CleanPlanet.Trash
             _qte.OnGreatSuccess += HandleGreatSuccess;
             _qte.OnSuccess += HandleSuccess;
             _qte.OnFail += HandleFail;
+            _radiationQte.Started += HandleQteStarted;
+            _radiationQte.Succeeded += HandleRadiationSuccess;
+            _radiationQte.Failed += HandleRadiationFail;
         }
 
         private void OnDisable()
@@ -45,6 +52,9 @@ namespace CleanPlanet.Trash
             _qte.OnGreatSuccess -= HandleGreatSuccess;
             _qte.OnSuccess -= HandleSuccess;
             _qte.OnFail -= HandleFail;
+            _radiationQte.Started -= HandleQteStarted;
+            _radiationQte.Succeeded -= HandleRadiationSuccess;
+            _radiationQte.Failed -= HandleRadiationFail;
         }
 
         private void HandleQteStarted()
@@ -73,9 +83,18 @@ namespace CleanPlanet.Trash
             }
 
             _robotAnimator?.FaceTowards(_pendingTrash.transform.position);
-            Debug.Log($"[TrashInteractionController] 셀 ({arrivedIndex.x},{arrivedIndex.y}) 도착 — QTE 시작.");
+            bool hasRadiationHazard = UnityEngine.Random.value < _radiationChance;
+            Debug.Log($"[TrashInteractionController] 셀 ({arrivedIndex.x},{arrivedIndex.y}) 도착 — " +
+                $"{(hasRadiationHazard ? "방사능" : "일반")} QTE 시작.");
             OnRobotArrivedToTrash?.Invoke(_pendingTrash);
-            _qte.StartQte();
+            if (hasRadiationHazard)
+            {
+                _radiationQte.StartQte();
+            }
+            else
+            {
+                _qte.StartQte();
+            }
         }
 
         private void HandleGreatSuccess()
@@ -93,7 +112,26 @@ namespace CleanPlanet.Trash
             HandleQteResult(QteResult.Fail);
         }
 
-        private void HandleQteResult(QteResult result)
+        private void HandleRadiationSuccess()
+        {
+            HandleQteResult(QteResult.Success, _radiationRewardMultiplier);
+        }
+
+        private void HandleRadiationFail()
+        {
+            _clickToMove.enabled = true;
+            if (_pendingTrash == null)
+            {
+                return;
+            }
+
+            TrashPile trash = _pendingTrash;
+            _pendingTrash = null;
+            trash.Remove();
+            OnRadiationPenaltyRequested?.Invoke();
+        }
+
+        private void HandleQteResult(QteResult result, float rewardMultiplier = 1f)
         {
             _clickToMove.enabled = true;
 
@@ -106,12 +144,12 @@ namespace CleanPlanet.Trash
             TrashPile trash = _pendingTrash;
             _pendingTrash = null;
 
-            int count = ApplyRewardMultiplier(trash.GetRewardCount(result));
+            int count = ApplyRewardMultiplier(trash.GetRewardCount(result) * rewardMultiplier);
             trash.Remove();
             OnCollectibleRewardGranted?.Invoke(trash, count);
         }
 
-        private static int ApplyRewardMultiplier(int baseCount)
+        private static int ApplyRewardMultiplier(float baseCount)
         {
             float adjustedCount = baseCount * UpgradeEffects.CollectionRewardMultiplier;
             int guaranteedCount = Mathf.FloorToInt(adjustedCount);

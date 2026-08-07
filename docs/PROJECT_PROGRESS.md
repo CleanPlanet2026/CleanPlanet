@@ -17,7 +17,7 @@ CleanPlanet은 Unity 6 URP 기반의 2D 탑다운 방치형·증분형 게임이
 - Unity `6000.5.6f1`
 - Universal Render Pipeline `17.6.0`
 - Input System `1.20.0`
-- 빌드 씬 순서: `TitleScene`, `BaseScene`, `GameScene`
+- 빌드 씬 순서: `TitleScene`, `BaseScene`, `StageSelectScene`, `GameScene`
 - WebGL CI/CD: `.github/workflows/deploy-webgl.yml`
 - 배포 조건: `main` push 또는 수동 실행
 - 배포 대상: GitHub Pages
@@ -31,7 +31,7 @@ CleanPlanet은 Unity 6 URP 기반의 2D 탑다운 방치형·증분형 게임이
 5. 탐험 종료 확인창을 거치거나 배터리가 소진되면 `BaseScene`으로 복귀한다.
 6. 베이스의 감정 로봇이 수집물을 감정하고 배수에 따른 골드를 지급한다.
 7. 골드로 다섯 계열의 업그레이드를 구매한다.
-8. 배터리를 충전한 뒤 다시 탐험을 시작한다.
+8. 배터리를 충전한 뒤 스테이지 선택 화면에서 탐험할 구역을 선택한다.
 
 ## 시스템별 구현 상태
 
@@ -135,6 +135,15 @@ WebGL 저장은 브라우저 로컬 저장소에 의존한다. 사이트 데이�
 - 메뉴에서 타이틀로 돌아가기 제공
 - 감정 탱크에는 실제 탐험에서 획득한 수집물만 투입
 - 업그레이드 노드 상태를 완료/업그레이드 가능/잠김으로 구분
+- 배터리 충전 완료 후 스테이지 선택 화면으로 이동하는 버튼
+
+### 스테이지 선택
+
+- Stage 1 탐험 시작
+- Stage 2·3 준비 중 표시
+- 베이스 복귀 버튼
+- 폐산업 지대와 복원 지대를 대비한 전용 배경
+- 활성 버튼의 색상·확대 호버와 클릭 축소 피드백
 
 ## 데이터와 경제 흐름
 
