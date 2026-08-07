@@ -26,20 +26,26 @@ namespace CleanPlanet.Map
 
         private void Awake()
         {
-            if (_playerMovement != null)
+            if (_playerMovement != null && _playerClickToMove != null)
             {
-                _playerMovement.Grid = Grid;
-                _playerMovement.Occupancy = Occupancy;
-                _playerMovement.Register();
+                Initialize(_playerMovement, _playerClickToMove);
             }
+        }
 
-            if (_playerClickToMove != null)
-            {
-                _playerClickToMove.Grid = Grid;
-                _playerClickToMove.Occupancy = Occupancy;
-                _playerClickToMove.Movement = _playerMovement;
-                _playerClickToMove.Initialize();
-            }
+        public void Initialize(PlayerMovement playerMovement, PlayerClickToMove playerClickToMove)
+        {
+            _playerMovement = playerMovement;
+            _playerClickToMove = playerClickToMove;
+
+            _playerMovement.Unregister();
+            _playerMovement.Grid = Grid;
+            _playerMovement.Occupancy = Occupancy;
+            _playerMovement.Register();
+
+            _playerClickToMove.Grid = Grid;
+            _playerClickToMove.Occupancy = Occupancy;
+            _playerClickToMove.Movement = _playerMovement;
+            _playerClickToMove.Initialize();
         }
     }
 }
