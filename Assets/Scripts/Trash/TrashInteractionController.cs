@@ -20,6 +20,12 @@ namespace CleanPlanet.Trash
         public event Action<TrashPile, int> OnCollectibleRewardGranted;
 
         private TrashPile _pendingTrash;
+        private RobotSpriteAnimator _robotAnimator;
+
+        private void Awake()
+        {
+            _robotAnimator = _movement.GetComponent<RobotSpriteAnimator>();
+        }
 
         private void OnEnable()
         {
@@ -66,6 +72,7 @@ namespace CleanPlanet.Trash
                 return;
             }
 
+            _robotAnimator?.FaceTowards(_pendingTrash.transform.position);
             Debug.Log($"[TrashInteractionController] 셀 ({arrivedIndex.x},{arrivedIndex.y}) 도착 — QTE 시작.");
             OnRobotArrivedToTrash?.Invoke(_pendingTrash);
             _qte.StartQte();
