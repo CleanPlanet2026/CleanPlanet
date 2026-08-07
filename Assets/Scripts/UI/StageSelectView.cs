@@ -57,7 +57,7 @@ namespace CleanPlanet.UI
                 new Vector2(0f, -10f), new Vector2(320f, 150f));
 
             Button selectButton = CreateButton("Select Button", card.transform,
-                unlocked ? "탐험 시작" : "준비 중",
+                unlocked ? "탐험하기" : "준비 중",
                 new Vector2(0f, -185f), new Vector2(240f, 64f),
                 unlocked ? new Color(0.18f, 0.78f, 0.67f, 1f) : LockedColor, unlocked);
             selectButton.interactable = unlocked;
