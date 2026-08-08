@@ -26,6 +26,13 @@ namespace CleanPlanet.Core.Appraisal
         /// <summary>감정이 끝나 골드가 지급된 직후 발행된다. 탱크가 이 시점에 아이콘을 정리한다.</summary>
         public static event Action<AppraisalResult> OnAppraisalCompleted;
 
+        /// <summary>
+        /// 다음으로 감정할 대상을 뷰(AppraisalTank)에게 물어보는 훅. 관에 바닥 안착한 아이콘
+        /// 중 y 최솟값의 데이터를 돌려주도록 AppraisalTank가 등록한다. 등록된 게 없거나
+        /// null을 반환하면 서비스는 기존 수집순(FIFO)으로 폴백한다.
+        /// </summary>
+        public static Func<CollectibleData> NextItemProvider;
+
         private static bool _hasActiveAppraisal;
         private static AppraisalResult _activeResult;
         private static float _activeStartTime;
@@ -38,6 +45,7 @@ namespace CleanPlanet.Core.Appraisal
         {
             OnAppraisalStarted = null;
             OnAppraisalCompleted = null;
+            NextItemProvider = null;
             _hasActiveAppraisal = false;
 
             var runner = new GameObject("Appraisal Service");
@@ -129,6 +137,10 @@ namespace CleanPlanet.Core.Appraisal
             }
         }
 
+        /// <summary>
+        /// 관 바닥에 안착한 아이콘 순서(NextItemProvider)를 우선 따르고, 관이 없거나
+        /// 안착한 아이콘이 없거나 인박스와 어긋나면 기존 수집순(FIFO)으로 폴백한다.
+        /// </summary>
         private static CollectibleData PeekNextItem(IReadOnlyList<CollectibleData> catalog)
         {
             if (CollectionInbox.Count == 0)
@@ -137,7 +149,18 @@ namespace CleanPlanet.Core.Appraisal
             }
 
             List<CollectibleData> pending = CollectionInbox.GetPendingItems(catalog);
-            return pending.Count > 0 ? pending[0] : null;
+            if (pending.Count == 0)
+            {
+                return null;
+            }
+
+            CollectibleData candidate = NextItemProvider?.Invoke();
+            if (candidate != null && pending.Contains(candidate))
+            {
+                return candidate;
+            }
+
+            return pending[0];
         }
     }
 }

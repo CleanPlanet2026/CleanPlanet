@@ -50,6 +50,7 @@ namespace CleanPlanet.Core.Appraisal
             AppraisalService.OnAppraisalStarted += HandleAppraisalStarted;
             AppraisalService.OnAppraisalCompleted += HandleAppraisalCompleted;
             CollectionInbox.ItemsAdded += HandleItemsAdded;
+            AppraisalService.NextItemProvider = GetNextItem;
             EnsureSpawnRoutine();
         }
 
@@ -58,6 +59,12 @@ namespace CleanPlanet.Core.Appraisal
             AppraisalService.OnAppraisalStarted -= HandleAppraisalStarted;
             AppraisalService.OnAppraisalCompleted -= HandleAppraisalCompleted;
             CollectionInbox.ItemsAdded -= HandleItemsAdded;
+            // 다른 탱크 인스턴스가 나중에 등록했다면 그걸 지우지 않도록, 지금도 자신이
+            // 등록한 provider일 때만 해제한다.
+            if (AppraisalService.NextItemProvider == (Func<CollectibleData>)GetNextItem)
+            {
+                AppraisalService.NextItemProvider = null;
+            }
             // Unity가 비활성화 시 코루틴을 멈추므로 핸들을 비워 재활성화 때 다시 시작하게 한다.
             _spawnRoutine = null;
 
@@ -283,6 +290,17 @@ namespace CleanPlanet.Core.Appraisal
             }
 
             return lowest;
+        }
+
+        /// <summary>
+        /// AppraisalService가 다음 감정 대상을 물을 때 호출하는 provider(NextItemProvider).
+        /// 바닥에 안착한 아이콘 중 y 최솟값의 데이터를 돌려주고, 안착한 아이콘이 없으면
+        /// null을 돌려줘 서비스가 기존 수집순(FIFO)으로 폴백하게 한다.
+        /// </summary>
+        private CollectibleData GetNextItem()
+        {
+            AppraisalTankIcon lowest = FindLowestGroundedIcon();
+            return lowest != null ? lowest.Data : null;
         }
 
         /// <summary>
