@@ -22,10 +22,11 @@ namespace CleanPlanet.Player
         public GridOccupancy Occupancy { get; set; }
 
         /// <summary>
-        /// 클릭한 Cell의 점유자가 TrashPile이고 이동이 실제로 시작됐을 때만 발행된다.
+        /// 이동 명령이 실제로 접수될 때마다(신규 이동·방향 전환 모두) 발행된다. 클릭한 셀의
+        /// 점유자가 TrashPile이면 그 인스턴스를, 아니면 null을 전달해 이전에 대기 중이던
+        /// 더미 상호작용을 취소할 수 있게 한다.
         /// </summary>
         public event Action<TrashPile> OnTrashSelected;
-        public event Action<ExplorationPortal> OnPortalSelected;
 
         private TargetCellSelector _targetSelector;
         private InputAction _clickAction;
@@ -86,21 +87,16 @@ namespace CleanPlanet.Player
             }
 
             TrashPile trash = Occupancy.GetOccupant(clickedIndex)?.GetComponent<TrashPile>();
-            ExplorationPortal portal = Occupancy.GetOccupant(clickedIndex)?.GetComponent<ExplorationPortal>();
 
             if (!Movement.TryMoveTo(destination))
             {
                 return;
             }
 
-            if (trash != null)
-            {
-                OnTrashSelected?.Invoke(trash);
-            }
-            else if (portal != null)
-            {
-                OnPortalSelected?.Invoke(portal);
-            }
+            // 더미가 아닌 곳으로 새로 이동 명령을 내리면 null을 전달해 이전에 대기 중이던
+            // 더미 상호작용(있다면)을 취소한다. TryMoveTo가 이동 중 방향 전환도 받아주므로
+            // 이 이벤트는 신규 이동뿐 아니라 방향 전환 시에도 매번 최신 선택 상태를 반영한다.
+            OnTrashSelected?.Invoke(trash);
         }
 
         /// <summary>

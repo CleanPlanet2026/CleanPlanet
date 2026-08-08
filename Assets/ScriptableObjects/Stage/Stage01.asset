@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 32c254cd953c4c699765362980fd8cab, type: 3}
+  m_Name: Stage01
+  m_EditorClassIdentifier: Assembly-CSharp::CleanPlanet.Map.Procedural.StageConfig
+  _stageId: 1
+  _displayName: "폐기물 처리 구역"
+  _shortDescription: "매번 새롭게 생성되는 탐험 지형"
+  _mapSettings:
+    Width: 40
+    Height: 40
+    TileSize: 1
+    WallDensity: 0.42
+    SmoothingIterations: 4
+    ObstacleCount: 20
+    DecorationCount: 30
+    PlayerStartEdgeMargin: 3
+    PlayerStartOpenRadius: 2
+    PlayerStartMinOpenRatio: 0.6
+    MinConnectedFloorRatio: 0.7
+    MaxGenerationAttempts: 5
+    ObjectSpawnExclusionRadius: 2
+    Seed: 0
+    UseFixedSeed: 0
+  _tileSet: {fileID: 11400000, guid: 01abe761511f5b547a4b27affc745b9e, type: 2}
+  _cleanGoalToUnlockNext: 5
+  _highTierWeightMultiplier: 1

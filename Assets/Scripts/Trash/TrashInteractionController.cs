@@ -64,7 +64,11 @@ namespace CleanPlanet.Trash
 
         private void HandleTrashSelected(TrashPile trash)
         {
-            Debug.Log($"[TrashInteractionController] 더미 선택됨: {trash.name} ({trash.GridIndex.x},{trash.GridIndex.y})");
+            if (trash != null)
+            {
+                Debug.Log($"[TrashInteractionController] 더미 선택됨: {trash.name} ({trash.GridIndex.x},{trash.GridIndex.y})");
+            }
+
             _pendingTrash = trash;
         }
 

@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using CleanPlanet.Map;
+using CleanPlanet.Map.Procedural;
 using CleanPlanet.Upgrade;
 using CleanPlanet.Utils;
 
@@ -17,9 +18,33 @@ namespace CleanPlanet.Trash
         [SerializeField] private TrashPileType[] _pileTypes;
         [SerializeField, Min(0)] private int _spawnCount = 5;
 
+        [Tooltip("연결하면 전체 그리드 스캔 대신 이 생성기의 SpawnableCells를 사용하고, 맵 생성이 끝난 뒤에만 스폰한다.")]
+        [SerializeField] private ProceduralMapGenerator _mapGenerator;
+
+        private readonly List<TrashPile> _spawnedPiles = new();
+
+        private void OnEnable()
+        {
+            if (_mapGenerator != null)
+            {
+                _mapGenerator.OnMapGenerated += SpawnPiles;
+            }
+        }
+
+        private void OnDisable()
+        {
+            if (_mapGenerator != null)
+            {
+                _mapGenerator.OnMapGenerated -= SpawnPiles;
+            }
+        }
+
         private void Start()
         {
-            SpawnPiles();
+            if (_mapGenerator == null)
+            {
+                SpawnPiles();
+            }
         }
 
         private void SpawnPiles()
@@ -30,13 +55,14 @@ namespace CleanPlanet.Trash
                 return;
             }
 
+            ClearSpawnedPiles();
+
             GridSystem grid = _gridManager.Grid;
             GridOccupancy occupancy = _gridManager.Occupancy;
-            Vector2Int playerIndex = _gridManager.Player != null
-                ? _gridManager.Player.CurrentIndex
-                : new Vector2Int(-1, -1);
 
-            List<Vector2Int> freeCells = CollectFreeCells(grid, occupancy, playerIndex);
+            List<Vector2Int> freeCells = _mapGenerator != null
+                ? CollectFreeCellsFromGenerator(occupancy)
+                : CollectFreeCells(grid, occupancy, CurrentPlayerIndex());
             Shuffle(freeCells);
 
             int upgradedSpawnCount = Mathf.RoundToInt(
@@ -46,6 +72,36 @@ namespace CleanPlanet.Trash
             {
                 SpawnOne(freeCells[i], grid, occupancy);
             }
+        }
+
+        private Vector2Int CurrentPlayerIndex()
+        {
+            return _gridManager.Player != null
+                ? _gridManager.Player.CurrentIndex
+                : new Vector2Int(-1, -1);
+        }
+
+        private void ClearSpawnedPiles()
+        {
+            foreach (var pile in _spawnedPiles)
+            {
+                if (pile != null) Destroy(pile.gameObject);
+            }
+
+            _spawnedPiles.Clear();
+        }
+
+        private List<Vector2Int> CollectFreeCellsFromGenerator(GridOccupancy occupancy)
+        {
+            var freeCells = new List<Vector2Int>();
+
+            foreach (var index in _mapGenerator.SpawnableCells)
+            {
+                if (occupancy.IsOccupied(index)) continue;
+                freeCells.Add(index);
+            }
+
+            return freeCells;
         }
 
         private void SpawnOne(Vector2Int index, GridSystem grid, GridOccupancy occupancy)
@@ -64,13 +120,18 @@ namespace CleanPlanet.Trash
             pile.Occupancy = occupancy;
             pile.SetReward(type.RollReward(UpgradeEffects.ExplorationOwnTierWeightMultiplier));
             pile.Spawn(index);
+            _spawnedPiles.Add(pile);
         }
 
-        private static float GetTierWeightMultiplier(TrashPileType type)
+        private float GetTierWeightMultiplier(TrashPileType type)
         {
-            return type.IsHigherTier
-                ? UpgradeEffects.ExplorationHighTierWeightMultiplier
+            if (!type.IsHigherTier) return 1f;
+
+            float stageMultiplier = _mapGenerator != null && _mapGenerator.ActiveStageConfig != null
+                ? _mapGenerator.ActiveStageConfig.HighTierWeightMultiplier
                 : 1f;
+
+            return UpgradeEffects.ExplorationHighTierWeightMultiplier * stageMultiplier;
         }
 
         private static List<Vector2Int> CollectFreeCells(GridSystem grid, GridOccupancy occupancy, Vector2Int excludeIndex)
