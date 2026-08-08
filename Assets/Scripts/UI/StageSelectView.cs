@@ -1,3 +1,6 @@
+using CleanPlanet.Core;
+using CleanPlanet.Core.Persistence;
+using CleanPlanet.Map.Procedural;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -12,8 +15,12 @@ namespace CleanPlanet.UI
         private static readonly Color LockedColor = new(0.12f, 0.16f, 0.17f, 1f);
         private static readonly Color TextColor = new(0.92f, 0.97f, 0.96f, 1f);
 
+        private const float CardSpacingMin = 400f;
+        private const float CardSpacingMax = 440f;
+
         [SerializeField] private Font _font;
         [SerializeField] private Sprite _backgroundSprite;
+        [SerializeField] private StageConfig[] _stages;
         [SerializeField] private string _stageOneSceneName = "GameScene";
         [SerializeField] private string _baseSceneName = "BaseScene";
 
@@ -28,16 +35,44 @@ namespace CleanPlanet.UI
             CreateText("Description", transform, "탐험할 구역을 선택하세요", 22, FontStyle.Normal,
                 new Vector2(0f, 330f), new Vector2(700f, 44f));
 
-            CreateStageCard("Stage 1", "폐기물 처리 구역", "5개 탐험 구역  ·  방사능 위험 감지",
-                new Vector2(-440f, 20f), true, LoadStageOne);
-            CreateStageCard("Stage 2", "오염된 산업 지대", "준비 중",
-                new Vector2(0f, 20f), false, null);
-            CreateStageCard("Stage 3", "심층 정화 시설", "준비 중",
-                new Vector2(440f, 20f), false, null);
+            CreateStageCards();
 
             Button backButton = CreateButton("Back To Base Button", transform, "베이스로 돌아가기",
                 new Vector2(0f, -390f), new Vector2(260f, 62f), PanelColor, true);
             backButton.onClick.AddListener(ReturnToBase);
+        }
+
+        private void CreateStageCards()
+        {
+            int count = _stages?.Length ?? 0;
+            if (count == 0)
+            {
+                Debug.LogWarning($"{nameof(StageSelectView)}에 연결된 StageConfig가 없습니다.", this);
+                return;
+            }
+
+            float spacing = count > 1
+                ? Mathf.Clamp(1600f / (count - 1), CardSpacingMin, CardSpacingMax)
+                : 0f;
+            float startX = -(count - 1) * spacing / 2f;
+
+            float earthClean = GameSaveSystem.Data.EarthClean;
+            float unlockThreshold = 0f;
+
+            for (int i = 0; i < count; i++)
+            {
+                StageConfig stage = _stages[i];
+                if (stage == null) continue;
+
+                bool unlocked = earthClean >= unlockThreshold;
+                int stageIndex = i;
+                Vector2 position = new(startX + i * spacing, 20f);
+
+                CreateStageCard($"Stage {stage.StageId}", stage.DisplayName, stage.ShortDescription,
+                    position, unlocked, unlocked ? () => LoadStage(stageIndex) : null);
+
+                unlockThreshold = stage.CleanGoalToUnlockNext;
+            }
         }
 
         private void CreateStageCard(string title, string subtitle, string details,
@@ -59,7 +94,7 @@ namespace CleanPlanet.UI
                 new Vector2(0f, -10f), new Vector2(320f, 150f));
 
             Button selectButton = CreateButton("Select Button", card.transform,
-                unlocked ? "탐험하기" : "준비 중",
+                unlocked ? "탐험하기" : "잠김",
                 new Vector2(0f, -185f), new Vector2(240f, 64f),
                 unlocked ? new Color(0.18f, 0.78f, 0.67f, 1f) : LockedColor, unlocked);
             selectButton.interactable = unlocked;
@@ -69,8 +104,9 @@ namespace CleanPlanet.UI
             }
         }
 
-        private void LoadStageOne()
+        private void LoadStage(int stageIndex)
         {
+            StageSessionState.SelectedStageIndex = stageIndex;
             SceneManager.LoadScene(_stageOneSceneName);
         }
 

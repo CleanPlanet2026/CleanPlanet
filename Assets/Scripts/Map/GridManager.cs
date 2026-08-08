@@ -23,6 +23,22 @@ namespace CleanPlanet.Map
         public GridSystem Grid => _grid ??= new GridSystem(_columns, _rows, _cellSize, _origin);
         public GridOccupancy Occupancy => _occupancy ??= new GridOccupancy(Grid);
         public PlayerMovement Player => _playerMovement;
+        public PlayerClickToMove PlayerClickToMove => _playerClickToMove;
+
+        /// <summary>
+        /// 그리드 크기를 런타임에 재설정하고 Grid/Occupancy를 새로 생성한다.
+        /// 절차적 맵 생성기가 맵 생성 직전에 호출한다. 기존 손맵 프리팹은 이 메서드를 호출하지 않는다.
+        /// </summary>
+        public void Configure(int columns, int rows, float cellSize, Vector2 origin)
+        {
+            _columns = columns;
+            _rows = rows;
+            _cellSize = cellSize;
+            _origin = origin;
+
+            _grid = new GridSystem(_columns, _rows, _cellSize, _origin);
+            _occupancy = new GridOccupancy(_grid);
+        }
 
         private void Awake()
         {

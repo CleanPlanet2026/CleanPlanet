@@ -1,6 +1,7 @@
 using UnityEngine;
 using CleanPlanet.Core.Collection;
 using CleanPlanet.Core.Currency;
+using CleanPlanet.Core.Progress;
 using CleanPlanet.Core.Robot;
 using CleanPlanet.Upgrade;
 
@@ -60,6 +61,7 @@ namespace CleanPlanet.Core.Persistence
             UpgradeRuntimeState.Shared.ResetProgress();
             RobotBattery.ResetProgress();
             GameSessionState.ResetProgress();
+            EarthCleanMeter.ResetProgress();
         }
 
         private static void EnsureLoaded()

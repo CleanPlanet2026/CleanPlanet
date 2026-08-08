@@ -23,6 +23,7 @@ namespace CleanPlanet.Core.Persistence
         public int Gold;
         public float BatteryCharge = 100f;
         public bool HasReachedBase;
+        public float EarthClean;
         public List<string> PendingCollectibleIds = new();
         public List<UpgradeSaveEntry> Upgrades = new();
     }

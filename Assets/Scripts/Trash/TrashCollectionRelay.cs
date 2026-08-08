@@ -1,12 +1,14 @@
 using UnityEngine;
 using CleanPlanet.Core.Collection;
+using CleanPlanet.Core.Progress;
 
 namespace CleanPlanet.Trash
 {
     /// <summary>
     /// TrashInteractionController가 발행하는 수집 보상을 CollectionInbox에 적립한다.
     /// QTE/더미 시스템과 감정 시스템 사이의 유일한 연결점으로, 이 릴레이를 제외하면
-    /// 둘 중 어느 쪽도 서로를 모른다.
+    /// 둘 중 어느 쪽도 서로를 모른다. 더미 하나가 상호작용(제거)될 때마다 QTE 결과와
+    /// 무관하게 Earth Clean도 함께 적립한다.
     /// </summary>
     public sealed class TrashCollectionRelay : MonoBehaviour
     {
@@ -37,10 +39,13 @@ namespace CleanPlanet.Trash
         private void HandleRewardGranted(TrashPile trash, int count)
         {
             CollectionInbox.Add(trash.Reward, count);
+            EarthCleanMeter.Add(1f);
         }
 
         private static void HandleRadiationPenalty()
         {
+            EarthCleanMeter.Add(1f);
+
             if (CollectionInbox.Count == 0)
             {
                 return;
