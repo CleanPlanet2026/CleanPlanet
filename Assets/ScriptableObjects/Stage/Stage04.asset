@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 32c254cd953c4c699765362980fd8cab, type: 3}
-  m_Name: Stage02
+  m_Name: Stage04
   m_EditorClassIdentifier: Assembly-CSharp::CleanPlanet.Map.Procedural.StageConfig
-  _stageId: 2
-  _displayName: "오염된 산업 지대"
-  _shortDescription: "더 넓고 장애물이 많은 지형"
+  _stageId: 4
+  _displayName: "Stage 4 (임시)"
+  _shortDescription: "Stage02를 복제한 임시 스테이지 - 맵 설정과 설명은 추후 확정 필요"
   _mapSettings:
     Width: 45
     Height: 45
@@ -32,11 +32,13 @@ MonoBehaviour:
     Seed: 0
     UseFixedSeed: 0
   _tileSet: {fileID: 11400000, guid: 01abe761511f5b547a4b27affc745b9e, type: 2}
-  _cleanGoalToUnlockNext: 15
+  _cleanGoalToUnlockNext: 50
   _pileSpawnWeights:
   - _pileType: {fileID: 11400000, guid: cd30909e04d2aa445a43e5b982d56921, type: 2}
-    _weight: 70
+    _weight: 40
   - _pileType: {fileID: 11400000, guid: 396f4bd423b823748abd3edf84d16d3d, type: 2}
-    _weight: 20
+    _weight: 25
   - _pileType: {fileID: 11400000, guid: 6bc81a66acff3314583845f44d8f7b85, type: 2}
-    _weight: 10
+    _weight: 30
+  - _pileType: {fileID: 11400000, guid: 8f1c6f2a4e7b4d4b9a1e2c3d5f60718a, type: 2}
+    _weight: 5

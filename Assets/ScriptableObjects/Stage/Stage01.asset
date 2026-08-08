@@ -33,4 +33,8 @@ MonoBehaviour:
     UseFixedSeed: 0
   _tileSet: {fileID: 11400000, guid: 01abe761511f5b547a4b27affc745b9e, type: 2}
   _cleanGoalToUnlockNext: 5
-  _highTierWeightMultiplier: 1
+  _pileSpawnWeights:
+  - _pileType: {fileID: 11400000, guid: cd30909e04d2aa445a43e5b982d56921, type: 2}
+    _weight: 80
+  - _pileType: {fileID: 11400000, guid: 396f4bd423b823748abd3edf84d16d3d, type: 2}
+    _weight: 20

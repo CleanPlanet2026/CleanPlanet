@@ -108,7 +108,7 @@ namespace CleanPlanet.Trash
         {
             TrashPileType type = WeightedRandom.Pick(
                 _pileTypes,
-                t => t.SpawnWeight * GetTierWeightMultiplier(t));
+                GetSpawnWeight);
             if (type == null || type.Prefab == null)
             {
                 Debug.LogWarning($"{nameof(TrashSpawner)}: 스폰할 TrashPileType 또는 Prefab을 선택하지 못했습니다.", this);
@@ -123,15 +123,14 @@ namespace CleanPlanet.Trash
             _spawnedPiles.Add(pile);
         }
 
-        private float GetTierWeightMultiplier(TrashPileType type)
+        private float GetSpawnWeight(TrashPileType type)
         {
-            if (!type.IsHigherTier) return 1f;
+            StageConfig stage = _mapGenerator != null ? _mapGenerator.ActiveStageConfig : null;
+            float baseWeight = stage?.GetPileSpawnWeight(type) ?? type.SpawnWeight;
 
-            float stageMultiplier = _mapGenerator != null && _mapGenerator.ActiveStageConfig != null
-                ? _mapGenerator.ActiveStageConfig.HighTierWeightMultiplier
-                : 1f;
+            if (!type.IsHigherTier) return baseWeight;
 
-            return UpgradeEffects.ExplorationHighTierWeightMultiplier * stageMultiplier;
+            return baseWeight * UpgradeEffects.ExplorationHighTierWeightMultiplier;
         }
 
         private static List<Vector2Int> CollectFreeCells(GridSystem grid, GridOccupancy occupancy, Vector2Int excludeIndex)
