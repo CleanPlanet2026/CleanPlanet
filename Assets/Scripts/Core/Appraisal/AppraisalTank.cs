@@ -33,10 +33,10 @@ namespace CleanPlanet.Core.Appraisal
         private Coroutine _spawnRoutine;
 
         /// <summary>
-        /// 진행 중인 감정 건을 Started에서 이미 소비했는지 여부. Completed의 안전망이
-        /// 같은 건을 중복 소비하지 않도록 HandleAppraisalStarted/Completed가 관리한다.
+        /// 레인별로, 진행 중인 감정 건을 Started에서 이미 소비했는지 여부. Completed의 안전망이
+        /// 같은 건을 중복 소비하지 않도록 HandleAppraisalStarted/Completed가 레인 인덱스로 관리한다.
         /// </summary>
-        private bool _consumedInStarted;
+        private readonly bool[] _consumedInStarted = new bool[2];
 
         private void Awake()
         {
@@ -59,7 +59,7 @@ namespace CleanPlanet.Core.Appraisal
             AppraisalService.NextItemProvider = GetNextItem;
             // 패널을 껐다 켜는 사이 진행 중이던 감정의 Started/Completed 짝이 끊길 수 있으니,
             // 재활성화 시 플래그를 항상 false로 되돌려 다음 Completed가 안전망을 정상 수행하게 한다.
-            _consumedInStarted = false;
+            Array.Clear(_consumedInStarted, 0, _consumedInStarted.Length);
             EnsureSpawnRoutine();
         }
 
@@ -172,33 +172,34 @@ namespace CleanPlanet.Core.Appraisal
         /// 서비스가 한 건의 감정을 "시작"할 때, 릴이 보여주기 시작하는 그 항목의 아이콘을
         /// 관에서 빼내 아래로 내려보낸다. 릴 표시와 파이프에서 빠지는 아이템이 같은 시점에
         /// 같은 것이 되도록 완료가 아닌 시작에 맞춘다. 같은 종류 아이콘이 없으면(아직 안 떨어졌거나
-        /// 매칭 실패) 맨 아래 아이콘으로 대체한다. 여기서 실제로 소비했는지를 플래그에 남겨,
-        /// 완료 시점의 안전망이 같은 건을 중복 소비하지 않게 한다.
+        /// 매칭 실패) 맨 아래 아이콘으로 대체한다. 여기서 실제로 소비했는지를 레인별 플래그에 남겨,
+        /// 그 레인의 완료 시점 안전망이 같은 건을 중복 소비하지 않게 한다. 레인0→레인1이 같은 틱
+        /// 안에서 순차 호출되므로, 레인0이 여기서 빼간 아이콘은 곧바로 이어지는 레인1 배정에는
+        /// 더 이상 보이지 않는다(_activeIcons에서 즉시 제거).
         /// </summary>
-        private void HandleAppraisalStarted(CollectibleData item, AppraisalResult result, float duration)
+        private void HandleAppraisalStarted(int lane, CollectibleData item, AppraisalResult result, float duration)
         {
             AppraisalTankIcon match = FindMatchingIcon(item) ?? FindLowestGroundedIcon();
             if (match == null)
             {
-                _consumedInStarted = false;
+                _consumedInStarted[lane] = false;
                 return;
             }
 
             ConsumeMatch(match);
-            _consumedInStarted = true;
+            _consumedInStarted[lane] = true;
         }
 
         /// <summary>
         /// 안전망: 감정이 진행 중일 때 씬에 들어와 시작 이벤트를 놓친 경우에만 동작해야 한다.
-        /// RunLoop는 순차 처리라 감정 한 건마다 Started 다음에 Completed가 한 번씩만 오므로,
-        /// Started에서 이미 소비했다면(_consumedInStarted) 여기선 스킵한다. 같은 종류가 여럿
-        /// 있을 때 Completed가 또 다른 아이콘을 집어 이중 소비하는 걸 막기 위함이다.
+        /// 레인별로 Started에서 이미 소비했다면(_consumedInStarted[lane]) 여기선 스킵한다. 같은
+        /// 종류가 여럿 있을 때 Completed가 또 다른 아이콘을 집어 이중 소비하는 걸 막기 위함이다.
         /// </summary>
-        private void HandleAppraisalCompleted(AppraisalResult result)
+        private void HandleAppraisalCompleted(int lane, AppraisalResult result)
         {
-            if (_consumedInStarted)
+            if (_consumedInStarted[lane])
             {
-                _consumedInStarted = false;
+                _consumedInStarted[lane] = false;
                 return;
             }
 
@@ -208,7 +209,7 @@ namespace CleanPlanet.Core.Appraisal
                 ConsumeMatch(match);
             }
 
-            _consumedInStarted = false;
+            _consumedInStarted[lane] = false;
         }
 
         private void ConsumeMatch(AppraisalTankIcon match)

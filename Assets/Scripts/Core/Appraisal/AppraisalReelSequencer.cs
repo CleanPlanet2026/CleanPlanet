@@ -1,4 +1,5 @@
 using System.Collections;
+using CleanPlanet.Upgrade;
 using UnityEngine;
 
 namespace CleanPlanet.Core.Appraisal
@@ -14,6 +15,9 @@ namespace CleanPlanet.Core.Appraisal
     public sealed class AppraisalReelSequencer : MonoBehaviour
     {
         [SerializeField] private AppraisalDisplay _display;
+
+        [Tooltip("이 릴이 반응할 감정 레인. 0은 항상 동작하는 1번 릴, 1은 appraisal_second_reel 언락 후 열리는 2번 릴.")]
+        [SerializeField, Min(0)] private int _laneIndex;
 
         [SerializeField, Min(0f)] private float _leftSpinDuration = 1f;
         [SerializeField, Min(0f)] private float _rightSpinDuration = 3f;
@@ -45,20 +49,27 @@ namespace CleanPlanet.Core.Appraisal
 
         private void Start()
         {
-            // 이 오브젝트가 활성화되기 전(다른 씬에 있었거나 방금 로드됐거나)에 이미
-            // 서비스가 감정을 시작했다면 그 남은 시간만큼만 스핀을 이어 붙인다.
-            if (AppraisalService.TryGetActiveAppraisal(out AppraisalResult activeResult, out float remaining))
+            // 이 오브젝트가 활성화되기 전(다른 씬에 있었거나 방금 로드됐거나, 레인1이 방금
+            // 언락되어 늦게 활성화됐거나)에 이미 서비스가 감정을 시작했다면 그 남은 시간만큼만
+            // 스핀을 이어 붙인다.
+            if (AppraisalService.TryGetActiveAppraisal(_laneIndex, out AppraisalResult activeResult, out float remaining))
             {
                 BeginVisual(activeResult, remaining);
             }
         }
 
-        private void HandleAppraisalStarted(CollectibleData item, AppraisalResult result, float duration)
+        private void HandleAppraisalStarted(int lane, CollectibleData item, AppraisalResult result, float duration)
         {
+            if (lane != _laneIndex)
+            {
+                return;
+            }
+
             // 수집물이 새로 감정에 들어오는 순간의 사운드. 화면이 보일 때만(감정 탭) 울리고,
             // 씬 로드 복원(Start)이나 탭 복귀 재연출은 새 진입이 아니므로 여기서 처리하지 않는다.
             if (_display.IsReady && _sfxSource != null && _itemEnterSfx != null)
             {
+                _sfxSource.pitch = UpgradeEffects.AppraisalSpeedMultiplier;
                 _sfxSource.PlayOneShot(_itemEnterSfx);
             }
 
@@ -82,14 +93,15 @@ namespace CleanPlanet.Core.Appraisal
 
         private IEnumerator RunVisual(AppraisalResult result, float windowDuration)
         {
+            float mult = UpgradeEffects.AppraisalSpeedMultiplier;
             float elapsed = 0f;
             bool wasReady = _display.IsReady;
 
             if (wasReady)
             {
                 _display.BeginAppraisal(result,
-                    Mathf.Min(_leftSpinDuration, windowDuration),
-                    Mathf.Min(_rightSpinDuration, windowDuration));
+                    Mathf.Min(_leftSpinDuration / mult, windowDuration),
+                    Mathf.Min(_rightSpinDuration / mult, windowDuration));
             }
 
             while (elapsed < windowDuration)
@@ -103,8 +115,8 @@ namespace CleanPlanet.Core.Appraisal
                 {
                     float remaining = windowDuration - elapsed;
                     _display.BeginAppraisal(result,
-                        Mathf.Min(_leftSpinDuration, remaining),
-                        Mathf.Min(_rightSpinDuration, remaining));
+                        Mathf.Min(_leftSpinDuration / mult, remaining),
+                        Mathf.Min(_rightSpinDuration / mult, remaining));
                 }
 
                 wasReady = ready;

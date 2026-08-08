@@ -47,8 +47,8 @@ namespace CleanPlanet.Core.Appraisal
         /// </summary>
         public static AppraisalConfig Instance { get; private set; }
 
-        public float AppraisalDuration => _appraisalDuration;
-        public float ResultHoldDuration => _resultHoldDuration;
+        public float AppraisalDuration => _appraisalDuration / UpgradeEffects.AppraisalSpeedMultiplier;
+        public float ResultHoldDuration => _resultHoldDuration / UpgradeEffects.AppraisalSpeedMultiplier;
         public IReadOnlyList<CollectibleData> Catalog => _collectibleCatalog;
 
         private void OnEnable()
