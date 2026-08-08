@@ -1,6 +1,7 @@
 using System.Collections;
 using CleanPlanet.Core.Appraisal;
 using CleanPlanet.Core.Currency;
+using CleanPlanet.Upgrade;
 using CleanPlanet.Utils;
 using UnityEngine;
 
@@ -72,9 +73,10 @@ namespace CleanPlanet.UI
 
         private IEnumerator PlayExtraSfxDelayed(AudioClip clip)
         {
-            if (_extraSfxDelay > 0f)
+            float delay = _extraSfxDelay / UpgradeEffects.AppraisalSpeedMultiplier;
+            if (delay > 0f)
             {
-                yield return new WaitForSeconds(_extraSfxDelay);
+                yield return new WaitForSeconds(delay);
             }
 
             if (_audioSource != null)
@@ -85,7 +87,10 @@ namespace CleanPlanet.UI
 
         private void PlayTier(AppraisalTier tier)
         {
-            _spawner.Burst(tier.CoinCount, tier.Duration, tier.CoinScale, tier.Explode);
+            float mult = UpgradeEffects.AppraisalSpeedMultiplier;
+            _audioSource.pitch = mult;
+
+            _spawner.Burst(tier.CoinCount, tier.Duration / mult, tier.CoinScale, tier.Explode);
 
             if (tier.CoinSfx != null)
             {
@@ -106,7 +111,7 @@ namespace CleanPlanet.UI
 
             if (tier.ShakeIntensity > 0f && _cameraShake != null)
             {
-                _cameraShake.Shake(tier.ShakeIntensity, tier.Duration);
+                _cameraShake.Shake(tier.ShakeIntensity, tier.Duration / mult);
             }
 
             if (tier.Flash && _screenFlash != null)

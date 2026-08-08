@@ -11,6 +11,8 @@ namespace CleanPlanet.Upgrade
         private const string AppraisalSensorId = "appraisal_sensor";
         private const string AppraisalPatternLearningId = "appraisal_pattern_learning";
         private const string AppraisalRareDetectionId = "appraisal_rare_detection";
+        private const string AppraisalSecondReelId = "appraisal_second_reel";
+        private const string AppraisalSpeedId = "appraisal_speed";
         private const string CollectionGripId = "collection_grip";
         private const string CollectionScannerId = "collection_storage";
         private const string CollectionRecoveryId = "collection_recovery";
@@ -39,6 +41,12 @@ namespace CleanPlanet.Upgrade
 
         public static float AppraisalPayoutMultiplier =>
             IsPurchased(AppraisalRareDetectionId) ? 1.12f : 1f;
+
+        /// <summary>두 번째 감정 레인(동시 처리)이 열렸는지 여부. AppraisalService가 매 폴마다 읽어 레인1 배정 여부를 결정한다.</summary>
+        public static bool SecondAppraisalReelUnlocked => IsPurchased(AppraisalSecondReelId);
+
+        /// <summary>감정 전체(진행 시간·릴 스핀·연출·사운드 pitch)에 곱해지는 속도 배수. 항상 1 이상이라 0나눗셈이 없다.</summary>
+        public static float AppraisalSpeedMultiplier => IsPurchased(AppraisalSpeedId) ? 1.3f : 1f;
 
         public static float CollectionRewardMultiplier =>
             1f
