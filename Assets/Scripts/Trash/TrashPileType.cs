@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using CleanPlanet.Core.Appraisal;
-using CleanPlanet.Utils;
 
 namespace CleanPlanet.Trash
 {
@@ -45,6 +44,12 @@ namespace CleanPlanet.Trash
         public float SpawnWeight => _spawnWeight;
         public bool IsHigherTier => _previousTier != null;
 
+        // OwnItems/PreviousTier는 런타임에 바뀌지 않는 애셋 데이터이므로, 등급별 후보 목록을
+        // 스폰마다 다시 모으는 대신 처음 한 번만 만들어 재사용해 스폰 개수가 많아져도
+        // GC 할당이 늘지 않게 한다.
+        private Dictionary<ItemGrade, List<CollectibleData>> _dropPoolByGrade;
+        private ItemGrade? _ownGrade;
+
         /// <summary>
         /// GradeDropWeights로 등급을 먼저 추첨하고, 그 등급에 해당하는 수집물을
         /// (자기 OwnItems + PreviousTier 체인에서) 균등하게 골라 반환한다.
@@ -59,49 +64,71 @@ namespace CleanPlanet.Trash
                 return null;
             }
 
-            ItemGrade? ownGrade = OwnGrade();
-            GradeWeightEntry picked = WeightedRandom.Pick(
-                _gradeDropWeights,
-                entry => entry.Grade == ownGrade
-                    ? entry.Weight * ownTierWeightMultiplier
-                    : entry.Weight);
+            EnsureDropPoolBuilt();
 
-            if (picked == null)
+            ItemGrade? grade = PickGrade(ownTierWeightMultiplier);
+            if (grade == null || !_dropPoolByGrade.TryGetValue(grade.Value, out List<CollectibleData> candidates))
             {
                 return null;
             }
 
-            var candidates = new List<CollectibleData>();
-            CollectItemsOfGrade(candidates, picked.Grade);
-            return candidates.Count == 0 ? null : candidates[UnityEngine.Random.Range(0, candidates.Count)];
+            return candidates[UnityEngine.Random.Range(0, candidates.Count)];
         }
 
-        private ItemGrade? OwnGrade()
+        private ItemGrade? PickGrade(float ownTierWeightMultiplier)
         {
-            if (_ownItems == null) return null;
-
-            foreach (CollectibleData item in _ownItems)
+            float total = 0f;
+            for (int i = 0; i < _gradeDropWeights.Count; i++)
             {
-                if (item != null) return item.Grade;
+                total += EntryWeight(_gradeDropWeights[i], ownTierWeightMultiplier);
             }
 
-            return null;
+            if (total <= 0f) return null;
+
+            float roll = UnityEngine.Random.Range(0f, total);
+            float cumulative = 0f;
+            for (int i = 0; i < _gradeDropWeights.Count; i++)
+            {
+                GradeWeightEntry entry = _gradeDropWeights[i];
+                cumulative += EntryWeight(entry, ownTierWeightMultiplier);
+                if (roll <= cumulative) return entry.Grade;
+            }
+
+            return _gradeDropWeights[^1].Grade;
         }
 
-        private void CollectItemsOfGrade(List<CollectibleData> candidates, ItemGrade grade)
+        private float EntryWeight(GradeWeightEntry entry, float ownTierWeightMultiplier)
         {
-            if (_ownItems != null)
+            return entry.Grade == _ownGrade ? entry.Weight * ownTierWeightMultiplier : entry.Weight;
+        }
+
+        private void EnsureDropPoolBuilt()
+        {
+            if (_dropPoolByGrade != null) return;
+
+            _dropPoolByGrade = new Dictionary<ItemGrade, List<CollectibleData>>();
+            for (TrashPileType tier = this; tier != null; tier = tier._previousTier)
             {
-                foreach (CollectibleData item in _ownItems)
+                if (tier._ownItems == null) continue;
+
+                foreach (CollectibleData item in tier._ownItems)
                 {
-                    if (item != null && item.Grade == grade)
+                    if (item == null) continue;
+
+                    if (!_dropPoolByGrade.TryGetValue(item.Grade, out List<CollectibleData> list))
                     {
-                        candidates.Add(item);
+                        list = new List<CollectibleData>();
+                        _dropPoolByGrade[item.Grade] = list;
+                    }
+
+                    list.Add(item);
+
+                    if (tier == this && _ownGrade == null)
+                    {
+                        _ownGrade = item.Grade;
                     }
                 }
             }
-
-            _previousTier?.CollectItemsOfGrade(candidates, grade);
         }
     }
 }

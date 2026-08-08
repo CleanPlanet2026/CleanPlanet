@@ -40,3 +40,4 @@ MonoBehaviour:
     _weight: 20
   - _pileType: {fileID: 11400000, guid: 6bc81a66acff3314583845f44d8f7b85, type: 2}
     _weight: 10
+  _pileSpawnCount: 80

@@ -31,12 +31,16 @@ namespace CleanPlanet.Map.Procedural
         [Tooltip("이 스테이지에서 각 쓰레기 더미 종류가 스폰될 가중치. 등록되지 않은 종류는 TrashPileType의 기본 SpawnWeight를 사용한다.")]
         [SerializeField] private List<PileSpawnWeightEntry> _pileSpawnWeights;
 
+        [Tooltip("이 스테이지에서 한 번에 스폰할 쓰레기 더미 총 개수.")]
+        [SerializeField, Min(0)] private int _pileSpawnCount = 5;
+
         public int StageId => _stageId;
         public string DisplayName => _displayName;
         public string ShortDescription => _shortDescription;
         public MapGenerationSettings MapSettings => _mapSettings;
         public TileSet TileSet => _tileSet;
         public float CleanGoalToUnlockNext => _cleanGoalToUnlockNext;
+        public int PileSpawnCount => _pileSpawnCount;
 
         /// <summary>
         /// 이 스테이지에 등록된 더미 종류별 스폰 가중치. 등록되어 있지 않으면 null을 반환해
