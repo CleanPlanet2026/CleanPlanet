@@ -26,6 +26,8 @@ namespace CleanPlanet.Player
         private GridPathfinder _pathfinder;
         private Coroutine _moveRoutine;
         private bool _registered;
+        private Vector2Int _targetGoal;
+        private bool _hasPendingRedirect;
 
         /// <summary>
         /// 현재 world position을 기준으로 Grid Index를 등록하고 셀 중심으로 위치를 보정한다.
@@ -60,7 +62,8 @@ namespace CleanPlanet.Player
         }
 
         /// <summary>
-        /// targetIndex까지 경로를 계산해 이동을 시작한다. 이미 이동 중이면 새 명령은 무시한다.
+        /// targetIndex까지 경로를 계산해 이동을 시작한다. 이미 이동 중이면 현재 진행 중인
+        /// 한 칸 이동이 끝나는 대로 새 목적지로 다시 경로를 계산해 이어서 이동한다(방향 전환).
         /// </summary>
         public bool TryMoveTo(Vector2Int targetIndex)
         {
@@ -72,8 +75,9 @@ namespace CleanPlanet.Player
 
             if (IsMoving)
             {
-                Debug.Log("[PlayerMovement] 이동 중에는 새로운 이동 명령을 무시합니다.");
-                return false;
+                _targetGoal = targetIndex;
+                _hasPendingRedirect = true;
+                return true;
             }
 
             if (!_pathfinder.TryFindPath(CurrentIndex, targetIndex, out var path))
@@ -82,6 +86,8 @@ namespace CleanPlanet.Player
                 return false;
             }
 
+            _targetGoal = targetIndex;
+            _hasPendingRedirect = false;
             _moveRoutine = StartCoroutine(MoveAlongPath(path, targetIndex));
             return true;
         }
@@ -103,6 +109,13 @@ namespace CleanPlanet.Player
                 {
                     CurrentIndex = to;
                     i++;
+
+                    if (_hasPendingRedirect && !TryApplyRedirect(ref path, ref finalGoal, ref i))
+                    {
+                        _moveRoutine = null;
+                        yield break;
+                    }
+
                     continue;
                 }
 
@@ -134,6 +147,36 @@ namespace CleanPlanet.Player
             IsMoving = false;
             _moveRoutine = null;
             OnRobotArrived?.Invoke(finalGoal);
+        }
+
+        /// <summary>
+        /// 한 칸 이동을 마치고 셀을 재점유한 직후(안전한 시점)에 호출된다. 대기 중인 새 목적지로
+        /// 현재 위치에서 다시 경로를 계산해 path/finalGoal/i를 교체한다. 이미 새 목적지에
+        /// 도착했으면 그대로 루프가 끝나며 도착 처리되고, 경로를 찾지 못하면 이동을 중단한다.
+        /// </summary>
+        private bool TryApplyRedirect(ref List<Vector2Int> path, ref Vector2Int finalGoal, ref int i)
+        {
+            _hasPendingRedirect = false;
+
+            if (CurrentIndex == _targetGoal)
+            {
+                finalGoal = _targetGoal;
+                path = new List<Vector2Int> { CurrentIndex };
+                i = 1;
+                return true;
+            }
+
+            if (!_pathfinder.TryFindPath(CurrentIndex, _targetGoal, out List<Vector2Int> newPath))
+            {
+                Debug.Log($"[PlayerMovement] 재탐색 실패로 이동을 중단합니다: ({_targetGoal.x},{_targetGoal.y})");
+                IsMoving = false;
+                return false;
+            }
+
+            path = newPath;
+            finalGoal = _targetGoal;
+            i = 1;
+            return true;
         }
 
         private IEnumerator MoveTransformTo(Vector2Int index)
