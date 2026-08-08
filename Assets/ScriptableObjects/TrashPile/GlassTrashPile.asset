@@ -20,6 +20,9 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 911ad3be20dab4633b27e537df54414f, type: 2}
   - {fileID: 11400000, guid: 32d49d868327641329daa358bcf68e62, type: 2}
   - {fileID: 11400000, guid: 5647bd6efc5ad4f3b90218bd55c58838, type: 2}
-  _ownWeight: 1
   _previousTier: {fileID: 11400000, guid: cd30909e04d2aa445a43e5b982d56921, type: 2}
-  _inheritedWeight: 3
+  _gradeDropWeights:
+  - _grade: 0
+    _weight: 75
+  - _grade: 1
+    _weight: 25
