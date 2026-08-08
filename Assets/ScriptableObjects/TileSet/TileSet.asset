@@ -19,9 +19,10 @@ MonoBehaviour:
   - {fileID: 11400000, guid: d88c3941f78e49148ba6fd48f4f37849, type: 2}
   - {fileID: 11400000, guid: 44b5e764cdeab2e488616380ab195072, type: 2}
   - {fileID: 11400000, guid: c43b4a27346302547b93eece4ff1161f, type: 2}
+  - {fileID: 11400000, guid: 8cde647f84883b2449ba84189f01931f, type: 2}
+  - {fileID: 11400000, guid: 38b2a16e3e3202e449a355e24dd46fbb, type: 2}
+  - {fileID: 11400000, guid: 04be7c7bb9a49fc4cba23f8ea40bfffc, type: 2}
   _obstacleTiles:
-  - {fileID: 11400000, guid: 6f7d41f3e322da54085b91d95603e5c4, type: 2}
-  - {fileID: 11400000, guid: c21d93d482bf8bb49bccbfa7de26b023, type: 2}
   - {fileID: 11400000, guid: ea2d03bc9afcd9842b40233fb5a72dcf, type: 2}
   - {fileID: 11400000, guid: f6c633a2165f4644bb4f0e6646813eb3, type: 2}
   - {fileID: 11400000, guid: 0f262fc2f9323094cb56b0c8b98f6459, type: 2}
