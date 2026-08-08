@@ -23,6 +23,7 @@ namespace CleanPlanet.Map.Procedural
         [SerializeField] private TileSet _tileSet;
         [SerializeField] private Tilemap _floorTilemap;
         [SerializeField] private Tilemap _wallTilemap;
+        [SerializeField] private Tilemap _decorationTilemap;
 
         [Tooltip("스테이지 선택 화면과 같은 순서로 채워두면, StageSessionState.SelectedStageIndex에 " +
             "해당하는 항목의 MapSettings/TileSet을 위 기본값 대신 사용한다.")]
@@ -122,6 +123,7 @@ namespace CleanPlanet.Map.Procedural
         {
             if (_floorTilemap != null) _floorTilemap.ClearAllTiles();
             if (_wallTilemap != null) _wallTilemap.ClearAllTiles();
+            if (_decorationTilemap != null) _decorationTilemap.ClearAllTiles();
 
             if (_cells != null && _gridManager != null)
             {
@@ -163,11 +165,13 @@ namespace CleanPlanet.Map.Procedural
                 int attemptSeed = unchecked(seed + attempt * 97_003);
                 var random = new System.Random(attemptSeed);
 
-                _cells = GenerateNoise(width, height, random, _settings.ObstacleDensity);
+                _cells = GenerateNoise(width, height, random, _settings.WallDensity);
                 for (int i = 0; i < _settings.SmoothingIterations; i++)
                 {
                     _cells = Smooth(_cells, width, height);
                 }
+
+                ScatterCellType(_cells, width, height, random, MapCellType.Obstacle, _settings.ObstacleCount);
 
                 _playerStartIndex = SelectPlayerStart(_cells, width, height, random);
                 (connectedCells, floorCount) = EvaluateConnectivity(_cells, width, height, _playerStartIndex);
@@ -187,8 +191,11 @@ namespace CleanPlanet.Map.Procedural
             _walkableCells = connectedCells;
             _spawnableCells = BuildSpawnableCells(_walkableCells, _playerStartIndex);
 
+            var paintRandom = new System.Random(_lastSeed);
+            List<Vector2Int> decorationCells = SelectDecorationCells(_walkableCells, _playerStartIndex, paintRandom, _settings.DecorationCount);
+
             RegisterBlockedCells(_cells, width, height);
-            Paint(_cells, width, height, new System.Random(_lastSeed));
+            Paint(_cells, width, height, decorationCells, paintRandom);
             ReregisterPlayer(_playerStartIndex);
 
             stopwatch.Stop();
@@ -212,6 +219,61 @@ namespace CleanPlanet.Map.Procedural
             }
 
             return spawnable;
+        }
+
+        /// <summary>
+        /// Floor 셀 중 무작위로 count개를 골라 type으로 바꾼다(예: 독립 장애물 배치).
+        /// Wall/Floor 지형이 확정된 뒤, 연결성 검사 이전에 호출해야 실패 시 자동 재생성된다.
+        /// </summary>
+        private static void ScatterCellType(
+            MapCellType[,] cells, int width, int height, System.Random random, MapCellType type, int count)
+        {
+            if (count <= 0) return;
+
+            var floorCells = new List<Vector2Int>();
+            for (int x = 0; x < width; x++)
+            {
+                for (int y = 0; y < height; y++)
+                {
+                    if (cells[x, y] == MapCellType.Floor) floorCells.Add(new Vector2Int(x, y));
+                }
+            }
+
+            Shuffle(floorCells, random);
+
+            int placed = Mathf.Min(count, floorCells.Count);
+            for (int i = 0; i < placed; i++)
+            {
+                cells[floorCells[i].x, floorCells[i].y] = type;
+            }
+        }
+
+        /// <summary>
+        /// 도달 가능한 Floor 셀 중 무작위로 count개를 장식용으로 고른다. 셀 타입은 바꾸지 않으므로
+        /// 보행/연결성/오브젝트 스폰 가능 여부에 전혀 영향을 주지 않는 순수 시각 요소다.
+        /// </summary>
+        private static List<Vector2Int> SelectDecorationCells(
+            List<Vector2Int> walkableCells, Vector2Int playerStart, System.Random random, int count)
+        {
+            var candidates = new List<Vector2Int>(walkableCells.Count);
+            foreach (var cell in walkableCells)
+            {
+                if (cell != playerStart) candidates.Add(cell);
+            }
+
+            Shuffle(candidates, random);
+
+            int picked = Mathf.Min(count, candidates.Count);
+            return candidates.GetRange(0, picked);
+        }
+
+        private static void Shuffle(List<Vector2Int> list, System.Random random)
+        {
+            for (int i = list.Count - 1; i > 0; i--)
+            {
+                int j = random.Next(i + 1);
+                (list[i], list[j]) = (list[j], list[i]);
+            }
         }
 
         /// <summary>
@@ -448,10 +510,11 @@ namespace CleanPlanet.Map.Procedural
             return x == 0 || y == 0 || x == width - 1 || y == height - 1;
         }
 
-        private void Paint(MapCellType[,] cells, int width, int height, System.Random random)
+        private void Paint(MapCellType[,] cells, int width, int height, List<Vector2Int> decorationCells, System.Random random)
         {
             _floorTilemap.ClearAllTiles();
             _wallTilemap.ClearAllTiles();
+            if (_decorationTilemap != null) _decorationTilemap.ClearAllTiles();
 
             for (int x = 0; x < width; x++)
             {
@@ -465,7 +528,18 @@ namespace CleanPlanet.Map.Procedural
                     {
                         _wallTilemap.SetTile(position, _tileSet.PickTile(MapCellType.Wall, random));
                     }
+                    else if (cells[x, y] == MapCellType.Obstacle)
+                    {
+                        _wallTilemap.SetTile(position, _tileSet.PickTile(MapCellType.Obstacle, random));
+                    }
                 }
+            }
+
+            if (_decorationTilemap == null) return;
+
+            foreach (var cell in decorationCells)
+            {
+                _decorationTilemap.SetTile(new Vector3Int(cell.x, cell.y, 0), _tileSet.PickTile(MapCellType.Decoration, random));
             }
         }
 

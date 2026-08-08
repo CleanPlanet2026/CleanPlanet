@@ -10,8 +10,15 @@ namespace CleanPlanet.Map.Procedural
         [Min(1)] public int Height = 40;
         [Min(0.01f)] public float TileSize = 1f;
 
-        [Range(0f, 1f)] public float ObstacleDensity = 0.42f;
+        [Tooltip("셀룰러 오토마타 초기 노이즈에서 벽(동굴 지형)이 될 확률.")]
+        [Range(0f, 1f)] public float WallDensity = 0.42f;
         [Min(0)] public int SmoothingIterations = 4;
+
+        [Tooltip("Wall 지형과 별개로, Floor 위에 흩뿌리는 독립 장애물(Obstacle) 개수. 이동을 막는다.")]
+        [Min(0)] public int ObstacleCount = 20;
+
+        [Tooltip("Floor 위에 흩뿌리는 장식(Decoration) 개수. 이동을 막지 않는 순수 시각 요소다.")]
+        [Min(0)] public int DecorationCount = 30;
 
         [Min(0)] public int PlayerStartEdgeMargin = 3;
         [Min(0)] public int PlayerStartOpenRadius = 2;

@@ -19,8 +19,10 @@ MonoBehaviour:
     Width: 45
     Height: 45
     TileSize: 1
-    ObstacleDensity: 0.46
+    WallDensity: 0.46
     SmoothingIterations: 4
+    ObstacleCount: 30
+    DecorationCount: 35
     PlayerStartEdgeMargin: 3
     PlayerStartOpenRadius: 2
     PlayerStartMinOpenRatio: 0.6
