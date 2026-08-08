@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: Stage02
   m_EditorClassIdentifier: Assembly-CSharp::CleanPlanet.Map.Procedural.StageConfig
   _stageId: 2
-  _displayName: "오염된 산업 지대"
-  _shortDescription: "더 넓고 장애물이 많은 지형"
+  _displayName: "\uC624\uC5FC\uB41C \uC0B0\uC5C5 \uC9C0\uB300"
+  _shortDescription: "\uB354 \uB113\uACE0 \uC7A5\uC560\uBB3C\uC774 \uB9CE\uC740 \uC9C0\uD615"
   _mapSettings:
-    Width: 45
-    Height: 45
+    Width: 60
+    Height: 60
     TileSize: 1
     WallDensity: 0.46
     SmoothingIterations: 4
@@ -33,4 +33,11 @@ MonoBehaviour:
     UseFixedSeed: 0
   _tileSet: {fileID: 11400000, guid: 01abe761511f5b547a4b27affc745b9e, type: 2}
   _cleanGoalToUnlockNext: 15
-  _highTierWeightMultiplier: 1.3
+  _pileSpawnWeights:
+  - _pileType: {fileID: 11400000, guid: cd30909e04d2aa445a43e5b982d56921, type: 2}
+    _weight: 70
+  - _pileType: {fileID: 11400000, guid: 396f4bd423b823748abd3edf84d16d3d, type: 2}
+    _weight: 20
+  - _pileType: {fileID: 11400000, guid: 6bc81a66acff3314583845f44d8f7b85, type: 2}
+    _weight: 10
+  _pileSpawnCount: 80

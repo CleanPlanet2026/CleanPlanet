@@ -109,3 +109,7 @@ InitTestScene*.unity*
 .claude/settings.local.json
 .claude/agents/
 .mcp.json
+
+# Local scratch/staging area for unimported third-party asset packs
+/[Aa]ssets/temp/
+/[Aa]ssets/temp.meta
