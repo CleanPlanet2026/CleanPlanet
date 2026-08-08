@@ -31,5 +31,15 @@ namespace CleanPlanet.Map.Procedural
 
         public int Seed = 0;
         public bool UseFixedSeed = false;
+
+        /// <summary>
+        /// 얕은 복사본을 만든다. StageConfig에 연결된 인스턴스를 그대로 참조해 쓰면
+        /// GenerateWithSeed 등이 에셋 자체를 영구적으로 수정해버리므로, 런타임에
+        /// 사용할 땐 항상 복제본을 써야 한다.
+        /// </summary>
+        public MapGenerationSettings Clone()
+        {
+            return (MapGenerationSettings)MemberwiseClone();
+        }
     }
 }

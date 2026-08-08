@@ -14,7 +14,6 @@ namespace CleanPlanet.UI
     public sealed class StageAdvanceController : MonoBehaviour
     {
         [SerializeField] private ProceduralMapGenerator _mapGenerator;
-        [SerializeField] private StageConfig[] _stages;
         [SerializeField] private Button _button;
         [SerializeField] private CanvasGroup _buttonGroup;
         [SerializeField] private CanvasGroup _overlay;
@@ -53,11 +52,12 @@ namespace CleanPlanet.UI
         private bool HasNextStage(out StageConfig currentStage)
         {
             currentStage = null;
+            var stages = _mapGenerator.StageConfigs;
             int index = StageSessionState.SelectedStageIndex;
-            if (_stages == null || index < 0 || index >= _stages.Length) return false;
+            if (stages == null || index < 0 || index >= stages.Count) return false;
 
-            currentStage = _stages[index];
-            return index + 1 < _stages.Length;
+            currentStage = stages[index];
+            return index + 1 < stages.Count;
         }
 
         private void HandleButtonClicked()

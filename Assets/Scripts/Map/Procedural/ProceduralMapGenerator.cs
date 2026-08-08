@@ -59,6 +59,12 @@ namespace CleanPlanet.Map.Procedural
         /// <summary>이번 생성에 실제로 적용된 스테이지 설정. 매칭되는 항목이 없으면 null(기본값 사용).</summary>
         public StageConfig ActiveStageConfig { get; private set; }
 
+        /// <summary>
+        /// 스테이지 선택/전환 UI가 같은 배열을 각자 따로 들고 있으면 인스펙터에서 어긋날 수 있으므로,
+        /// 이 생성기가 실제로 사용하는 배열을 그대로 참조해 쓰도록 공개한다.
+        /// </summary>
+        public IReadOnlyList<StageConfig> StageConfigs => _stageConfigs;
+
         private void Awake()
         {
             _gridManager = GetComponent<GridManager>();
@@ -106,7 +112,9 @@ namespace CleanPlanet.Map.Procedural
             ActiveStageConfig = ResolveStageConfig();
             if (ActiveStageConfig == null) return;
 
-            _settings = ActiveStageConfig.MapSettings;
+            // MapSettings를 그대로 참조하면 GenerateWithSeed 등의 런타임 수정이 StageConfig
+            // 에셋 자체에 영구히 남으므로 복제본을 사용한다.
+            _settings = ActiveStageConfig.MapSettings.Clone();
             _tileSet = ActiveStageConfig.TileSet;
         }
 

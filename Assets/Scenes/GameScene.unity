@@ -21510,9 +21510,6 @@ MonoBehaviour:
   m_Name:
   m_EditorClassIdentifier: Assembly-CSharp::CleanPlanet.UI.StageAdvanceController
   _mapGenerator: {fileID: 209408325}
-  _stages:
-  - {fileID: 11400000, guid: 6fc3ebbc478e46d1bfb6a75fa6cc8487, type: 2}
-  - {fileID: 11400000, guid: 1f26d933294c790478fc42d17bde7d8d, type: 2}
   _button: {fileID: 6620000005}
   _buttonGroup: {fileID: 6620000006}
   _overlay: {fileID: 6622000005}

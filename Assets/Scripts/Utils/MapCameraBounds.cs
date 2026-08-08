@@ -25,12 +25,22 @@ namespace CleanPlanet.Utils
 
         private void OnEnable()
         {
+            if (_mapGenerator == null)
+            {
+                Debug.LogError($"{nameof(MapCameraBounds)}에 필요한 참조가 없습니다.", this);
+                enabled = false;
+                return;
+            }
+
             _mapGenerator.OnMapGenerated += ApplyBounds;
         }
 
         private void OnDisable()
         {
-            _mapGenerator.OnMapGenerated -= ApplyBounds;
+            if (_mapGenerator != null)
+            {
+                _mapGenerator.OnMapGenerated -= ApplyBounds;
+            }
         }
 
         private void ApplyBounds()
