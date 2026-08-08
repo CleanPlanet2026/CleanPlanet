@@ -13,11 +13,12 @@ MonoBehaviour:
   m_Name: Stage04
   m_EditorClassIdentifier: Assembly-CSharp::CleanPlanet.Map.Procedural.StageConfig
   _stageId: 4
-  _displayName: "Stage 4 (임시)"
-  _shortDescription: "Stage02를 복제한 임시 스테이지 - 맵 설정과 설명은 추후 확정 필요"
+  _displayName: "Stage 4 (\uC784\uC2DC)"
+  _shortDescription: "Stage02\uB97C \uBCF5\uC81C\uD55C \uC784\uC2DC \uC2A4\uD14C\uC774\uC9C0
+    - \uB9F5 \uC124\uC815\uACFC \uC124\uBA85\uC740 \uCD94\uD6C4 \uD655\uC815 \uD544\uC694"
   _mapSettings:
-    Width: 45
-    Height: 45
+    Width: 100
+    Height: 100
     TileSize: 1
     WallDensity: 0.46
     SmoothingIterations: 4
